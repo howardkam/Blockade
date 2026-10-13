@@ -2,7 +2,9 @@ extends CharacterBody2D
 
 @export var move_speed: float = 80.0
 @export var max_health: int = 1
+@export var pointvalue: int = 5
 
+@onready var explosionsound = $explosion
 const WORLD_LIMIT_MIN = -3000.0
 const WORLD_LIMIT_MAX = 3000.0
 
@@ -58,12 +60,18 @@ func take_damage():
 	modulate = Color.YELLOW
 	
 	if current_health <= 0:
+		if is_instance_valid(explosionsound):
+			explosionsound.reparent(get_tree().current_scene)
+			explosionsound.global_position = global_position
+			explosionsound.play()
+			explosionsound.finished.connect(explosionsound.queue_free)
+
 		var player = get_tree().get_first_node_in_group("player")
 		if player and player.has_method("add_score"):
-			player.add_score(10)
+			player.add_score(pointvalue)
 
-		spawn_score_label(10)
-
+		spawn_score_label(pointvalue)
+		
 		if has_node("ExplosionParticles"):
 			var particles = $ExplosionParticles
 			particles.reparent(get_tree().current_scene)

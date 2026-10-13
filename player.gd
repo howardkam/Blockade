@@ -22,26 +22,70 @@ var is_dead: bool = false
 @onready var score_label: Label = $UI/ScoreLabel
 @onready var hitbox: Area2D = $hitbox
 @onready var ui_layer: CanvasLayer = $UI
-@onready var health_bar: ProgressBar = $ProgressBar
+@onready var sprite: Sprite2D = $"Gear(4)"
+
+var health_bar: ProgressBar
+var health_label: Label
 
 func _ready():
 	current_health = max_health
 	update_score_ui()
-	setup_health_bar()
+	setup_health_ui()
 
-func setup_health_bar():
-	if health_bar:
-		health_bar.max_value = max_health
-		health_bar.value = current_health
-		health_bar.show_percentage = false
-		
-		var fill_style = StyleBoxFlat.new()
-		fill_style.bg_color = Color(0.0, 1.0, 0.0, 1.0)
-		health_bar.add_theme_stylebox_override("fill", fill_style)
-		
-		var bg_style = StyleBoxFlat.new()
-		bg_style.bg_color = Color(0.1, 0.1, 0.1, 0.8)
-		health_bar.add_theme_stylebox_override("background", bg_style)
+func setup_health_ui():
+	# Obtain or create ProgressBar inside CanvasLayer UI
+	if has_node("ProgressBar"):
+		health_bar = $ProgressBar
+		health_bar.reparent(ui_layer)
+	elif ui_layer.has_node("ProgressBar"):
+		health_bar = ui_layer.get_node("ProgressBar")
+	else:
+		health_bar = ProgressBar.new()
+		health_bar.name = "ProgressBar"
+		ui_layer.add_child(health_bar)
+
+	# Obtain or create Damage/Health Indicator Label in UI
+	if ui_layer.has_node("HealthLabel"):
+		health_label = ui_layer.get_node("HealthLabel")
+	else:
+		health_label = Label.new()
+		health_label.name = "HealthLabel"
+		ui_layer.add_child(health_label)
+
+	# Anchor and fix position to Upper-Left corner of screen UI
+	health_label.anchor_left = 0.0
+	health_label.anchor_top = 0.0
+	health_label.offset_left = 20.0
+	health_label.offset_top = 20.0
+	health_label.offset_right = 220.0
+	health_label.offset_bottom = 45.0
+	
+	var font = load("res://Assets/ka1.ttf")
+	if font:
+		health_label.add_theme_font_override("font", font)
+		health_label.add_theme_font_size_override("font_size", 18)
+
+	health_bar.anchor_left = 0.0
+	health_bar.anchor_top = 0.0
+	health_bar.anchor_right = 0.0
+	health_bar.anchor_bottom = 0.0
+	health_bar.offset_left = 20.0
+	health_bar.offset_top = 50.0
+	health_bar.offset_right = 220.0
+	health_bar.offset_bottom = 70.0
+	health_bar.max_value = max_health
+	health_bar.show_percentage = false
+
+	# Green health bar fill styling
+	var fill_style = StyleBoxFlat.new()
+	fill_style.bg_color = Color(0.0, 1.0, 0.0, 1.0)
+	health_bar.add_theme_stylebox_override("fill", fill_style)
+
+	var bg_style = StyleBoxFlat.new()
+	bg_style.bg_color = Color(0.1, 0.1, 0.1, 0.8)
+	health_bar.add_theme_stylebox_override("background", bg_style)
+
+	update_health_ui()
 
 func add_score(amount: int = 10):
 	score += amount
@@ -51,14 +95,20 @@ func update_score_ui():
 	if score_label:
 		score_label.text = str(score)
 
+func update_health_ui():
+	if health_bar:
+		health_bar.value = current_health
+	if health_label:
+		var pct = int(clamp((current_health / max_health) * 100.0, 0.0, 100.0))
+		health_label.text = "HP: " + str(pct) + "%"
+
 func _physics_process(delta):
-	# Restart scene on key press when dead
 	if is_dead:
 		if Input.is_action_just_pressed("ui_accept") or Input.is_key_pressed(KEY_R):
 			get_tree().reload_current_scene()
 		return
 
-	# 1. Smooth Movement using Input.get_vector()
+	# 1. Movement
 	var move_dir = Input.get_vector("left", "right", "up", "down")
 	velocity = move_dir * move_speed
 	move_and_slide()
@@ -66,10 +116,10 @@ func _physics_process(delta):
 	global_position.x = clamp(global_position.x, WORLD_LIMIT_MIN, WORLD_LIMIT_MAX)
 	global_position.y = clamp(global_position.y, WORLD_LIMIT_MIN, WORLD_LIMIT_MAX)
 
-	# 2. Check enemy contact damage
+	# 2. Check enemy contact damage & red pulse modulation
 	check_enemy_damage(delta)
 
-	# 3. Continuous 360° Shooting using Input.get_vector()
+	# 3. 360° Analog Shooting
 	var shoot_dir = Input.get_vector("shootleft", "shootright", "shootup", "shootdown")
 
 	if not can_shoot:
@@ -77,7 +127,6 @@ func _physics_process(delta):
 		if shoot_timer <= 0.0:
 			can_shoot = true
 
-	# Fire bullet if right stick/keys are pushed past deadzone
 	if shoot_dir.length() > 0.1 and can_shoot:
 		fire_bullet(shoot_dir.normalized())
 		can_shoot = false
@@ -103,13 +152,21 @@ func check_enemy_damage(delta: float):
 
 	if is_touching_enemy:
 		take_damage(damage_per_second * delta)
+		
+		# Modulate sprite color oscillating between white and red while touching an enemy
+		if sprite:
+			var pulse = (sin(Time.get_ticks_msec() * 0.02) + 1.0) * 0.5
+			sprite.modulate = Color.WHITE.lerp(Color.RED, pulse)
+	else:
+		# Reset sprite modulate back to normal white when safe
+		if sprite:
+			sprite.modulate = Color.WHITE
 
 func take_damage(amount: float):
 	current_health -= amount
 	current_health = max(current_health, 0.0)
 	
-	if health_bar:
-		health_bar.value = current_health
+	update_health_ui()
 
 	if current_health <= 0.0 and not is_dead:
 		die()
@@ -119,19 +176,12 @@ func die():
 	velocity = Vector2.ZERO
 	hide()
 	
-	# Emit signal for exterior spawners/managers
 	died.emit()
-	
-	# 1. Stop all active scene Timers (stops enemy spawners)
 	stop_all_spawners()
-	
-	# 2. Despawn all existing enemy nodes to free memory
 	clear_all_enemies()
-	
 	show_game_over()
 
 func stop_all_spawners():
-	# Stop all Timer nodes running in the main world scene
 	var scene_tree = get_tree().current_scene
 	if scene_tree:
 		for child in scene_tree.get_children(true):
@@ -139,7 +189,6 @@ func stop_all_spawners():
 				child.stop()
 
 func clear_all_enemies():
-	# Collect nodes from both global and local enemy group names
 	var enemies = get_tree().get_nodes_in_group("enemy") + get_tree().get_nodes_in_group("enemies")
 	for enemy in enemies:
 		if is_instance_valid(enemy):

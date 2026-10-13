@@ -6,9 +6,9 @@ extends Node2D
 
 @export_group("Batch Controls")
 @export var total_batches: int = 8           # Total number of batches to release
-@export var batch_interval: float = 10.0      # Delay in seconds between each batch release
+@export var batch_interval: float = 12.0      # Delay in seconds between each batch release
 @export var diamonds_per_batch: int = 100     # How many Diamonds spawn at once each batch
-@export var pluses_per_batch: int = 30       # How many Pluses spawn at once each batch
+@export var pluses_per_batch: int = 10       # How many Pluses spawn at once each batch
 
 @export_group("Win Condition")
 @export var target_score: int = 1000

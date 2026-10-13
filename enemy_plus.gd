@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var move_speed: float = 120.0
 @export var max_health: int = 3
+@export var pointvalue: int = 10
 
 const WORLD_LIMIT_MIN = -3000.0
 const WORLD_LIMIT_MAX = 3000.0
@@ -59,9 +60,9 @@ func take_damage():
 	if current_health <= 0:
 		var player = get_tree().get_first_node_in_group("player")
 		if player and player.has_method("add_score"):
-			player.add_score(40)
+			player.add_score(pointvalue)
 
-		spawn_score_label(40)
+		spawn_score_label(pointvalue)
 
 		if has_node("ExplosionParticles"):
 			var particles = $ExplosionParticles

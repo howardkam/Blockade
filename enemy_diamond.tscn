@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bvvbaa1i2hx4a" path="res://Assets/grey soft/Diamond (2).png" id="1_jut7n"]
 [ext_resource type="Script" uid="uid://cv57exfjqnmir" path="res://enemy_diamond.gd" id="2_script"]
+[ext_resource type="AudioStream" uid="uid://dl6rpjvqyrfy4" path="res://Assets/explosion1.wav" id="3_yx2pn"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_na3vj"]
 polygon = PackedVector2Array(0, -56.666664, -53.333332, 0, 0, 53.333332, 53.333332, 0)
@@ -47,3 +48,7 @@ polygon = PackedVector2Array(0, -60, -56.666664, 0, 0, 56.666664, 56.666664, 0)
 occluder = SubResource("OccluderPolygon2D_na3vj")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1997757092]
+
+[node name="explosion" type="AudioStreamPlayer2D" parent="." unique_id=1824895798]
+stream = ExtResource("3_yx2pn")
+volume_db = 10.0
