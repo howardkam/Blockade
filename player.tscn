@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://csyb3jak12esm"]
+
+[ext_resource type="Script" uid="uid://cmardiu3janpi" path="res://player.gd" id="1_onrkg"]
+[ext_resource type="Texture2D" uid="uid://bg67ck87t12dj" path="res://Assets/grey soft/Gear (4).png" id="2_onrkg"]
+[ext_resource type="FontFile" uid="uid://7ni0c1a0kdcu" path="res://Assets/ka1.ttf" id="3_i3pqv"]
+
+[sub_resource type="Gradient" id="Gradient_onrkg"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_na3vj"]
+gradient = SubResource("Gradient_onrkg")
+width = 1000
+height = 1000
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6xcap"]
+radius = 56.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j721w"]
+radius = 48.0
+
+[node name="player" type="CharacterBody2D" unique_id=16646871 groups=["player"]]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_onrkg")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1908755707]
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_na3vj")
+texture_scale = 2.0
+
+[node name="Gear(4)" type="Sprite2D" parent="." unique_id=97884220]
+texture = ExtResource("2_onrkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2118894290]
+shape = SubResource("CircleShape2D_6xcap")
+
+[node name="hitbox" type="Area2D" parent="." unique_id=823632557]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" unique_id=286349160]
+shape = SubResource("CircleShape2D_j721w")
+debug_color = Color(0.886525, 0.111779936, 0.7567454, 0.41960785)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=862148715]
+limit_left = -3000
+limit_top = -3000
+limit_right = 3000
+limit_bottom = 3000
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1262179505]
+
+[node name="ScoreLabel" type="Label" parent="UI" unique_id=838639797]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 20.0
+offset_right = 150.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_i3pqv")
+theme_override_font_sizes/font_size = 36
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1

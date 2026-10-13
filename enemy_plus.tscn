@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://dumbykfqypog7"]
+
+[ext_resource type="Script" uid="uid://b7av8fxihp3cg" path="res://enemy_plus.gd" id="1_rokoa"]
+[ext_resource type="Texture2D" uid="uid://20jhb2b86day" path="res://Assets/grey soft/Misc (1).png" id="2_er46q"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_rokoa"]
+polygon = PackedVector2Array(-16, -56, -16, -16, -56, -16, -56, 16, -16, 16, -16, 56, 16, 56, 16, 16, 56, 16, 56, -16, 16, -16, 16, -56)
+
+[node name="EnemyPlus" type="CharacterBody2D" unique_id=223436986 groups=["enemy"]]
+texture_filter = 1
+scale = Vector2(0.3, 0.3)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_rokoa")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1795022657]
+occluder = SubResource("OccluderPolygon2D_rokoa")
+
+[node name="Misc(1)" type="Sprite2D" parent="." unique_id=2062050902]
+texture_filter = 1
+texture = ExtResource("2_er46q")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1410417472]
+polygon = PackedVector2Array(-16, -56, -16, -16, -56, -16, -56, 16, -16, 16, -16, 56, 16, 56, 16, 16, 56, 16, 56, -16, 16, -16, 16, -56)
+
+[node name="ExplosionParticles" type="CPUParticles2D" parent="." unique_id=2099954298]
+emitting = false
+amount = 200
+lifetime = 0.6
+one_shot = true
+speed_scale = 1.5
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 700.0
+initial_velocity_max = 1000.0
+damping_min = 300.0
+damping_max = 500.0
+scale_amount_min = 4.0
+scale_amount_max = 10.0
+color = Color(0.90703726, 0.42460835, 1, 1)
+
+[node name="hitbox" type="Area2D" parent="." unique_id=1541543315]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="hitbox" unique_id=143776172]
+polygon = PackedVector2Array(-16, -56, -16, -16, -56, -16, -56, 16, -16, 16, -16, 56, 16, 56, 16, 16, 56, 16, 56, -16, 16, -16, 16, -56)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1608592972]
