@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cv57exfjqnmir" path="res://enemy_diamond.gd" id="2_script"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_na3vj"]
-polygon = PackedVector2Array(0, -56, -54, -2, 0, 52, 54, 0)
+polygon = PackedVector2Array(0, -56.666664, -53.333332, 0, 0, 53.333332, 53.333332, 0)
 
 [node name="EnemyDiamond" type="CharacterBody2D" unique_id=221196735 groups=["enemy"]]
 scale = Vector2(0.3, 0.3)
@@ -41,7 +41,7 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="hitbox" unique_id=1415225855]
-polygon = PackedVector2Array(0, -56, -54, -1, 0, 53, 54, -2)
+polygon = PackedVector2Array(0, -60, -56.666664, 0, 0, 56.666664, 56.666664, 0)
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=680155244]
 occluder = SubResource("OccluderPolygon2D_na3vj")

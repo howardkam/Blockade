@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var move_speed: float = 200.0
+@export var move_speed: float = 120.0
 @export var max_health: int = 3
 
 const WORLD_LIMIT_MIN = -3000.0

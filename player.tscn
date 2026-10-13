@@ -19,7 +19,7 @@ fill_to = Vector2(0.5, 0)
 radius = 56.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j721w"]
-radius = 48.0
+radius = 60.033325
 
 [node name="player" type="CharacterBody2D" unique_id=16646871 groups=["player"]]
 scale = Vector2(0.5, 0.5)
@@ -37,10 +37,18 @@ texture = ExtResource("2_onrkg")
 shape = SubResource("CircleShape2D_6xcap")
 
 [node name="hitbox" type="Area2D" parent="." unique_id=823632557]
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" unique_id=286349160]
 shape = SubResource("CircleShape2D_j721w")
 debug_color = Color(0.886525, 0.111779936, 0.7567454, 0.41960785)
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=314159265]
+offset_left = -40.0
+offset_top = -6.0
+offset_right = 40.0
+offset_bottom = 4.0
+show_percentage = false
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=862148715]
 limit_left = -3000
