@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cmardiu3janpi" path="res://player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://bg67ck87t12dj" path="res://Assets/grey soft/Gear (4).png" id="2_onrkg"]
 [ext_resource type="FontFile" uid="uid://7ni0c1a0kdcu" path="res://Assets/ka1.ttf" id="3_i3pqv"]
+[ext_resource type="AudioStream" uid="uid://cf3xhjjm6sy8b" path="res://Assets/injury.wav" id="4_hqtel"]
 
 [sub_resource type="Gradient" id="Gradient_onrkg"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -83,3 +84,7 @@ theme_override_font_sizes/font_size = 36
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="injurysound" type="AudioStreamPlayer2D" parent="." unique_id=2030096367]
+stream = ExtResource("4_hqtel")
+volume_db = 10.0

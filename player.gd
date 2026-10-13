@@ -23,6 +23,7 @@ var is_dead: bool = false
 @onready var hitbox: Area2D = $hitbox
 @onready var ui_layer: CanvasLayer = $UI
 @onready var sprite: Sprite2D = $"Gear(4)"
+@onready var injurysound = $injurysound
 
 var health_bar: ProgressBar
 var health_label: Label
@@ -153,11 +154,19 @@ func check_enemy_damage(delta: float):
 	if is_touching_enemy:
 		take_damage(damage_per_second * delta)
 		
+		# Play audio continuously to completion, looping while damage continues
+		if injurysound and not injurysound.playing:
+			injurysound.play()
+		
 		# Modulate sprite color oscillating between white and red while touching an enemy
 		if sprite:
 			var pulse = (sin(Time.get_ticks_msec() * 0.02) + 1.0) * 0.5
 			sprite.modulate = Color.WHITE.lerp(Color.RED, pulse)
 	else:
+		# Stop sound when no longer taking damage
+		if injurysound and injurysound.playing:
+			injurysound.stop()
+			
 		# Reset sprite modulate back to normal white when safe
 		if sprite:
 			sprite.modulate = Color.WHITE
@@ -174,6 +183,8 @@ func take_damage(amount: float):
 func die():
 	is_dead = true
 	velocity = Vector2.ZERO
+	if injurysound and injurysound.playing:
+		injurysound.stop()
 	hide()
 	
 	died.emit()
