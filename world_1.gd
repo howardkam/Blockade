@@ -3,13 +3,15 @@ extends Node2D
 @export_group("Enemy Scenes")
 @export var enemy_diamond: PackedScene = preload("res://enemy_diamond.tscn")
 @export var enemy_plus: PackedScene = preload("res://enemy_plus.tscn")
+@export var enemy_gigantor: PackedScene = preload("res://enemy_gigantor.tscn")
 @onready var explosionsound = $AudioStreamPlayer2D
 
 @export_group("Batch Controls")
 @export var total_batches: int = 20      # Total number of batches to release
 @export var batch_interval: float = 20.0      # Delay in seconds between each batch release
-@export var diamonds_per_batch: int = 100     # How many Diamonds spawn at once each batch
-@export var pluses_per_batch: int = 10       # How many Pluses spawn at once each batch
+@export var diamonds_per_batch: int = 100    
+@export var pluses_per_batch: int = 10       
+@export var gigantor_per_batch: int = 1
 
 @export_group("Win Condition")
 @export var target_score: int = 3500
@@ -57,6 +59,9 @@ func spawn_batch():
 
 	if enemy_plus and pluses_per_batch > 0:
 		spawn_enemy_type(enemy_plus, pluses_per_batch, player_pos)
+		
+	if enemy_gigantor and gigantor_per_batch > 0:
+		spawn_enemy_type(enemy_gigantor, gigantor_per_batch, player_pos)
 
 func spawn_enemy_type(scene: PackedScene, amount: int, player_pos: Vector2):
 	for i in range(amount):

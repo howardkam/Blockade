@@ -49,6 +49,6 @@ occluder = SubResource("OccluderPolygon2D_na3vj")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1997757092]
 
-[node name="explosion" type="AudioStreamPlayer2D" parent="." unique_id=1824895798]
+[node name="explosion" type="AudioStreamPlayer2D" parent="." unique_id=1824895798 groups=["enemy_explosion_sounds"]]
 stream = ExtResource("3_yx2pn")
 volume_db = 10.0

@@ -1,12 +1,16 @@
+
 extends CharacterBody2D
 
-@export var move_speed: float = 120.0
-@export var max_health: int = 3
-@export var pointvalue: int = 10
+@export var move_speed: float = 200.0
+@export var turn_speed: float = 5 # Turning rate in radians per second (~200°/sec)
+@export var max_health: int = 4
+@export var pointvalue: int = 20
 
-@onready var explosionsound = $explosion # Assumes node name is $explosion (adjust if named differently, e.g. $AudioStreamPlayer2D)
+@onready var explosionsound = $explosion
 const WORLD_LIMIT_MIN = -3000.0
 const WORLD_LIMIT_MAX = 3000.0
+
+static var suppress_explosion_sounds: bool = false
 
 var player: Node2D = null
 var current_health: int
@@ -32,13 +36,17 @@ func _physics_process(delta):
 		cached_separation = get_separation_vector()
 	
 	var final_direction = (direction + cached_separation * 1.2).normalized()
-	velocity = final_direction * move_speed
+	var target_angle = final_direction.angle() + PI / 2
+
+	# 1. Smoothly rotate facing angle toward target direction
+	rotation = rotate_toward(rotation, target_angle, turn_speed * delta)
+
+	# 2. Drive velocity forward relative to facing rotation (UP vector offset by +PI/2 rotation)
+	velocity = Vector2.UP.rotated(rotation) * move_speed
 	move_and_slide()
 
 	global_position.x = clamp(global_position.x, WORLD_LIMIT_MIN, WORLD_LIMIT_MAX)
 	global_position.y = clamp(global_position.y, WORLD_LIMIT_MIN, WORLD_LIMIT_MAX)
-
-	rotation = direction.angle() + PI/2 
 
 func get_separation_vector() -> Vector2:
 	var separation = Vector2.ZERO
@@ -56,11 +64,12 @@ func get_separation_vector() -> Vector2:
 
 func take_damage(from_bomb: bool = false):
 	current_health -= 1
-	modulate = Color.REBECCA_PURPLE
+	modulate = Color.PURPLE
 	
 	if current_health <= 0:
-		# Play explosion sound only if destroyed normally (not by bomb)
-		if not from_bomb and is_instance_valid(explosionsound):
+		# Play explosion sound only if destroyed normally and sounds are not suppressed
+		if not from_bomb and not suppress_explosion_sounds and is_instance_valid(explosionsound):
+			explosionsound.add_to_group("enemy_explosion_sounds")
 			explosionsound.reparent(get_tree().current_scene)
 			explosionsound.global_position = global_position
 			explosionsound.play()
@@ -71,7 +80,7 @@ func take_damage(from_bomb: bool = false):
 			player.add_score(pointvalue)
 
 		spawn_score_label(pointvalue)
-
+		
 		if has_node("ExplosionParticles"):
 			var particles = $ExplosionParticles
 			particles.reparent(get_tree().current_scene)

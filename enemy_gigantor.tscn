@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://6kuhqqdilgo1"]
+
+[ext_resource type="Script" uid="uid://b6x2agokrq4oi" path="res://enemy_gigantor.gd" id="1_kmemu"]
+[ext_resource type="Texture2D" uid="uid://bx7ix85yb75gv" path="res://Assets/grey soft/Arrow (1).png" id="2_md7iv"]
+[ext_resource type="AudioStream" uid="uid://dl6rpjvqyrfy4" path="res://Assets/explosion1.wav" id="3_xidl4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_na3vj"]
+size = Vector2(128, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_leip5"]
+size = Vector2(128, 128)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_kmemu"]
+polygon = PackedVector2Array(-47, 22, -59.5, 10, -60, 60, -10, 60, -22.5, 47, 0, 25.5, 22, 47.5, 10, 59.5, 59.5, 59.5, 60, 10, 47.5, 22, 25, 0, 47.5, -22, 59.5, -10, 59.5, -60, 10.5, -60, 21.5, -47.5, -0.5, -25, -22, -47.5, -9.5, -60, -60, -60, -60, -9, -47, -22, -25.5, 0)
+
+[node name="enemy gigantor" type="CharacterBody2D" unique_id=862059250 groups=["enemy"]]
+scale = Vector2(2, 2)
+collision_mask = 3
+script = ExtResource("1_kmemu")
+
+[node name="Arrow(1)" type="Sprite2D" parent="." unique_id=530347732]
+texture_filter = 1
+texture = ExtResource("2_md7iv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=666697020]
+shape = SubResource("RectangleShape2D_na3vj")
+
+[node name="ExplosionParticles" type="CPUParticles2D" parent="." unique_id=719926192]
+emitting = false
+amount = 300
+one_shot = true
+speed_scale = 1.5
+explosiveness = 1.0
+randomness = 0.46
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 500.0
+initial_velocity_max = 1000.0
+damping_min = 300.0
+damping_max = 500.0
+scale_amount_max = 5.0
+color = Color(0.17295402, 0.5733564, 9.62615e-07, 1)
+
+[node name="explosion" type="AudioStreamPlayer2D" parent="." unique_id=634500979 groups=["enemy_explosion_sounds"]]
+stream = ExtResource("3_xidl4")
+volume_db = 10.0
+
+[node name="hitbox" type="Area2D" parent="." unique_id=854803131]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" unique_id=1120986567]
+shape = SubResource("RectangleShape2D_leip5")
+debug_color = Color(0.8378522, 0.0012198257, 0.9292887, 0.41960785)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1610999708]
+occluder = SubResource("OccluderPolygon2D_kmemu")

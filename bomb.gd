@@ -1,6 +1,7 @@
+
 extends Area2D
 
-@export var move_speed: float = 120.0
+@export var move_speed: float = 200.0
 @export var explosion_radius: float = 1000.0
 @export var direction_change_interval: float = 1.8
 
@@ -11,11 +12,15 @@ var move_direction: Vector2 = Vector2.ZERO
 var direction_timer: float = 0.0
 
 @onready var particles: CPUParticles2D = $RainbowExplosionParticles
-@onready var bomb_sound: AudioStreamPlayer2D = $AudioStreamPlayer2D # Ensure this matches your AudioStreamPlayer2D node name
+@onready var bomb_sound: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	pick_new_direction()
+
+func _exit_tree() -> void:
+	# Ensure sound suppression is cleared if bomb is freed
+	Enemy.suppress_explosion_sounds = false
 
 func _process(delta: float) -> void:
 	direction_timer -= delta
@@ -44,16 +49,20 @@ func _on_body_entered(body: Node2D) -> void:
 		explode()
 
 func explode() -> void:
-	# Hide bomb visual and disable collisions while the audio finishes playing
+	# Suppress new enemy explosion sounds while bomb audio plays
+	Enemy.suppress_explosion_sounds = true
+
+	# Hide bomb visual and disable collisions
 	hide()
 	set_process(false)
 	set_deferred("monitoring", false)
 	set_deferred("monitorable", false)
 
-	# Stop and clear all enemy explosion sounds currently playing
+	# Stop and clear all existing enemy explosion sounds
 	for sound in get_tree().get_nodes_in_group("enemy_explosion_sounds"):
 		if is_instance_valid(sound):
-			sound.stop()
+			if sound is AudioStreamPlayer or sound is AudioStreamPlayer2D:
+				sound.stop()
 			sound.queue_free()
 
 	# Reparent particles so they don't get cut off when the bomb node is freed
@@ -65,7 +74,7 @@ func explode() -> void:
 		var cleanup_timer = get_tree().create_timer(particles.lifetime + 0.2)
 		cleanup_timer.timeout.connect(particles.queue_free)
 
-	# Destroy enemies in radius and pass from_bomb = true to prevent triggering new enemy explosion sounds
+	# Destroy enemies in radius
 	var enemies = get_tree().get_nodes_in_group("enemies") + get_tree().get_nodes_in_group("enemy")
 	var processed_enemies = {}
 
@@ -80,9 +89,12 @@ func explode() -> void:
 				else:
 					enemy.queue_free()
 
-	# Play bomb explosion audio and wait for it to finish before removing the bomb node
+	# Play bomb explosion audio and wait for it to finish
 	if is_instance_valid(bomb_sound):
 		bomb_sound.play()
 		await bomb_sound.finished
+
+	# Instantly allow enemy explosion sounds again right after bomb sound completes
+	Enemy.suppress_explosion_sounds = false
 
 	queue_free()

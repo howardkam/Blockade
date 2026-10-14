@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bdee53k066qq8"]
+
+[ext_resource type="Script" uid="uid://ccuajh28sxisc" path="res://snake_enemy.gd" id="1_3ott3"]
+[ext_resource type="Texture2D" uid="uid://blkuhi7abxxx7" path="res://Assets/grey soft/Arrow (5).png" id="1_rm5n2"]
+
+[node name="SnakeEnemy" type="Area2D" unique_id=851411962]
+rotation = 1.5707964
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_3ott3")
+
+[node name="Arrow(5)" type="Sprite2D" parent="." unique_id=789478672]
+texture_filter = 1
+texture = ExtResource("1_rm5n2")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=87234716]
+polygon = PackedVector2Array(0, -40, -48, 0, -56, -8, -56, 40, -8, 40, -24, 24, 0, 0, 24, 24, 8, 40, 56, 40, 56, -8, 48, 0)
