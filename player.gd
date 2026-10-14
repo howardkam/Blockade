@@ -6,7 +6,6 @@ signal died
 @export var move_speed: float = 500.0
 @export var fire_rate: float = 0.07
 
-# Health & Death configuration
 @export var max_health: float = 100.0
 @export var damage_per_second: float = 40.0
 
@@ -23,10 +22,12 @@ var is_dead: bool = false
 @onready var hitbox: Area2D = $hitbox
 @onready var ui_layer: CanvasLayer = $UI
 @onready var sprite: Sprite2D = $"Gear(4)"
-@onready var injurysound = $injurysound
+@onready var injurysound: AudioStreamPlayer2D = $injurysound
 
 var health_bar: ProgressBar
 var health_label: Label
+var injury_fade_tween: Tween = null
+const INJURY_ORIGINAL_VOLUME: float = 10.0
 
 func _ready():
 	current_health = max_health
@@ -34,7 +35,6 @@ func _ready():
 	setup_health_ui()
 
 func setup_health_ui():
-	# Obtain or create ProgressBar inside CanvasLayer UI
 	if has_node("ProgressBar"):
 		health_bar = $ProgressBar
 		health_bar.reparent(ui_layer)
@@ -45,7 +45,6 @@ func setup_health_ui():
 		health_bar.name = "ProgressBar"
 		ui_layer.add_child(health_bar)
 
-	# Obtain or create Damage/Health Indicator Label in UI
 	if ui_layer.has_node("HealthLabel"):
 		health_label = ui_layer.get_node("HealthLabel")
 	else:
@@ -53,7 +52,6 @@ func setup_health_ui():
 		health_label.name = "HealthLabel"
 		ui_layer.add_child(health_label)
 
-	# Anchor and fix position to Upper-Left corner of screen UI
 	health_label.anchor_left = 0.0
 	health_label.anchor_top = 0.0
 	health_label.offset_left = 20.0
@@ -77,7 +75,6 @@ func setup_health_ui():
 	health_bar.max_value = max_health
 	health_bar.show_percentage = false
 
-	# Green health bar fill styling
 	var fill_style = StyleBoxFlat.new()
 	fill_style.bg_color = Color(0.0, 1.0, 0.0, 1.0)
 	health_bar.add_theme_stylebox_override("fill", fill_style)
@@ -111,7 +108,6 @@ func _physics_process(delta):
 			get_tree().quit()
 		return
 
-	# 1. Movement
 	var move_dir = Input.get_vector("left", "right", "up", "down")
 	velocity = move_dir * move_speed
 	move_and_slide()
@@ -119,10 +115,8 @@ func _physics_process(delta):
 	global_position.x = clamp(global_position.x, WORLD_LIMIT_MIN, WORLD_LIMIT_MAX)
 	global_position.y = clamp(global_position.y, WORLD_LIMIT_MIN, WORLD_LIMIT_MAX)
 
-	# 2. Check enemy contact damage & red pulse modulation
 	check_enemy_damage(delta)
 
-	# 3. 360° Analog Shooting
 	var shoot_dir = Input.get_vector("shootleft", "shootright", "shootup", "shootdown")
 
 	if not can_shoot:
@@ -155,28 +149,42 @@ func check_enemy_damage(delta: float):
 
 	if is_touching_enemy:
 		take_damage(damage_per_second * delta)
+		start_injury_sound()
 		
-		# Play audio continuously to completion, looping while damage continues
-		if injurysound and not injurysound.playing:
-			injurysound.play()
-		
-		# Modulate sprite color oscillating between white and red while touching an enemy
 		if sprite:
 			var pulse = (sin(Time.get_ticks_msec() * 0.02) + 1.0) * 0.5
 			sprite.modulate = Color.WHITE.lerp(Color.RED, pulse)
 	else:
-		# Stop sound when no longer taking damage
-		if injurysound and injurysound.playing:
-			injurysound.stop()
-			
-		# Reset sprite modulate back to normal white when safe
+		stop_injury_sound_smooth(0.25)
 		if sprite:
 			sprite.modulate = Color.WHITE
+
+func start_injury_sound():
+	if not injurysound:
+		return
+	if injury_fade_tween and injury_fade_tween.is_running():
+		injury_fade_tween.kill()
+	injurysound.volume_db = INJURY_ORIGINAL_VOLUME
+	if not injurysound.playing:
+		injurysound.play()
+
+func stop_injury_sound_smooth(fade_time: float = 0.25):
+	if not injurysound or not injurysound.playing:
+		return
+	if injury_fade_tween and injury_fade_tween.is_running():
+		return
+		
+	injury_fade_tween = create_tween()
+	injury_fade_tween.tween_property(injurysound, "volume_db", -80.0, fade_time)
+	injury_fade_tween.finished.connect(func():
+		if is_instance_valid(injurysound):
+			injurysound.stop()
+			injurysound.volume_db = INJURY_ORIGINAL_VOLUME
+	)
 
 func take_damage(amount: float):
 	current_health -= amount
 	current_health = max(current_health, 0.0)
-	
 	update_health_ui()
 
 	if current_health <= 0.0 and not is_dead:
@@ -185,8 +193,7 @@ func take_damage(amount: float):
 func die():
 	is_dead = true
 	velocity = Vector2.ZERO
-	if injurysound and injurysound.playing:
-		injurysound.stop()
+	stop_injury_sound_smooth(0.15)
 	hide()
 	
 	died.emit()

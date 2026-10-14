@@ -1,10 +1,10 @@
 
 extends CharacterBody2D
 
-@export var move_speed: float = 200.0
-@export var turn_speed: float = 5 # Turning rate in radians per second (~200°/sec)
-@export var max_health: int = 4
-@export var pointvalue: int = 20
+@export var move_speed: float = 175.0
+@export var turn_speed: float = 2 # Turning rate in radians per second (~200°/sec)
+@export var max_health: int = 2
+@export var pointvalue: int = 10
 
 @onready var explosionsound = $explosion
 const WORLD_LIMIT_MIN = -3000.0
@@ -64,7 +64,7 @@ func get_separation_vector() -> Vector2:
 
 func take_damage(from_bomb: bool = false):
 	current_health -= 1
-	modulate = Color.PURPLE
+	modulate = Color.WEB_PURPLE
 	
 	if current_health <= 0:
 		# Play explosion sound only if destroyed normally and sounds are not suppressed

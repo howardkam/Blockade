@@ -1,9 +1,9 @@
-
 extends CharacterBody2D
 
-@export var move_speed: float = 50.0
+@export var move_speed: float = 70.0
 @export var turn_speed: float = 7 # Turning rate in radians per second (~200°/sec)
-@export var max_health: int = 50
+@export var shrink_percentage: float = 1.0 # Percentage to shrink on each hit (5 = 5%)
+@export var min_scale_ratio: float = 0.05 # Explodes when reaching this size ratio (0.10 = 10%)
 @export var pointvalue: int = 100
 
 @onready var explosionsound = $explosion
@@ -13,12 +13,13 @@ const WORLD_LIMIT_MAX = 3000.0
 static var suppress_explosion_sounds: bool = false
 
 var player: Node2D = null
-var current_health: int
+var initial_scale: Vector2 = Vector2.ONE
+var current_scale_ratio: float = 1.0
 var cached_separation: Vector2 = Vector2.ZERO
 var frame_offset: int = 0
 
 func _ready():
-	current_health = max_health
+	initial_scale = scale
 	add_to_group("enemies")
 	frame_offset = get_instance_id() % 4
 	
@@ -38,10 +39,10 @@ func _physics_process(delta):
 	var final_direction = (direction + cached_separation * 1.2).normalized()
 	var target_angle = final_direction.angle() + PI / 2
 
-	# 1. Smoothly rotate facing angle toward target direction
+	# Smoothly rotate facing angle toward target direction
 	rotation = rotate_toward(rotation, target_angle, turn_speed * delta)
 
-	# 2. Drive velocity forward relative to facing rotation (UP vector offset by +PI/2 rotation)
+	# Drive velocity forward relative to facing rotation
 	velocity = Vector2.UP.rotated(rotation) * move_speed
 	move_and_slide()
 
@@ -63,34 +64,45 @@ func get_separation_vector() -> Vector2:
 	return separation.normalized() if neighbor_count > 0 else Vector2.ZERO
 
 func take_damage(from_bomb: bool = false):
-	current_health -= 1
+	if from_bomb:
+		explode(true)
+		return
+
+	# Reduce current scale ratio by the shrink percentage
+	current_scale_ratio -= shrink_percentage / 100.0
 	modulate = Color.DODGER_BLUE
+
+	# Check if size reached or dropped below min_scale_ratio (10%)
+	if current_scale_ratio <= (min_scale_ratio + 0.001):
+		explode(false)
+	else:
+		scale = initial_scale * current_scale_ratio
+
+func explode(from_bomb: bool = false):
+	# Play explosion sound only if destroyed normally and sounds are not suppressed
+	if not from_bomb and not suppress_explosion_sounds and is_instance_valid(explosionsound):
+		explosionsound.add_to_group("enemy_explosion_sounds")
+		explosionsound.reparent(get_tree().current_scene)
+		explosionsound.global_position = global_position
+		explosionsound.play()
+		explosionsound.finished.connect(explosionsound.queue_free)
+
+	var player_node = get_tree().get_first_node_in_group("player")
+	if player_node and player_node.has_method("add_score"):
+		player_node.add_score(pointvalue)
+
+	spawn_score_label(pointvalue)
 	
-	if current_health <= 0:
-		# Play explosion sound only if destroyed normally and sounds are not suppressed
-		if not from_bomb and not suppress_explosion_sounds and is_instance_valid(explosionsound):
-			explosionsound.add_to_group("enemy_explosion_sounds")
-			explosionsound.reparent(get_tree().current_scene)
-			explosionsound.global_position = global_position
-			explosionsound.play()
-			explosionsound.finished.connect(explosionsound.queue_free)
-
-		var player = get_tree().get_first_node_in_group("player")
-		if player and player.has_method("add_score"):
-			player.add_score(pointvalue)
-
-		spawn_score_label(pointvalue)
+	if has_node("ExplosionParticles"):
+		var particles = $ExplosionParticles
+		particles.reparent(get_tree().current_scene)
+		particles.global_position = global_position
+		particles.emitting = true
 		
-		if has_node("ExplosionParticles"):
-			var particles = $ExplosionParticles
-			particles.reparent(get_tree().current_scene)
-			particles.global_position = global_position
-			particles.emitting = true
-			
-			var particle_timer = get_tree().create_timer(1.0)
-			particle_timer.timeout.connect(particles.queue_free)
-		
-		queue_free()
+		var particle_timer = get_tree().create_timer(1.0)
+		particle_timer.timeout.connect(particles.queue_free)
+	
+	queue_free()
 
 func spawn_score_label(points: int):
 	var label = Label.new()

@@ -7,6 +7,14 @@
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_rokoa"]
 polygon = PackedVector2Array(-16, -56, -16, -16, -56, -16, -56, 16, -16, 16, -16, 56, 16, 56, 16, 16, 56, 16, 56, -16, 16, -16, 16, -56)
 
+[sub_resource type="Curve" id="Curve_er46q"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_vkkbq"]
+offsets = PackedFloat32Array(0, 0.50617284, 1)
+colors = PackedColorArray(1, 0.03137255, 1, 1, 0.59607846, 0.20392157, 0.23921569, 1, 0.05, 0.05, 0.05, 0)
+
 [node name="EnemyPlus" type="CharacterBody2D" unique_id=223436986 groups=["enemy"]]
 texture_filter = 1
 scale = Vector2(0.3, 0.3)
@@ -24,23 +32,6 @@ texture = ExtResource("2_er46q")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1410417472]
 polygon = PackedVector2Array(-16, -56, -16, -16, -56, -16, -56, 16, -16, 16, -16, 56, 16, 56, 16, 16, 56, 16, 56, -16, 16, -16, 16, -56)
 
-[node name="ExplosionParticles" type="CPUParticles2D" parent="." unique_id=2099954298]
-emitting = false
-amount = 200
-lifetime = 0.6
-one_shot = true
-speed_scale = 1.5
-explosiveness = 1.0
-spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 700.0
-initial_velocity_max = 1000.0
-damping_min = 300.0
-damping_max = 500.0
-scale_amount_min = 4.0
-scale_amount_max = 10.0
-color = Color(0.90703726, 0.42460835, 1, 1)
-
 [node name="hitbox" type="Area2D" parent="." unique_id=1541543315]
 collision_layer = 2
 collision_mask = 0
@@ -53,3 +44,24 @@ polygon = PackedVector2Array(-16, -56, -16, -16, -56, -16, -56, 16, -16, 16, -16
 [node name="explosion" type="AudioStreamPlayer2D" parent="." unique_id=1518598266 groups=["enemy_explosion_sounds"]]
 stream = ExtResource("3_er46q")
 volume_db = 10.0
+
+[node name="ExplosionParticles" type="CPUParticles2D" parent="." unique_id=114814616]
+emitting = false
+amount = 300
+lifetime = 0.8
+one_shot = true
+speed_scale = 1.5
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 1100.0
+initial_velocity_max = 1600.0
+damping_min = 150.0
+damping_max = 250.0
+scale_amount_min = 8.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_er46q")
+color = Color(1, 0.5019608, 1, 1)
+color_ramp = SubResource("Gradient_vkkbq")
