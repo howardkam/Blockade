@@ -19,8 +19,9 @@ func _ready() -> void:
 	pick_new_direction()
 
 func _exit_tree() -> void:
+	pass
 	# Ensure sound suppression is cleared if bomb is freed
-	Enemy.suppress_explosion_sounds = false
+#	Enemy.suppress_explosion_sounds = false
 
 func _process(delta: float) -> void:
 	direction_timer -= delta
@@ -49,8 +50,9 @@ func _on_body_entered(body: Node2D) -> void:
 		explode()
 
 func explode() -> void:
+	
 	# Suppress new enemy explosion sounds while bomb audio plays
-	Enemy.suppress_explosion_sounds = true
+#	Enemy.suppress_explosion_sounds = true
 
 	# Hide bomb visual and disable collisions
 	hide()
@@ -95,6 +97,6 @@ func explode() -> void:
 		await bomb_sound.finished
 
 	# Instantly allow enemy explosion sounds again right after bomb sound completes
-	Enemy.suppress_explosion_sounds = false
+#	Enemy.suppress_explosion_sounds = false
 
 	queue_free()
