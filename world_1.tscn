@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dftuxifqbq8lq" path="res://world_1.gd" id="1_mqyi5"]
 [ext_resource type="Texture2D" uid="uid://ber6fytsvmj8l" path="res://Assets/background-blue2.jpg" id="4_1wjj6"]
 [ext_resource type="AudioStream" uid="uid://bevvbsm6wtsm1" path="res://Assets/musictrack1.wav" id="4_kdx2d"]
+[ext_resource type="PackedScene" uid="uid://cu485jghwebnu" path="res://bomb.tscn" id="5_kdx2d"]
 
 [node name="World 1" type="Node2D" unique_id=1017488468]
 script = ExtResource("1_mqyi5")
@@ -37,3 +38,6 @@ stream = ExtResource("4_kdx2d")
 volume_db = 5.0
 autoplay = true
 max_distance = 5000.0
+
+[node name="bomb" parent="." unique_id=2124733722 instance=ExtResource("5_kdx2d")]
+position = Vector2(224, 80)

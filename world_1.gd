@@ -5,7 +5,7 @@ extends Node2D
 @export var enemy_plus: PackedScene = preload("res://enemy_plus.tscn")
 
 @export_group("Batch Controls")
-@export var total_batches: int = 8           # Total number of batches to release
+@export var total_batches: int = 10           # Total number of batches to release
 @export var batch_interval: float = 12.0      # Delay in seconds between each batch release
 @export var diamonds_per_batch: int = 100     # How many Diamonds spawn at once each batch
 @export var pluses_per_batch: int = 10       # How many Pluses spawn at once each batch
@@ -14,7 +14,7 @@ extends Node2D
 @export var target_score: int = 1000
 
 @export_group("Spawn Settings")
-@export var safe_radius: float = 1000.0
+@export var safe_radius: float = 800.0
 @export var min_enemy_distance: float = 40.0
 @export var spawn_area_min: Vector2 = Vector2(-3000, -3000)
 @export var spawn_area_max: Vector2 = Vector2(3000, 3000)

@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://cu485jghwebnu"]
+
+[ext_resource type="Script" uid="uid://dvwkod6blp36m" path="res://bomb.gd" id="1_4fn8o"]
+[ext_resource type="Texture2D" uid="uid://cq516ha8ev3ea" path="res://Assets/grey soft/Star (2).png" id="2_nfxiy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6xcap"]
+radius = 56.568542
+
+[sub_resource type="Gradient" id="Gradient_fade"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Gradient" id="Gradient_rainbow"]
+offsets = PackedFloat32Array(0, 0.16, 0.33, 0.5, 0.66, 0.83, 1)
+colors = PackedColorArray(1, 0, 0, 1, 1, 0.5, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0.5, 1, 1, 1, 0, 1, 1)
+
+[node name="bomb" type="Area2D" unique_id=2124733722]
+collision_mask = 3
+script = ExtResource("1_4fn8o")
+
+[node name="Star(2)" type="Sprite2D" parent="." unique_id=1342972075]
+texture_filter = 1
+texture = ExtResource("2_nfxiy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2064217907]
+shape = SubResource("CircleShape2D_6xcap")
+
+[node name="RainbowExplosionParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 600
+lifetime = 0.85
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 1000.0
+initial_velocity_max = 1400.0
+damping_min = 400.0
+damping_max = 600.0
+scale_amount_min = 6.0
+scale_amount_max = 14.0
+color_ramp = SubResource("Gradient_fade")
+color_initial_ramp = SubResource("Gradient_rainbow")
