@@ -105,8 +105,10 @@ func update_health_ui():
 
 func _physics_process(delta):
 	if is_dead:
-		if Input.is_action_just_pressed("ui_accept") or Input.is_key_pressed(KEY_R):
+		if Input.is_action_just_pressed("start"):
 			get_tree().reload_current_scene()
+		if Input.is_action_just_pressed("quit"):
+			get_tree().quit()
 		return
 
 	# 1. Movement
@@ -207,7 +209,7 @@ func clear_all_enemies():
 
 func show_game_over():
 	var game_over_label = Label.new()
-	game_over_label.text = "GAME OVER\n\nPRESS [R] OR [ENTER] TO RESTART"
+	game_over_label.text = "GAME OVER\n\nPress START to try again"
 	game_over_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	game_over_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	

@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var max_health: int = 3
 @export var pointvalue: int = 10
 
+@onready var explosionsound = $explosion # Assumes node name is $explosion (adjust if named differently, e.g. $AudioStreamPlayer2D)
 const WORLD_LIMIT_MIN = -3000.0
 const WORLD_LIMIT_MAX = 3000.0
 
@@ -53,11 +54,18 @@ func get_separation_vector() -> Vector2:
 				
 	return separation.normalized() if neighbor_count > 0 else Vector2.ZERO
 
-func take_damage():
+func take_damage(from_bomb: bool = false):
 	current_health -= 1
 	modulate = Color.REBECCA_PURPLE
 	
 	if current_health <= 0:
+		# Play explosion sound only if destroyed normally (not by bomb)
+		if not from_bomb and is_instance_valid(explosionsound):
+			explosionsound.reparent(get_tree().current_scene)
+			explosionsound.global_position = global_position
+			explosionsound.play()
+			explosionsound.finished.connect(explosionsound.queue_free)
+
 		var player = get_tree().get_first_node_in_group("player")
 		if player and player.has_method("add_score"):
 			player.add_score(pointvalue)

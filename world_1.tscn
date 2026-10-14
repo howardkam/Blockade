@@ -29,7 +29,7 @@ texture_repeat = 2
 offset_left = -4970.0
 offset_top = -5783.0
 offset_right = 4938.0
-offset_bottom = 5034.0
+offset_bottom = 4939.0
 texture = ExtResource("4_1wjj6")
 stretch_mode = 1
 
@@ -40,4 +40,4 @@ autoplay = true
 max_distance = 5000.0
 
 [node name="bomb" parent="." unique_id=2124733722 instance=ExtResource("5_kdx2d")]
-position = Vector2(224, 80)
+position = Vector2(36.365967, 913.303)

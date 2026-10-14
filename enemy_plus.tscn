@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b7av8fxihp3cg" path="res://enemy_plus.gd" id="1_rokoa"]
 [ext_resource type="Texture2D" uid="uid://20jhb2b86day" path="res://Assets/grey soft/Misc (1).png" id="2_er46q"]
+[ext_resource type="AudioStream" uid="uid://dl6rpjvqyrfy4" path="res://Assets/explosion1.wav" id="3_er46q"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_rokoa"]
 polygon = PackedVector2Array(-16, -56, -16, -16, -56, -16, -56, 16, -16, 16, -16, 56, 16, 56, 16, 16, 56, 16, 56, -16, 16, -16, 16, -56)
@@ -48,3 +49,7 @@ collision_mask = 0
 polygon = PackedVector2Array(-16, -56, -16, -16, -56, -16, -56, 16, -16, 16, -16, 56, 16, 56, 16, 16, 56, 16, 56, -16, 16, -16, 16, -56)
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1608592972]
+
+[node name="explosion" type="AudioStreamPlayer2D" parent="." unique_id=1518598266 groups=["enemy_explosion_sounds"]]
+stream = ExtResource("3_er46q")
+volume_db = 10.0

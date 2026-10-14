@@ -3,15 +3,16 @@ extends Node2D
 @export_group("Enemy Scenes")
 @export var enemy_diamond: PackedScene = preload("res://enemy_diamond.tscn")
 @export var enemy_plus: PackedScene = preload("res://enemy_plus.tscn")
+@onready var explosionsound = $AudioStreamPlayer2D
 
 @export_group("Batch Controls")
-@export var total_batches: int = 10           # Total number of batches to release
-@export var batch_interval: float = 12.0      # Delay in seconds between each batch release
+@export var total_batches: int = 20      # Total number of batches to release
+@export var batch_interval: float = 20.0      # Delay in seconds between each batch release
 @export var diamonds_per_batch: int = 100     # How many Diamonds spawn at once each batch
 @export var pluses_per_batch: int = 10       # How many Pluses spawn at once each batch
 
 @export_group("Win Condition")
-@export var target_score: int = 1000
+@export var target_score: int = 3500
 
 @export_group("Spawn Settings")
 @export var safe_radius: float = 800.0

@@ -28,7 +28,6 @@ func _physics_process(delta):
 
 	var direction = global_position.direction_to(player.global_position)
 	
-	# Throttle expensive separation check across frames
 	if (Engine.get_physics_frames() + frame_offset) % 4 == 0:
 		cached_separation = get_separation_vector()
 	
@@ -55,12 +54,13 @@ func get_separation_vector() -> Vector2:
 				
 	return separation.normalized() if neighbor_count > 0 else Vector2.ZERO
 
-func take_damage():
+func take_damage(from_bomb: bool = false):
 	current_health -= 1
 	modulate = Color.YELLOW
 	
 	if current_health <= 0:
-		if is_instance_valid(explosionsound):
+		# Play explosion sound only if destroyed normally (not by bomb)
+		if not from_bomb and is_instance_valid(explosionsound):
 			explosionsound.reparent(get_tree().current_scene)
 			explosionsound.global_position = global_position
 			explosionsound.play()
