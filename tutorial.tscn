@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://bcigm3akj8mok" path="res://tutorial.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://csyb3jak12esm" path="res://player.tscn" id="1_yb1ct"]
 [ext_resource type="PackedScene" uid="uid://buugdtpjq3j7y" path="res://enemy_diamond.tscn" id="2_ehuit"]
+[ext_resource type="PackedScene" uid="uid://dumbykfqypog7" path="res://enemy_plus.tscn" id="4_5mrt3"]
+[ext_resource type="Texture2D" uid="uid://co60ceob0ntjd" path="res://Assets/background-orange1.jpg" id="5_rwowx"]
 
 [node name="Tutorial" type="Node2D" unique_id=1591888135]
 script = ExtResource("1_script")
@@ -31,4 +33,18 @@ offset_left = -13890.0
 offset_top = -7366.0
 offset_right = 16157.0
 offset_bottom = 7844.0
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0.45490196)
+
+[node name="EnemyPlus" parent="." unique_id=223436986 instance=ExtResource("4_5mrt3")]
+position = Vector2(-2321.9453, 2907.9844)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1510904712]
+modulate = Color(1, 1, 1, 0.078431375)
+z_index = -1
+texture_repeat = 2
+offset_left = -4970.0
+offset_top = -5783.0
+offset_right = 4938.0
+offset_bottom = 4939.0
+texture = ExtResource("5_rwowx")
+stretch_mode = 1

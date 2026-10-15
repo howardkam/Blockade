@@ -6,7 +6,7 @@ extends CharacterBody2D
 @export var shrink_percentage: float = 1.2 # Percentage to shrink on each hit (5 = 5%)
 @export var min_scale_ratio: float = 0.05 # Explodes when reaching this size ratio (0.10 = 10%)
 @export var pointvalue: int = 100
-
+@export var rechargerate: int = 20 #recharge rate TO the player when killed
 @onready var explosionsound = $explosion
 const WORLD_LIMIT_MIN = -3000.0
 const WORLD_LIMIT_MAX = 3000.0
@@ -93,7 +93,7 @@ func explode(from_bomb: bool = false):
 		if player_node.has_method("add_score"):
 			player_node.add_score(pointvalue)
 		if player_node.has_method("heal"):
-			player_node.heal(15.0)
+			player_node.heal(rechargerate)
 
 	spawn_score_label(pointvalue)
 	

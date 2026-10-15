@@ -18,11 +18,15 @@ var score: int = 0
 var current_health: float = 100.0
 var is_dead: bool = false
 
+# Camera Shake Variables
+var shake_intensity: float = 0.0
+
 @onready var score_label: Label = $UI/ScoreLabel
 @onready var hitbox: Area2D = $hitbox
 @onready var ui_layer: CanvasLayer = $UI
 @onready var sprite: Sprite2D = $"Gear(4)"
 @onready var injurysound: AudioStreamPlayer2D = $injurysound
+@onready var camera: Camera2D = $Camera2D
 
 var health_bar: ProgressBar
 var health_label: Label
@@ -105,6 +109,17 @@ func heal(amount: float):
 	update_health_ui()
 
 func _physics_process(delta):
+	# Camera Shake decay and apply
+	if camera and shake_intensity > 0.1:
+		shake_intensity = lerp(shake_intensity, 0.0, 5.0 * delta)
+		camera.offset = Vector2(
+			randf_range(-shake_intensity, shake_intensity),
+			randf_range(-shake_intensity, shake_intensity)
+		)
+	elif camera:
+		shake_intensity = 0.0
+		camera.offset = Vector2.ZERO
+
 	if is_dead:
 		if Input.is_action_just_pressed("start"):
 			get_tree().reload_current_scene()
@@ -198,12 +213,36 @@ func die():
 	is_dead = true
 	velocity = Vector2.ZERO
 	stop_injury_sound_smooth(0.15)
-	hide()
+	
+	# Trigger violent screen shake
+	shake_intensity = 60.0
+	
+	# Trigger particle explosion before hiding sprite
+	spawn_death_explosion()
+
+	# Hide only sprite & disable hitboxes (do NOT call hide() on self)
+	if sprite:
+		sprite.hide()
+	if has_node("CollisionShape2D"):
+		$CollisionShape2D.set_deferred("disabled", true)
+	if hitbox:
+		hitbox.set_deferred("monitoring", false)
+		hitbox.set_deferred("monitorable", false)
 	
 	died.emit()
 	stop_all_spawners()
 	clear_all_enemies()
 	show_game_over()
+
+func spawn_death_explosion():
+	if has_node("DeathParticles"):
+		var particles = $DeathParticles as CPUParticles2D
+		# Move particles out of the player node so they aren't deleted/hidden
+		particles.reparent(get_tree().current_scene)
+		particles.global_position = global_position
+		particles.restart()
+		particles.emitting = true
+		get_tree().create_timer(particles.lifetime + 0.5).timeout.connect(particles.queue_free)
 
 func stop_all_spawners():
 	var scene_tree = get_tree().current_scene

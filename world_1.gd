@@ -7,17 +7,18 @@ extends Node2D
 @onready var explosionsound = $AudioStreamPlayer2D
 
 @export_group("Batch Controls")
-@export var total_batches: int = 20      # Total number of batches to release
-@export var batch_interval: float = 20.0      # Delay in seconds between each batch release
+@export var total_batches: int = 30      # Total number of batches to release
+@export var batch_interval: float = 15.0      # Delay in seconds between each batch release
 @export var diamonds_per_batch: int = 100    
-@export var pluses_per_batch: int = 10       
-@export var gigantor_per_batch: int = 1
+@export var pluses_per_batch: int = 10    
+@export var gigantor_spawn_chance = 0.2 # 0.20 equals 20 percent chance   
+
 
 @export_group("Win Condition")
 @export var target_score: int = 3500
 
 @export_group("Spawn Settings")
-@export var safe_radius: float = 800.0
+@export var safe_radius: float = 1000.0
 @export var min_enemy_distance: float = 40.0
 @export var spawn_area_min: Vector2 = Vector2(-3000, -3000)
 @export var spawn_area_max: Vector2 = Vector2(3000, 3000)
@@ -60,8 +61,9 @@ func spawn_batch():
 	if enemy_plus and pluses_per_batch > 0:
 		spawn_enemy_type(enemy_plus, pluses_per_batch, player_pos)
 		
-	if enemy_gigantor and gigantor_per_batch > 0:
-		spawn_enemy_type(enemy_gigantor, gigantor_per_batch, player_pos)
+	# 20% chance to spawn 1 gigantor for this specific batch wave
+	if enemy_gigantor and randf() < gigantor_spawn_chance:
+		spawn_enemy_type(enemy_gigantor, 1, player_pos)
 
 func spawn_enemy_type(scene: PackedScene, amount: int, player_pos: Vector2):
 	for i in range(amount):
