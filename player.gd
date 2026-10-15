@@ -17,6 +17,7 @@ var shoot_timer: float = 0.0
 var score: int = 0
 var current_health: float = 100.0
 var is_dead: bool = false
+var has_restarted: bool = false
 
 # Camera Shake Variables
 var shake_intensity: float = 0.0
@@ -34,9 +35,30 @@ var injury_fade_tween: Tween = null
 const INJURY_ORIGINAL_VOLUME: float = 10.0
 
 func _ready():
+	add_to_group("player")
 	current_health = max_health
 	update_score_ui()
 	setup_health_ui()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not is_dead or has_restarted:
+		return
+
+	# Match physical Enter key checks alongside input actions
+	var is_enter = event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_ENTER or event.keycode == KEY_KP_ENTER)
+	var is_action = event.is_action_pressed("start") or event.is_action_pressed("ui_accept")
+
+	if is_enter or is_action:
+		has_restarted = true
+		restart_game()
+	elif event.is_action_pressed("quit"):
+		get_tree().quit()
+
+func restart_game() -> void:
+	if get_node_or_null("/root/Global"):
+		Global.restart_current_level()
+	else:
+		get_tree().reload_current_scene()
 
 func setup_health_ui():
 	if has_node("ProgressBar"):
@@ -109,7 +131,6 @@ func heal(amount: float):
 	update_health_ui()
 
 func _physics_process(delta):
-	# Camera Shake decay and apply
 	if camera and shake_intensity > 0.1:
 		shake_intensity = lerp(shake_intensity, 0.0, 5.0 * delta)
 		camera.offset = Vector2(
@@ -121,10 +142,6 @@ func _physics_process(delta):
 		camera.offset = Vector2.ZERO
 
 	if is_dead:
-		if Input.is_action_just_pressed("start"):
-			get_tree().reload_current_scene()
-		if Input.is_action_just_pressed("quit"):
-			get_tree().quit()
 		return
 
 	var move_dir = Input.get_vector("left", "right", "up", "down")
@@ -214,13 +231,9 @@ func die():
 	velocity = Vector2.ZERO
 	stop_injury_sound_smooth(0.15)
 	
-	# Trigger violent screen shake
 	shake_intensity = 60.0
-	
-	# Trigger particle explosion before hiding sprite
 	spawn_death_explosion()
 
-	# Hide only sprite & disable hitboxes (do NOT call hide() on self)
 	if sprite:
 		sprite.hide()
 	if has_node("CollisionShape2D"):
@@ -237,7 +250,6 @@ func die():
 func spawn_death_explosion():
 	if has_node("DeathParticles"):
 		var particles = $DeathParticles as CPUParticles2D
-		# Move particles out of the player node so they aren't deleted/hidden
 		particles.reparent(get_tree().current_scene)
 		particles.global_position = global_position
 		particles.restart()

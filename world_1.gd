@@ -1,21 +1,28 @@
 extends Node2D
 
+@export_group("Level Transition")
+@export_file("*.tscn") var next_level_scene: String = "res://world_2.tscn"
+
+@export_group("Player Reference")
+@export var player: CharacterBody2D
+
 @export_group("Enemy Scenes")
 @export var enemy_diamond: PackedScene = preload("res://enemy_diamond.tscn")
 @export var enemy_plus: PackedScene = preload("res://enemy_plus.tscn")
 @export var enemy_gigantor: PackedScene = preload("res://enemy_gigantor.tscn")
+
 @onready var explosionsound = $AudioStreamPlayer2D
+@onready var level_cleared_label: Label = $WinUI/LevelClearedLabel
 
 @export_group("Batch Controls")
-@export var total_batches: int = 30      # Total number of batches to release
+@export var total_batches: int = 10      # Total number of batches to release
 @export var batch_interval: float = 15.0      # Delay in seconds between each batch release
-@export var diamonds_per_batch: int = 100    
-@export var pluses_per_batch: int = 10    
+@export var diamonds_per_batch: int = 50    
+@export var pluses_per_batch: int = 2    
 @export var gigantor_spawn_chance = 0.2 # 0.20 equals 20 percent chance   
 
-
 @export_group("Win Condition")
-@export var target_score: int = 3500
+@export var target_score: int = 5000
 
 @export_group("Spawn Settings")
 @export var safe_radius: float = 1000.0
@@ -29,6 +36,11 @@ var batch_timer: Timer = null
 var level_completed: bool = false
 
 func _ready():
+	# Register active level path in Global
+	if get_node_or_null("/root/Global"):
+		var current_path = scene_file_path if scene_file_path != "" else "res://world_1.tscn"
+		Global.current_level_path = current_path
+
 	# Set up repeating timer for batches
 	batch_timer = Timer.new()
 	batch_timer.wait_time = batch_interval
@@ -51,17 +63,15 @@ func _on_batch_timer_timeout():
 func spawn_batch():
 	batches_spawned += 1
 	
-	var player = get_tree().get_first_node_in_group("player")
-	var player_pos = player.global_position if player else Vector2.ZERO
+	var target_player = player if player else get_tree().get_first_node_in_group("player")
+	var player_pos = target_player.global_position if target_player else Vector2.ZERO
 
-	# Spawn exact counts for this batch
 	if enemy_diamond and diamonds_per_batch > 0:
 		spawn_enemy_type(enemy_diamond, diamonds_per_batch, player_pos)
 
 	if enemy_plus and pluses_per_batch > 0:
 		spawn_enemy_type(enemy_plus, pluses_per_batch, player_pos)
 		
-	# 20% chance to spawn 1 gigantor for this specific batch wave
 	if enemy_gigantor and randf() < gigantor_spawn_chance:
 		spawn_enemy_type(enemy_gigantor, 1, player_pos)
 
@@ -71,7 +81,6 @@ func spawn_enemy_type(scene: PackedScene, amount: int, player_pos: Vector2):
 		var distance = randf_range(safe_radius, safe_radius + 1200.0)
 		var random_pos = player_pos + Vector2(cos(angle), sin(angle)) * distance
 
-		# Keep within world boundaries
 		random_pos.x = clamp(random_pos.x, spawn_area_min.x, spawn_area_max.x)
 		random_pos.y = clamp(random_pos.y, spawn_area_min.y, spawn_area_max.y)
 
@@ -83,11 +92,32 @@ func check_win_condition():
 	if level_completed:
 		return
 
-	var player = get_tree().get_first_node_in_group("player")
-	if player and "score" in player:
-		if player.score >= target_score:
+	var target_player = player if player else get_tree().get_first_node_in_group("player")
+	if target_player and "score" in target_player:
+		if target_player.score >= target_score:
 			complete_level()
 
 func complete_level():
 	level_completed = true
-	print("LEVEL COMPLETE! Target score of ", target_score, " reached.")
+	
+	# Reveal centered victory label
+	if level_cleared_label:
+		level_cleared_label.show()
+	
+	# Pause gameplay mechanics (music remains active via process_mode = 3)
+	get_tree().paused = true
+	
+	# Wait 3 seconds during pause
+	await get_tree().create_timer(3.0, true, false, true).timeout
+	
+	# Resume pause state prior to scene change
+	get_tree().paused = false
+	
+	# Transition to next configured level
+	if get_node_or_null("/root/Global"):
+		Global.go_to_level(next_level_scene)
+	else:
+		SceneManager.change_scene(next_level_scene, {
+			"pattern": "squares",
+			"time": 1.0
+		})

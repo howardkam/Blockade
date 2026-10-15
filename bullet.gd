@@ -29,3 +29,7 @@ func check_hit(node):
 		hit_registered = true
 		node.take_damage()
 		queue_free()
+	else:
+		# Hit an obstacle or static geometry, destroy the bullet
+		hit_registered = true
+		queue_free()

@@ -46,4 +46,12 @@ func complete_tutorial() -> void:
 		return
 	has_transitioned = true
 	tutorial_label.hide()
-	SceneManager.change_scene(target_scene)
+
+	# Register the level in Global and handle the scene transition
+	if get_node_or_null("/root/Global"):
+		Global.go_to_level(target_scene)
+	else:
+		SceneManager.change_scene(target_scene, {
+			"pattern": "squares",
+			"time": 1
+		})

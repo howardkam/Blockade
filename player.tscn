@@ -24,6 +24,7 @@ radius = 62.0
 
 [node name="player" type="CharacterBody2D" unique_id=16646871 groups=["player"]]
 scale = Vector2(0.5, 0.5)
+collision_mask = 3
 script = ExtResource("1_onrkg")
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1908755707]
@@ -90,9 +91,9 @@ stream = ExtResource("4_hqtel")
 volume_db = 10.0
 
 [node name="DeathParticles" type="CPUParticles2D" parent="." unique_id=987654321]
-texture = ExtResource("2_onrkg")
 emitting = false
 amount = 300
+texture = ExtResource("2_onrkg")
 lifetime = 1.2
 one_shot = true
 explosiveness = 1.0
@@ -101,10 +102,10 @@ spread = 180.0
 gravity = Vector2(0, 0)
 initial_velocity_min = 800.0
 initial_velocity_max = 2800.0
-angle_min = -180.0
-angle_max = 180.0
 angular_velocity_min = -360.0
 angular_velocity_max = 360.0
+angle_min = -180.0
+angle_max = 180.0
 scale_amount_min = 0.2
 scale_amount_max = 0.8
 color = Color(3, 3, 3, 1)

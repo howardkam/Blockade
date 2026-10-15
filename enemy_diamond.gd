@@ -96,16 +96,22 @@ func spawn_score_label(points: int):
 	var label = Label.new()
 	label.text = "+" + str(points)
 	label.global_position = global_position + Vector2(-15, -30)
-	
+	label.modulate = Color.LIGHT_YELLOW  # Set initial color to yellow
+
 	var font = load("res://Assets/ka1.ttf")
 	if font:
 		label.add_theme_font_override("font", font)
 		label.add_theme_font_size_override("font_size", 18)
 		
 	get_tree().current_scene.add_child(label)
-	
+
 	var tween = label.create_tween()
-	tween.set_parallel(true)
-	tween.tween_property(label, "global_position:y", label.global_position.y - 40.0, 0.6)
-	tween.tween_property(label, "modulate:a", 0.0, 0.6)
+
+	# 1. Stay solid yellow for 0.5 seconds
+	tween.tween_interval(0.5)
+
+	# 2. Tween position upward and fade out alpha simultaneously over 0.5 seconds
+	tween.parallel().tween_property(label, "global_position:y", label.global_position.y - 40.0, 0.5)
+	tween.parallel().tween_property(label, "modulate:a", 0.0, 0.5)
+
 	tween.finished.connect(label.queue_free)
