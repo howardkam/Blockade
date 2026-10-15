@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
 
-@export var move_speed: float = 70.0
-@export var turn_speed: float = 7 # Turning rate in radians per second (~200°/sec)
-@export var shrink_percentage: float = 2.0 # Percentage to shrink on each hit (5 = 5%)
+@export var move_speed: float = 50.0
+@export var turn_speed: float = 10 # Turning rate in radians per second (~200°/sec)
+@export var shrink_percentage: float = 1.2 # Percentage to shrink on each hit (5 = 5%)
 @export var min_scale_ratio: float = 0.05 # Explodes when reaching this size ratio (0.10 = 10%)
 @export var pointvalue: int = 100
 
