@@ -28,6 +28,7 @@ shape = SubResource("RectangleShape2D_na3vj")
 [node name="ExplosionParticles" type="CPUParticles2D" parent="." unique_id=719926192]
 emitting = false
 amount = 300
+lifetime = 4.0
 one_shot = true
 speed_scale = 1.5
 explosiveness = 1.0

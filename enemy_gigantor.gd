@@ -71,7 +71,7 @@ func take_damage(from_bomb: bool = false):
 
 	# Reduce current scale ratio by the shrink percentage
 	current_scale_ratio -= shrink_percentage / 100.0
-	modulate = Color.DODGER_BLUE
+	modulate = Color.LAWN_GREEN
 
 	# Check if size reached or dropped below min_scale_ratio (10%)
 	if current_scale_ratio <= (min_scale_ratio + 0.001):
@@ -93,7 +93,7 @@ func explode(from_bomb: bool = false):
 		if player_node.has_method("add_score"):
 			player_node.add_score(pointvalue)
 		if player_node.has_method("heal"):
-			player_node.heal(30.0)
+			player_node.heal(15.0)
 
 	spawn_score_label(pointvalue)
 	
@@ -101,6 +101,7 @@ func explode(from_bomb: bool = false):
 		var particles = $ExplosionParticles
 		particles.reparent(get_tree().current_scene)
 		particles.global_position = global_position
+		particles.scale = Vector2.ONE  # Resets particle scale back to 100%
 		particles.emitting = true
 		
 		var particle_timer = get_tree().create_timer(1.0)
