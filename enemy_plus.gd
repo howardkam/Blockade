@@ -62,6 +62,7 @@ func get_separation_vector() -> Vector2:
 				
 	return separation.normalized() if neighbor_count > 0 else Vector2.ZERO
 
+
 func take_damage(from_bomb: bool = false):
 	current_health -= 1
 	modulate = Color.WEB_PURPLE

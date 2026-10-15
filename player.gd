@@ -100,6 +100,10 @@ func update_health_ui():
 		var pct = int(clamp((current_health / max_health) * 100.0, 0.0, 100.0))
 		health_label.text = "HP: " + str(pct) + "%"
 
+func heal(amount: float):
+	current_health = min(current_health + amount, max_health)
+	update_health_ui()
+
 func _physics_process(delta):
 	if is_dead:
 		if Input.is_action_just_pressed("start"):

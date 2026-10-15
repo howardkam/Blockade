@@ -89,8 +89,11 @@ func explode(from_bomb: bool = false):
 		explosionsound.finished.connect(explosionsound.queue_free)
 
 	var player_node = get_tree().get_first_node_in_group("player")
-	if player_node and player_node.has_method("add_score"):
-		player_node.add_score(pointvalue)
+	if player_node:
+		if player_node.has_method("add_score"):
+			player_node.add_score(pointvalue)
+		if player_node.has_method("heal"):
+			player_node.heal(30.0)
 
 	spawn_score_label(pointvalue)
 	
