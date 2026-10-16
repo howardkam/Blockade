@@ -15,14 +15,14 @@ extends Node2D
 @onready var level_cleared_label: Label = $WinUI/LevelClearedLabel
 
 @export_group("Batch Controls")
-@export var total_batches: int = 10      # Total number of batches to release
+@export var total_batches: int = 20      # Total number of batches to release
 @export var batch_interval: float = 15.0      # Delay in seconds between each batch release
 @export var diamonds_per_batch: int = 50    
-@export var pluses_per_batch: int = 2    
+@export var pluses_per_batch: int = 5    
 @export var gigantor_spawn_chance = 0.2 # 0.20 equals 20 percent chance   
 
 @export_group("Win Condition")
-@export var target_score: int = 5000
+@export var target_score: int = 4000
 
 @export_group("Spawn Settings")
 @export var safe_radius: float = 1000.0

@@ -1,9 +1,9 @@
 
 extends CharacterBody2D
 
-@export var move_speed: float = 150.0
+@export var move_speed: float = 200.0
 @export var turn_speed: float = 2 # Turning rate in radians per second (~200°/sec)
-@export var max_health: int = 1
+@export var max_health: int = 2
 @export var pointvalue: int = 5
 
 @onready var explosionsound = $explosion
