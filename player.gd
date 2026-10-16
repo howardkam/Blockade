@@ -3,6 +3,7 @@ extends CharacterBody2D
 signal died
 
 @export var bullet_scene: PackedScene = preload("res://bullet.tscn")
+@export var missile_scene: PackedScene = preload("res://missile.tscn")
 @export var move_speed: float = 500.0
 @export var fire_rate: float = 0.07
 
@@ -19,6 +20,10 @@ var current_health: float = 100.0
 var is_dead: bool = false
 var has_restarted: bool = false
 
+# Missile Power-up Variables
+var is_missile_active: bool = false
+var missile_time_left: float = 0.0
+
 # Camera Shake Variables
 var shake_intensity: float = 0.0
 
@@ -28,6 +33,7 @@ var shake_intensity: float = 0.0
 @onready var sprite: Sprite2D = $"Gear(4)"
 @onready var injurysound: AudioStreamPlayer2D = $injurysound
 @onready var camera: Camera2D = $Camera2D
+@onready var timer_label: Label = $TimerLabel
 
 var health_bar: ProgressBar
 var health_label: Label
@@ -39,6 +45,14 @@ func _ready():
 	current_health = max_health
 	update_score_ui()
 	setup_health_ui()
+	if timer_label:
+		timer_label.hide()
+
+func activate_missile_powerup(duration: float = 30.0):
+	is_missile_active = true
+	missile_time_left = duration
+	if timer_label:
+		timer_label.show()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_dead or has_restarted:
@@ -131,6 +145,18 @@ func heal(amount: float):
 	update_health_ui()
 
 func _physics_process(delta):
+	# Handle Missile Power-up Timer
+	if is_missile_active:
+		missile_time_left -= delta
+		if timer_label:
+			timer_label.text = str(ceil(missile_time_left)) + "s"
+			
+		if missile_time_left <= 0.0:
+			is_missile_active = false
+			missile_time_left = 0.0
+			if timer_label:
+				timer_label.hide()
+
 	if camera and shake_intensity > 0.1:
 		shake_intensity = lerp(shake_intensity, 0.0, 5.0 * delta)
 		camera.offset = Vector2(
@@ -236,6 +262,8 @@ func die():
 
 	if sprite:
 		sprite.hide()
+	if timer_label:
+		timer_label.hide()
 	if has_node("CollisionShape2D"):
 		$CollisionShape2D.set_deferred("disabled", true)
 	if hitbox:
@@ -290,8 +318,9 @@ func show_game_over():
 	ui_layer.add_child(game_over_label)
 
 func fire_bullet(dir: Vector2):
-	var bullet = bullet_scene.instantiate()
-	bullet.global_position = global_position
-	bullet.direction = dir
-	bullet.rotation = dir.angle()
-	get_tree().current_scene.add_child(bullet)
+	var proj_scene = missile_scene if is_missile_active else bullet_scene
+	var projectile = proj_scene.instantiate()
+	projectile.global_position = global_position
+	projectile.direction = dir
+	projectile.rotation = dir.angle()
+	get_tree().current_scene.add_child(projectile)

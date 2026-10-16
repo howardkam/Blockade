@@ -6,6 +6,10 @@ extends Node2D
 @export_group("Player Reference")
 @export var player: CharacterBody2D
 
+@export_group("Powerup Settings")
+@export var powerup_launcher_scene: PackedScene = preload("res://powerup_launcher.tscn")
+@export var initial_powerup_count: int = 3
+
 @export_group("Enemy Scenes")
 @export var enemy_diamond: PackedScene = preload("res://enemy_diamond.tscn")
 @export var enemy_plus: PackedScene = preload("res://enemy_plus.tscn")
@@ -41,6 +45,9 @@ func _ready():
 		var current_path = scene_file_path if scene_file_path != "" else "res://world_1.tscn"
 		Global.current_level_path = current_path
 
+	# Spawn initial launcher power-ups across the world map
+	spawn_initial_powerups()
+
 	# Set up repeating timer for batches
 	batch_timer = Timer.new()
 	batch_timer.wait_time = batch_interval
@@ -50,6 +57,25 @@ func _ready():
 	
 	# Spawn Batch #1 immediately upon level start
 	spawn_batch()
+
+func spawn_initial_powerups():
+	if not powerup_launcher_scene or initial_powerup_count <= 0:
+		return
+
+	var target_player = player if player else get_tree().get_first_node_in_group("player")
+	var player_pos = target_player.global_position if target_player else Vector2.ZERO
+
+	for i in range(initial_powerup_count):
+		var angle = randf() * TAU
+		var distance = randf_range(300.0, 1500.0)
+		var spawn_pos = player_pos + Vector2(cos(angle), sin(angle)) * distance
+
+		spawn_pos.x = clamp(spawn_pos.x, spawn_area_min.x, spawn_area_max.x)
+		spawn_pos.y = clamp(spawn_pos.y, spawn_area_min.y, spawn_area_max.y)
+
+		var powerup = powerup_launcher_scene.instantiate()
+		powerup.global_position = spawn_pos
+		add_child(powerup)
 
 func _process(_delta):
 	check_win_condition()
@@ -117,7 +143,4 @@ func complete_level():
 	if get_node_or_null("/root/Global"):
 		Global.go_to_level(next_level_scene)
 	else:
-		SceneManager.change_scene(next_level_scene, {
-			"pattern": "squares",
-			"time": 1.0
-		})
+		SceneManager.change_

@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://doktvfbfbl1sj"]
+
+[ext_resource type="Script" uid="uid://bag43oqjh6m7g" path="res://missile.gd" id="1_0uoyr"]
+[ext_resource type="Texture2D" uid="uid://bc43jb6k1i2av" path="res://Assets/launcher.png" id="1_cdnlh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0uoyr"]
+size = Vector2(10, 32)
+
+[sub_resource type="Curve" id="Curve_trail"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_trail"]
+colors = PackedColorArray(1, 0.3, 0, 0, 3, 1.2, 0.2, 1)
+
+[node name="missile" type="Area2D" unique_id=1608482639]
+collision_mask = 3
+script = ExtResource("1_0uoyr")
+
+[node name="Trail" type="Line2D" parent="." unique_id=987654123]
+width = 12.0
+width_curve = SubResource("Curve_trail")
+gradient = SubResource("Gradient_trail")
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Launcher" type="Sprite2D" parent="." unique_id=145550570]
+texture_filter = 1
+texture = ExtResource("1_cdnlh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2018315174]
+shape = SubResource("RectangleShape2D_0uoyr")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=1193952957]

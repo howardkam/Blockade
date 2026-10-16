@@ -63,8 +63,16 @@ func get_separation_vector() -> Vector2:
 	return separation.normalized() if neighbor_count > 0 else Vector2.ZERO
 
 
-func take_damage(from_bomb: bool = false):
-	current_health -= 1
+func take_damage(amount_or_from_bomb = 1):
+	var damage_amount: int = 1
+	var from_bomb: bool = false
+
+	if typeof(amount_or_from_bomb) == TYPE_BOOL:
+		from_bomb = amount_or_from_bomb
+	elif typeof(amount_or_from_bomb) in [TYPE_INT, TYPE_FLOAT]:
+		damage_amount = int(amount_or_from_bomb)
+
+	current_health -= damage_amount
 	modulate = Color.WEB_PURPLE
 	
 	if current_health <= 0:

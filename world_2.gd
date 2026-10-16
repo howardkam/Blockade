@@ -6,6 +6,10 @@ extends Node2D
 @export_group("Player Reference")
 @export var player: CharacterBody2D
 
+@export_group("Powerup Settings")
+@export var powerup_launcher_scene: PackedScene = preload("res://powerup_launcher.tscn")
+@export var initial_powerup_count: int = 3
+
 @export_group("Enemy Scenes")
 @export var enemy_diamond: PackedScene = preload("res://enemy_diamond.tscn")
 @export var enemy_plus: PackedScene = preload("res://enemy_plus.tscn")
@@ -41,6 +45,9 @@ func _ready():
 		var current_path = scene_file_path if scene_file_path != "" else "res://world_1.tscn"
 		Global.current_level_path = current_path
 
+	# Spawn initial launcher power-ups across the world map
+	spawn_initial_powerups()
+	
 	# Set up repeating timer for batches
 	batch_timer = Timer.new()
 	batch_timer.wait_time = batch_interval
@@ -50,7 +57,10 @@ func _ready():
 	
 	# Spawn Batch #1 immediately upon level start
 	spawn_batch()
-
+func spawn_initial_powerups():
+	if not powerup_launcher_scene or initial_powerup_count <= 0:
+		return
+		
 func _process(_delta):
 	check_win_condition()
 
