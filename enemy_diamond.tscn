@@ -3,12 +3,14 @@
 [ext_resource type="Texture2D" uid="uid://bvvbaa1i2hx4a" path="res://Assets/grey soft/Diamond (2).png" id="1_jut7n"]
 [ext_resource type="Script" uid="uid://cv57exfjqnmir" path="res://enemy_diamond.gd" id="2_script"]
 [ext_resource type="AudioStream" uid="uid://dl6rpjvqyrfy4" path="res://Assets/explosion1.wav" id="3_yx2pn"]
+
 [sub_resource type="Curve" id="Curve_large_to_small"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_bright_to_dim"]
-offsets = PackedFloat32Array(0, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0.05, 0.05, 0.05, 0)
+
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_na3vj"]
 polygon = PackedVector2Array(0, -56.666664, -53.333332, 0, 0, 53.333332, 53.333332, 0)
 
@@ -25,7 +27,7 @@ texture = ExtResource("1_jut7n")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1236449664]
 polygon = PackedVector2Array(0, -56, -54, -1, 0, 53, 55, -1)
 
-[node name="ExplosionParticles" type="CPUParticles2D" parent="."]
+[node name="ExplosionParticles" type="CPUParticles2D" parent="." unique_id=1670205153]
 emitting = false
 amount = 300
 lifetime = 0.8

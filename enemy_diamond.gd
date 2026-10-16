@@ -96,7 +96,7 @@ func spawn_score_label(points: int):
 	var label = Label.new()
 	label.text = "+" + str(points)
 	label.global_position = global_position + Vector2(-15, -30)
-	label.modulate = Color.LIGHT_YELLOW  # Set initial color to yellow
+	label.modulate = Color.GOLDENROD  # Set initial color to yellow
 
 	var font = load("res://Assets/ka1.ttf")
 	if font:
