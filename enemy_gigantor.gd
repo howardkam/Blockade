@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 @export var move_speed: float = 50.0
 @export var turn_speed: float = 10 # Turning rate in radians per second (~200°/sec)
-@export var shrink_percentage: float = 1.2 # Percentage to shrink on each hit (5 = 5%)
+@export var shrink_percentage: float = 1.0 #This is a percentage
 @export var min_scale_ratio: float = 0.05 # Explodes when reaching this size ratio (0.10 = 10%)
 @export var pointvalue: int = 100
 @export var rechargerate: int = 20 #recharge rate TO the player when killed
@@ -64,17 +64,16 @@ func get_separation_vector() -> Vector2:
 				
 	return separation.normalized() if neighbor_count > 0 else Vector2.ZERO
 
-func take_damage(from_bomb: bool = false):
+func take_damage(damage_amount: float = 1.0, from_bomb: bool = false):
 	if from_bomb:
 		explode(true)
 		return
 
-	# Reduce current scale ratio by the shrink percentage
-	current_scale_ratio -= shrink_percentage / 100.0
+	# Reduce scale ratio per hit
+	current_scale_ratio -= (shrink_percentage / 100.0)
 	modulate = Color.LAWN_GREEN
 
-	# Check if size reached or dropped below min_scale_ratio (10%)
-	if current_scale_ratio <= (min_scale_ratio + 0.001):
+	if current_scale_ratio <= min_scale_ratio:
 		explode(false)
 	else:
 		scale = initial_scale * current_scale_ratio

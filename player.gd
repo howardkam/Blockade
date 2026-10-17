@@ -320,7 +320,10 @@ func show_game_over():
 func fire_bullet(dir: Vector2):
 	var proj_scene = missile_scene if is_missile_active else bullet_scene
 	var projectile = proj_scene.instantiate()
+	
+	# Spawn directly at the player's center position
 	projectile.global_position = global_position
+	
 	projectile.direction = dir
 	projectile.rotation = dir.angle()
 	get_tree().current_scene.add_child(projectile)

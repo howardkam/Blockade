@@ -62,6 +62,17 @@ func spawn_initial_powerups():
 	if not powerup_launcher_scene or initial_powerup_count <= 0:
 		return
 
+	for i in range(initial_powerup_count):
+		# Pick a completely random position anywhere within the world size boundaries
+		var spawn_pos = Vector2(
+			randf_range(spawn_area_min.x, spawn_area_max.x),
+			randf_range(spawn_area_min.y, spawn_area_max.y)
+		)
+
+		var powerup = powerup_launcher_scene.instantiate()
+		powerup.global_position = spawn_pos
+		add_child(powerup)
+
 	var target_player = player if player else get_tree().get_first_node_in_group("player")
 	var player_pos = target_player.global_position if target_player else Vector2.ZERO
 

@@ -1,8 +1,8 @@
 extends Area2D
 
 @export var speed: float = 900.0
-@export var turn_speed: float = 12.0
-@export var damage: float = 50.0
+@export var turn_speed: float = 20.0
+@export var damage: float = 1.0 # Changed to 1 hit point of damage to match regular bullets
 
 @export_group("Trail Settings")
 @export var max_trail_length: int = 30
@@ -24,6 +24,7 @@ func _ready():
 	# Unparent the trail so it stays anchored in world space
 	if trail:
 		trail.top_level = true
+		trail.clear_points()
 
 	find_nearest_enemy()
 
@@ -54,10 +55,7 @@ func update_trail():
 	if not trail:
 		return
 		
-	# Add current global position to trail
 	trail.add_point(global_position)
-	
-	# Limit trail point count
 	while trail.get_point_count() > max_trail_length:
 		trail.remove_point(0)
 
@@ -71,25 +69,28 @@ func check_hit(node):
 	if hit_registered or not node:
 		return
 		
+	# Traverse upwards if colliding with a sub-area/hitbox that doesn't hold take_damage directly
+	var target_node = node
+	if not target_node.has_method("take_damage") and target_node.get_parent() and target_node.get_parent().has_method("take_damage"):
+		target_node = target_node.get_parent()
+
 	# Ignore colliding with the player
-	if node.is_in_group("player"):
+	if target_node.is_in_group("player"):
 		return
 		
-	if node.has_method("take_damage"):
+	if target_node.has_method("take_damage"):
 		hit_registered = true
-		node.take_damage(damage)
+		target_node.take_damage(damage)
 		cleanup_and_destroy()
 	else:
 		hit_registered = true
 		cleanup_and_destroy()
 
 func cleanup_and_destroy():
-	# Hide sprite and collisions while allowing trail to naturally fade out
 	set_process(false)
 	$CollisionShape2D.set_deferred("disabled", true)
-	$Launcher.hide()
+	$Missilemaverick.hide()
 	
-	# Fade out trail smoothly before deleting node
 	if trail:
 		var tween = create_tween()
 		tween.tween_property(trail, "modulate:a", 0.0, 0.2)
