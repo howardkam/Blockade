@@ -3,12 +3,29 @@
 [ext_resource type="Script" uid="uid://b4ntg5fulotw7" path="res://powerup_launcher.gd" id="1_5isyv"]
 [ext_resource type="Texture2D" uid="uid://b5k4ha7d74uic" path="res://Assets/missilemaverick.png" id="2_5isyv"]
 
+[sub_resource type="Gradient" id="Gradient_rainbow"]
+offsets = PackedFloat32Array(0, 0, 0, 0, 0, 0, 1)
+colors = PackedColorArray(1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0.5, 1, 1, 0.5, 0, 1, 1, 1, 0, 0, 0, 1, 0.5, 0, 1)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6xcap"]
 size = Vector2(10, 32)
 
 [node name="powerup-launcher" type="Area2D" unique_id=1228328914]
 scale = Vector2(2, 2)
 script = ExtResource("1_5isyv")
+
+[node name="RainbowParticles" type="CPUParticles2D" parent="." unique_id=497705905]
+amount = 500
+lifetime = 2.0
+emission_shape = 1
+emission_sphere_radius = 2.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 25.0
+initial_velocity_max = 50.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color_initial_ramp = SubResource("Gradient_rainbow")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=721176599]
 shape = SubResource("RectangleShape2D_6xcap")

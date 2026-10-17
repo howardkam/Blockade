@@ -3,6 +3,7 @@ extends Area2D
 @export var move_speed: float = 100.0
 @export var float_amplitude: float = 2.0  # Bobbing effect height
 @export var float_frequency: float = 3.0  # Bobbing effect speed
+@export var rotation_speed: float = TAU   # 360 degrees (TAU radians) per second
 
 # World boundaries (matching your player/enemy limits)
 const WORLD_LIMIT_MIN = -2800.0
@@ -32,8 +33,8 @@ func _process(delta):
 	
 	global_position += current_velocity + wave_offset
 	
-	# 3. Slowly rotate the launcher visual as it floats
-	rotation += 0.5 * delta
+	# 3. Rotate 360 degrees (TAU) per second
+	rotation += rotation_speed * delta
 	
 	# 4. Bounce off world limits to stay on screen/play area
 	bounce_off_bounds()
