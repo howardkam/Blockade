@@ -69,8 +69,8 @@ func take_damage(damage_amount: float = 1.0, from_bomb: bool = false):
 		explode(true)
 		return
 
-	# Reduce scale ratio per hit
-	current_scale_ratio -= (shrink_percentage / 100.0)
+	# Multiply shrink step by incoming damage amount
+	current_scale_ratio -= (shrink_percentage / 100.0) * damage_amount
 	modulate = Color.LAWN_GREEN
 
 	if current_scale_ratio <= min_scale_ratio:

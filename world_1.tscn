@@ -5,7 +5,6 @@
 [ext_resource type="FontFile" uid="uid://7ni0c1a0kdcu" path="res://Assets/ka1.ttf" id="2_font"]
 [ext_resource type="Texture2D" uid="uid://ber6fytsvmj8l" path="res://Assets/background-blue2.jpg" id="4_1wjj6"]
 [ext_resource type="AudioStream" uid="uid://bevvbsm6wtsm1" path="res://Assets/musictrack1.wav" id="4_kdx2d"]
-[ext_resource type="PackedScene" uid="uid://df0nuu8jos5s1" path="res://powerup_launcher.tscn" id="6_laaib"]
 
 [node name="World 1" type="Node2D" unique_id=1017488468]
 script = ExtResource("1_mqyi5")
@@ -57,6 +56,3 @@ theme_override_font_sizes/font_size = 48
 text = "LEVEL CLEARED"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="powerup-launcher" parent="." unique_id=1228328914 instance=ExtResource("6_laaib")]
-position = Vector2(80, 69)

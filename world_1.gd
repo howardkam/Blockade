@@ -38,6 +38,7 @@ var spawned_positions: Array[Vector2] = []
 var batches_spawned: int = 0
 var batch_timer: Timer = null
 var level_completed: bool = false
+var powerup_max_distance = 2000
 
 func _ready():
 	# Register active level path in Global
@@ -62,28 +63,25 @@ func spawn_initial_powerups():
 	if not powerup_launcher_scene or initial_powerup_count <= 0:
 		return
 
-	for i in range(initial_powerup_count):
-		# Pick a completely random position anywhere within the world size boundaries
-		var spawn_pos = Vector2(
-			randf_range(spawn_area_min.x, spawn_area_max.x),
-			randf_range(spawn_area_min.y, spawn_area_max.y)
-		)
-
-		var powerup = powerup_launcher_scene.instantiate()
-		powerup.global_position = spawn_pos
-		add_child(powerup)
-
+	# Retrieve the active player reference
 	var target_player = player if player else get_tree().get_first_node_in_group("player")
 	var player_pos = target_player.global_position if target_player else Vector2.ZERO
 
 	for i in range(initial_powerup_count):
+		# Pick a random angle (0 to 360 degrees)
 		var angle = randf() * TAU
-		var distance = randf_range(300.0, 1500.0)
+		
+		# Pick a random distance between safe_radius and powerup_max_distance
+		var distance = randf_range(safe_radius, powerup_max_distance)
+		
+		# Calculate spawn position relative to player
 		var spawn_pos = player_pos + Vector2(cos(angle), sin(angle)) * distance
 
+		# Clamp position to stay within world bounds
 		spawn_pos.x = clamp(spawn_pos.x, spawn_area_min.x, spawn_area_max.x)
 		spawn_pos.y = clamp(spawn_pos.y, spawn_area_min.y, spawn_area_max.y)
 
+		# Instantiate powerup
 		var powerup = powerup_launcher_scene.instantiate()
 		powerup.global_position = spawn_pos
 		add_child(powerup)
@@ -154,4 +152,7 @@ func complete_level():
 	if get_node_or_null("/root/Global"):
 		Global.go_to_level(next_level_scene)
 	else:
-		SceneManager.change_
+		SceneManager.change_scene(next_level_scene, {
+			"pattern": "squares",
+			"time": 1.0
+		})

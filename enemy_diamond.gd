@@ -83,9 +83,10 @@ func take_damage(amount_or_from_bomb = 1):
 			explosionsound.play()
 			explosionsound.finished.connect(explosionsound.queue_free)
 
-		var player = get_tree().get_first_node_in_group("player")
-		if player and player.has_method("add_score"):
-			player.add_score(pointvalue)
+		# Safe, local variable reference that won't shadow or alter class variable state
+		var target_player = get_tree().get_first_node_in_group("player")
+		if target_player and target_player.has_method("add_score"):
+			target_player.add_score(pointvalue)
 
 		spawn_score_label(pointvalue)
 		
