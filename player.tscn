@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cmardiu3janpi" path="res://player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://bg67ck87t12dj" path="res://Assets/grey soft/Gear (4).png" id="2_onrkg"]
+[ext_resource type="Texture2D" uid="uid://b1rjcu0akdi2i" path="res://Assets/mainplayer.png" id="2_sweqy"]
 [ext_resource type="FontFile" uid="uid://7ni0c1a0kdcu" path="res://Assets/ka1.ttf" id="3_i3pqv"]
 [ext_resource type="AudioStream" uid="uid://cf3xhjjm6sy8b" path="res://Assets/injury.wav" id="4_hqtel"]
 
@@ -17,19 +18,23 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6xcap"]
-radius = 56.0
+radius = 64.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j721w"]
-radius = 62.0
+radius = 64.0
 
 [node name="player" type="CharacterBody2D" unique_id=16646871 groups=["player"]]
 scale = Vector2(0.5, 0.5)
 collision_mask = 3
 script = ExtResource("1_onrkg")
 
+[node name="Mainplayer" type="Sprite2D" parent="." unique_id=132863421]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_sweqy")
+
 [node name="Shadow" type="Sprite2D" parent="." unique_id=999000100]
 modulate = Color(0, 0, 0, 0.4)
-position = Vector2(0, 15)
+scale = Vector2(1.2, 1.2)
 texture = ExtResource("2_onrkg")
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1908755707]
@@ -38,6 +43,7 @@ texture = SubResource("GradientTexture2D_na3vj")
 texture_scale = 2.0
 
 [node name="Gear(4)" type="Sprite2D" parent="." unique_id=97884220]
+visible = false
 texture = ExtResource("2_onrkg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2118894290]

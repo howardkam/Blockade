@@ -3,8 +3,8 @@ extends CharacterBody2D
 
 @export var move_speed: float = 50.0
 @export var turn_speed: float = 10 # Turning rate in radians per second (~200°/sec)
-@export var shrink_percentage: float = 1.0 #This is a percentage
-@export var min_scale_ratio: float = 0.05 # Explodes when reaching this size ratio (0.10 = 10%)
+@export var shrink_percentage: float = 1.5 #This is a percentage
+@export var min_scale_ratio: float = 0.10 # Explodes when reaching this size ratio (0.10 = 10%)
 @export var pointvalue: int = 100
 @export var rechargerate: int = 20 #recharge rate TO the player when killed
 @onready var explosionsound = $explosion

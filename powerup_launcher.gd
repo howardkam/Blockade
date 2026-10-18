@@ -4,6 +4,7 @@ extends Area2D
 @export var float_amplitude: float = 2.0  # Bobbing effect height
 @export var float_frequency: float = 3.0  # Bobbing effect speed
 @export var rotation_speed: float = TAU   # 360 degrees (TAU radians) per second
+@export var powerup_duration = 15
 
 # World boundaries (matching your player/enemy limits)
 const WORLD_LIMIT_MIN = -2800.0
@@ -61,5 +62,5 @@ func check_pickup(node):
 	if node.is_in_group("player") or (node.get_parent() and node.get_parent().is_in_group("player")):
 		var player = node if node.is_in_group("player") else node.get_parent()
 		if player.has_method("activate_missile_powerup"):
-			player.activate_missile_powerup(30.0)
+			player.activate_missile_powerup(powerup_duration)
 			queue_free()
