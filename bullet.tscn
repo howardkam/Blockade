@@ -15,6 +15,7 @@ scale = Vector2(0.5, 0.5)
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_v8qja")
+bullet_color = Color(1, 0.32267332, 0.6314354, 1)
 
 [node name="Trail" type="Line2D" parent="." unique_id=987123654]
 width = 8.0
