@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://csyb3jak12esm" path="res://player.tscn" id="2_mv2s0"]
 [ext_resource type="Texture2D" uid="uid://co60ceob0ntjd" path="res://Assets/background-orange1.jpg" id="3_wys1n"]
 [ext_resource type="AudioStream" uid="uid://bevvbsm6wtsm1" path="res://Assets/musictrack1.wav" id="4_yuvu5"]
-[ext_resource type="FontFile" uid="uid://7ni0c1a0kdcu" path="res://Assets/ka1.ttf" id="5_eiokd"]
+[ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_mv2s0"]
 [ext_resource type="PackedScene" uid="uid://ccw83dtmj6tep" path="res://obstacle_triangle.tscn" id="6_mv2s0"]
 
 [node name="World 2" type="Node2D" unique_id=2015762637]
@@ -50,7 +50,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 1, 0, 1)
-theme_override_fonts/font = ExtResource("5_eiokd")
+theme_override_fonts/font = ExtResource("5_mv2s0")
 theme_override_font_sizes/font_size = 48
 text = "LEVEL CLEARED"
 horizontal_alignment = 1

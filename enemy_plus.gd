@@ -108,7 +108,7 @@ func spawn_score_label(points: int):
 	label.global_position = global_position + Vector2(-15, -30)
 	modulate = Color.WEB_PURPLE  # Set initial color to yellow
 
-	var font = load("res://Assets/ka1.ttf")
+	var font = load("res://Assets/movement/Movement.ttf")
 	if font:
 		label.add_theme_font_override("font", font)
 		label.add_theme_font_size_override("font_size", 18)

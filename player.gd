@@ -99,7 +99,7 @@ func setup_health_ui():
 	health_label.offset_right = 220.0
 	health_label.offset_bottom = 45.0
 	
-	var font = load("res://Assets/ka1.ttf")
+	var font = load("res://Assets/movement/Movement.ttf")
 	if font:
 		health_label.add_theme_font_override("font", font)
 		health_label.add_theme_font_size_override("font_size", 18)
@@ -309,11 +309,11 @@ func show_game_over():
 	game_over_label.anchor_right = 1.0
 	game_over_label.anchor_bottom = 1.0
 	
-	var font = load("res://Assets/ka1.ttf")
+	var font = load("res://Assets/movement/Movement.ttf")
 	if font:
 		game_over_label.add_theme_font_override("font", font)
 		game_over_label.add_theme_font_size_override("font_size", 36)
-	game_over_label.add_theme_color_override("font_color", Color.RED)
+	game_over_label.add_theme_color_override("font_color", Color.WHITE_SMOKE)
 	
 	ui_layer.add_child(game_over_label)
 

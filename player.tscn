@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://cmardiu3janpi" path="res://player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://bg67ck87t12dj" path="res://Assets/grey soft/Gear (4).png" id="2_onrkg"]
 [ext_resource type="Texture2D" uid="uid://b1rjcu0akdi2i" path="res://Assets/mainplayer.png" id="2_sweqy"]
-[ext_resource type="FontFile" uid="uid://7ni0c1a0kdcu" path="res://Assets/ka1.ttf" id="3_i3pqv"]
 [ext_resource type="AudioStream" uid="uid://cf3xhjjm6sy8b" path="res://Assets/injury.wav" id="4_hqtel"]
+[ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="4_sweqy"]
 
 [sub_resource type="Gradient" id="Gradient_onrkg"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -33,6 +33,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_sweqy")
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=999000100]
+visible = false
 modulate = Color(0, 0, 0, 0.4)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("2_onrkg")
@@ -71,7 +72,7 @@ offset_left = 20.0
 offset_top = 20.0
 offset_right = 220.0
 offset_bottom = 45.0
-theme_override_fonts/font = ExtResource("3_i3pqv")
+theme_override_fonts/font = ExtResource("4_sweqy")
 theme_override_font_sizes/font_size = 18
 text = "HP: 100%"
 
@@ -91,7 +92,7 @@ offset_top = 20.0
 offset_right = 150.0
 offset_bottom = 70.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("3_i3pqv")
+theme_override_fonts/font = ExtResource("4_sweqy")
 theme_override_font_sizes/font_size = 36
 text = "0"
 horizontal_alignment = 1

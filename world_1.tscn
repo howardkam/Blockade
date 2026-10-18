@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://csyb3jak12esm" path="res://player.tscn" id="1_e5alk"]
 [ext_resource type="Script" uid="uid://dftuxifqbq8lq" path="res://world_1.gd" id="1_mqyi5"]
-[ext_resource type="FontFile" uid="uid://7ni0c1a0kdcu" path="res://Assets/ka1.ttf" id="2_font"]
 [ext_resource type="Texture2D" uid="uid://ber6fytsvmj8l" path="res://Assets/background-blue2.jpg" id="4_1wjj6"]
 [ext_resource type="AudioStream" uid="uid://bevvbsm6wtsm1" path="res://Assets/musictrack1.wav" id="4_kdx2d"]
+[ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_kdx2d"]
 
 [node name="World 1" type="Node2D" unique_id=1017488468]
 script = ExtResource("1_mqyi5")
@@ -51,7 +51,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 1, 0, 1)
-theme_override_fonts/font = ExtResource("2_font")
+theme_override_fonts/font = ExtResource("5_kdx2d")
 theme_override_font_sizes/font_size = 48
 text = "LEVEL CLEARED"
 horizontal_alignment = 1

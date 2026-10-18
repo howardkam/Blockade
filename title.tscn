@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bqxgmv5ksdhxw"]
 
 [ext_resource type="Script" uid="uid://cw6b1xdjvnlbb" path="res://title.gd" id="1_script"]
-[ext_resource type="FontFile" uid="uid://bj2r8pyamre0r" path="res://Assets/ArqGeometry-Regular.ttf" id="1_y7k74"]
+[ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="2_oyqm6"]
 
 [node name="Title" type="Node2D" unique_id=502085938]
 script = ExtResource("1_script")
@@ -28,8 +28,8 @@ offset_right = 216.0
 offset_bottom = 65.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("1_y7k74")
-theme_override_font_sizes/font_size = 250
-text = "FORMICIDE"
+theme_override_fonts/font = ExtResource("2_oyqm6")
+theme_override_font_sizes/font_size = 200
+text = "BLOCKADE"
 horizontal_alignment = 1
 vertical_alignment = 1
