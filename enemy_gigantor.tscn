@@ -18,6 +18,12 @@ scale = Vector2(2, 2)
 collision_mask = 3
 script = ExtResource("1_kmemu")
 
+[node name="Shadow" type="Sprite2D" parent="." unique_id=999000103]
+modulate = Color(0, 0, 0, 0.4)
+position = Vector2(0, 15)
+texture_filter = 1
+texture = ExtResource("2_md7iv")
+
 [node name="Arrow(1)" type="Sprite2D" parent="." unique_id=530347732]
 texture_filter = 1
 texture = ExtResource("2_md7iv")

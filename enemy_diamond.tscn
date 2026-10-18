@@ -20,6 +20,12 @@ collision_layer = 2
 collision_mask = 3
 script = ExtResource("2_script")
 
+[node name="Shadow" type="Sprite2D" parent="." unique_id=999000101]
+modulate = Color(0, 0, 0, 0.4)
+position = Vector2(0, 20)
+texture_filter = 1
+texture = ExtResource("1_jut7n")
+
 [node name="Diamond(2)" type="Sprite2D" parent="." unique_id=1834285487]
 texture_filter = 1
 texture = ExtResource("1_jut7n")

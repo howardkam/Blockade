@@ -22,6 +22,12 @@ collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_rokoa")
 
+[node name="Shadow" type="Sprite2D" parent="." unique_id=999000102]
+modulate = Color(0, 0, 0, 0.4)
+position = Vector2(0, 20)
+texture_filter = 1
+texture = ExtResource("2_er46q")
+
 [node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1795022657]
 occluder = SubResource("OccluderPolygon2D_rokoa")
 

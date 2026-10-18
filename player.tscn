@@ -27,6 +27,11 @@ scale = Vector2(0.5, 0.5)
 collision_mask = 3
 script = ExtResource("1_onrkg")
 
+[node name="Shadow" type="Sprite2D" parent="." unique_id=999000100]
+modulate = Color(0, 0, 0, 0.4)
+position = Vector2(0, 15)
+texture = ExtResource("2_onrkg")
+
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1908755707]
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_na3vj")
