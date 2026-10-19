@@ -22,8 +22,8 @@ script = ExtResource("2_script")
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=999000101]
 modulate = Color(0, 0, 0, 0.4)
-position = Vector2(0, 20)
 texture_filter = 1
+position = Vector2(0, 20)
 texture = ExtResource("1_jut7n")
 
 [node name="Diamond(2)" type="Sprite2D" parent="." unique_id=1834285487]
@@ -66,4 +66,4 @@ occluder = SubResource("OccluderPolygon2D_na3vj")
 
 [node name="explosion" type="AudioStreamPlayer2D" parent="." unique_id=1824895798 groups=["enemy_explosion_sounds"]]
 stream = ExtResource("3_yx2pn")
-volume_db = 10.0
+volume_db = 8.0

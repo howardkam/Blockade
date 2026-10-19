@@ -6,11 +6,11 @@
 [ext_resource type="AudioStream" uid="uid://cf3xhjjm6sy8b" path="res://Assets/injury.wav" id="4_hqtel"]
 [ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="4_sweqy"]
 
-[sub_resource type="Gradient" id="Gradient_onrkg"]
+[sub_resource type="Gradient" id="Gradient_sweqy"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_na3vj"]
-gradient = SubResource("Gradient_onrkg")
+gradient = SubResource("Gradient_sweqy")
 width = 1000
 height = 1000
 fill = 1
@@ -41,7 +41,7 @@ texture = ExtResource("2_onrkg")
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1908755707]
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_na3vj")
-texture_scale = 2.0
+texture_scale = 1.75
 
 [node name="Gear(4)" type="Sprite2D" parent="." unique_id=97884220]
 visible = false

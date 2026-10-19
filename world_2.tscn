@@ -57,16 +57,16 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ObstacleTriangle" parent="." unique_id=712489215 instance=ExtResource("6_mv2s0")]
-position = Vector2(0, 264)
+position = Vector2(0, -384)
 rotation = 3.1415927
 
 [node name="ObstacleTriangle2" parent="." unique_id=889027381 instance=ExtResource("6_mv2s0")]
-position = Vector2(0, -256)
+position = Vector2(0, 448)
 
 [node name="ObstacleTriangle3" parent="." unique_id=1368420648 instance=ExtResource("6_mv2s0")]
-position = Vector2(-768, 0)
+position = Vector2(-448, 0)
 rotation = 1.5707964
 
 [node name="ObstacleTriangle4" parent="." unique_id=1223181297 instance=ExtResource("6_mv2s0")]
-position = Vector2(768, 0)
+position = Vector2(448, 0)
 rotation = -1.5707964

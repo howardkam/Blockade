@@ -5,7 +5,7 @@ extends Area2D
 @export var damage: float = 1.0 # Changed to 1 hit point of damage to match regular bullets
 
 @export_group("Trail Settings")
-@export var max_trail_length: int = 30
+@export var max_trail_length: int = 15
 
 var direction: Vector2 = Vector2.UP
 var target: Node2D = null

@@ -1,4 +1,3 @@
-
 extends Area2D
 
 @export var move_speed: float = 200.0
@@ -12,16 +11,10 @@ var move_direction: Vector2 = Vector2.ZERO
 var direction_timer: float = 0.0
 
 @onready var particles: CPUParticles2D = $RainbowExplosionParticles
-@onready var bomb_sound: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	pick_new_direction()
-
-func _exit_tree() -> void:
-	pass
-	# Ensure sound suppression is cleared if bomb is freed
-#	Enemy.suppress_explosion_sounds = false
 
 func _process(delta: float) -> void:
 	direction_timer -= delta
@@ -50,22 +43,11 @@ func _on_body_entered(body: Node2D) -> void:
 		explode()
 
 func explode() -> void:
-	
-	# Suppress new enemy explosion sounds while bomb audio plays
-#	Enemy.suppress_explosion_sounds = true
-
 	# Hide bomb visual and disable collisions
 	hide()
 	set_process(false)
 	set_deferred("monitoring", false)
 	set_deferred("monitorable", false)
-
-	# Stop and clear all existing enemy explosion sounds
-	for sound in get_tree().get_nodes_in_group("enemy_explosion_sounds"):
-		if is_instance_valid(sound):
-			if sound is AudioStreamPlayer or sound is AudioStreamPlayer2D:
-				sound.stop()
-			sound.queue_free()
 
 	# Reparent particles so they don't get cut off when the bomb node is freed
 	if is_instance_valid(particles):
@@ -76,7 +58,10 @@ func explode() -> void:
 		var cleanup_timer = get_tree().create_timer(particles.lifetime + 0.2)
 		cleanup_timer.timeout.connect(particles.queue_free)
 
-	# Destroy enemies in radius
+	# Trigger radial screen gradient flash with smooth fade out
+	trigger_screen_radial_flash()
+
+	# Destroy enemies within the exportable explosion_radius
 	var enemies = get_tree().get_nodes_in_group("enemies") + get_tree().get_nodes_in_group("enemy")
 	var processed_enemies = {}
 
@@ -91,12 +76,53 @@ func explode() -> void:
 				else:
 					enemy.queue_free()
 
-	# Play bomb explosion audio and wait for it to finish
-	if is_instance_valid(bomb_sound):
-		bomb_sound.play()
-		await bomb_sound.finished
-
-	# Instantly allow enemy explosion sounds again right after bomb sound completes
-#	Enemy.suppress_explosion_sounds = false
-
 	queue_free()
+
+func trigger_screen_radial_flash() -> void:
+	var canvas_layer = CanvasLayer.new()
+	canvas_layer.layer = 100
+	get_tree().current_scene.add_child(canvas_layer)
+
+	var rect = TextureRect.new()
+	# Set full screen anchors
+	rect.anchor_right = 1.0
+	rect.anchor_bottom = 1.0
+	rect.offset_right = 0.0
+	rect.offset_bottom = 0.0
+	rect.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	rect.grow_vertical = Control.GROW_DIRECTION_BOTH
+	rect.pivot_offset = get_viewport_rect().size / 2.0 # Use actual viewport size for center pivot
+	rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	rect.stretch_mode = TextureRect.STRETCH_SCALE
+	canvas_layer.add_child(rect)
+
+	# Radial gradient texture configuration
+	var grad_tex = GradientTexture2D.new()
+	grad_tex.fill = GradientTexture2D.FILL_RADIAL
+	grad_tex.fill_from = Vector2(0.5, 0.5)
+	grad_tex.fill_to = Vector2(1.0, 1.0)
+
+	var grad = Gradient.new()
+	grad.set_color(0, Color(1, 1, 0.8, 1.0)) # Bright explosive core
+	grad.set_color(1, Color(1, 0.2, 0.0, 0.0)) # Transparent outer edge
+	grad_tex.gradient = grad
+
+	rect.texture = grad_tex
+
+	# IMPORTANT: Attach tween to canvas_layer so it isn't destroyed when bomb is freed
+	var tween = canvas_layer.create_tween().set_parallel(true)
+	
+	# Scale expansion
+	tween.tween_property(rect, "scale", Vector2(2.5, 2.5), 0.6)\
+		.from(Vector2(0.2, 0.2))\
+		.set_trans(Tween.TRANS_QUAD)\
+		.set_ease(Tween.EASE_OUT)
+		
+	# Smooth self_modulate alpha fade
+	tween.tween_property(rect, "self_modulate:a", 0.0, 0.6)\
+		.from(1.0)\
+		.set_trans(Tween.TRANS_QUAD)\
+		.set_ease(Tween.EASE_OUT)
+
+	# Clean up canvas layer when tween finishes
+	tween.chain().tween_callback(canvas_layer.queue_free)

@@ -1,11 +1,10 @@
 [gd_scene format=3 uid="uid://cu485jghwebnu"]
 
 [ext_resource type="Script" uid="uid://dvwkod6blp36m" path="res://bomb.gd" id="1_4fn8o"]
-[ext_resource type="Texture2D" uid="uid://cq516ha8ev3ea" path="res://Assets/grey soft/Star (2).png" id="2_nfxiy"]
-[ext_resource type="AudioStream" uid="uid://c6cf7p84a545" path="res://Assets/bombexplosion.mp3" id="3_nfxiy"]
+[ext_resource type="Texture2D" uid="uid://brfdnkejv5lq" path="res://Assets/nukeicon.png" id="2_4fn8o"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6xcap"]
-radius = 56.568542
+radius = 64.0
 
 [sub_resource type="Gradient" id="Gradient_fade"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -18,9 +17,10 @@ colors = PackedColorArray(1, 0, 0, 1, 1, 0.5, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1
 collision_mask = 3
 script = ExtResource("1_4fn8o")
 
-[node name="Star(2)" type="Sprite2D" parent="." unique_id=1342972075]
+[node name="Nukeicon" type="Sprite2D" parent="." unique_id=1184723754]
 texture_filter = 1
-texture = ExtResource("2_nfxiy")
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("2_4fn8o")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2064217907]
 shape = SubResource("CircleShape2D_6xcap")
@@ -41,7 +41,3 @@ scale_amount_min = 6.0
 scale_amount_max = 14.0
 color_ramp = SubResource("Gradient_fade")
 color_initial_ramp = SubResource("Gradient_rainbow")
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=476988639]
-stream = ExtResource("3_nfxiy")
-volume_db = 15.0
