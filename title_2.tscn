@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://k2cyewybyv7q"]
+
+[ext_resource type="Script" uid="uid://cjt2rwe7wdmss" path="res://title_2.gd" id="1_4jmse"]
+[ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="2_i0obi"]
+
+[node name="title2" type="Node2D" unique_id=1285590558]
+script = ExtResource("1_4jmse")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1582421150]
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer" unique_id=543211234]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer" unique_id=1967395472]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_i0obi")
+theme_override_font_sizes/font_size = 40
+text = "This game contains flashing lights and patterns 
+
+that may trigger seizures in photosensitive individuals. 
+
+Player discretion is advised."
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Background" type="ColorRect" parent="CanvasLayer" unique_id=872094729]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
