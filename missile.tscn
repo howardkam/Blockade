@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bag43oqjh6m7g" path="res://missile.gd" id="1_0uoyr"]
 [ext_resource type="Texture2D" uid="uid://b5k4ha7d74uic" path="res://Assets/missilemaverick.png" id="2_0uoyr"]
+[ext_resource type="AudioStream" uid="uid://crescotisp0w7" path="res://Assets/bullet2.wav" id="3_bqn2q"]
 
 [sub_resource type="Curve" id="Curve_trail"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -23,6 +24,11 @@ height = 1000
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_missile"]
+random_pitch = 1.2599211
+streams_count = 1
+stream_0/stream = ExtResource("3_bqn2q")
 
 [node name="missile" type="Area2D" unique_id=1608482639]
 scale = Vector2(2, 2)
@@ -54,3 +60,7 @@ color = Color(1, 0.9490196, 0, 1)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_0uoyr")
 texture_scale = 2.0
+
+[node name="shootsound" type="AudioStreamPlayer2D" parent="." unique_id=2076331380]
+stream = SubResource("AudioStreamRandomizer_missile")
+autoplay = true

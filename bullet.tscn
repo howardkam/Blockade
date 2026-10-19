@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d1dem1gen64p5" path="res://bullet.gd" id="1_v8qja"]
 [ext_resource type="Texture2D" uid="uid://c4ic3lfl2m3by" path="res://Assets/grey soft/ShapeA (2).png" id="2_v8qja"]
+[ext_resource type="AudioStream" uid="uid://dvlulqd4rwd1l" path="res://Assets/bullet3.wav" id="3_t4vbm"]
 
 [sub_resource type="Curve" id="Curve_bullet_trail"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -9,6 +10,11 @@ point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6xcap"]
 radius = 9.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_38a22"]
+random_pitch = 1.15
+streams_count = 1
+stream_0/stream = ExtResource("3_t4vbm")
 
 [node name="bullet" type="Area2D" unique_id=1025054437]
 scale = Vector2(0.5, 0.5)
@@ -34,3 +40,8 @@ rect = Rect2(-8, -8, 16, 16)
 position = Vector2(0, 2.3841858e-07)
 scale = Vector2(0.125, 0.125)
 texture = ExtResource("2_v8qja")
+
+[node name="shootsound" type="AudioStreamPlayer2D" parent="." unique_id=1423242804]
+stream = SubResource("AudioStreamRandomizer_38a22")
+volume_db = -2.0
+autoplay = true

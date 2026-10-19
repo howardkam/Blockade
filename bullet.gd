@@ -8,6 +8,7 @@ var direction: Vector2 = Vector2.ZERO
 var hit_registered: bool = false
 
 @onready var trail: Line2D = $Trail
+@onready var shootsound: AudioStreamPlayer2D = $shootsound
 
 func _ready():
 	$VisibleOnScreenEnabler2D.screen_exited.connect(queue_free)
