@@ -4,7 +4,7 @@ signal died
 
 @export var bullet_scene: PackedScene = preload("res://bullet.tscn")
 @export var missile_scene: PackedScene = preload("res://missile.tscn")
-@export var move_speed: float = 500.0
+@export var move_speed: float = 550.0
 @export var fire_rate: float = 0.07
 
 @export var max_health: float = 100.0

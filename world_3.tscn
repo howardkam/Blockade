@@ -21,7 +21,7 @@ color = Color(0.76862746, 0.43137255, 0, 0.7490196)
 position = Vector2(0, 8)
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=257303144]
-modulate = Color(1, 1, 1, 0.078431375)
+modulate = Color(1, 1, 1, 0.13333334)
 z_index = -1
 texture_repeat = 2
 offset_left = -4970.0

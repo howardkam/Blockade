@@ -9,6 +9,8 @@ extends Node2D
 @export_group("Powerup Settings")
 @export var powerup_launcher_scene: PackedScene = preload("res://powerup_launcher.tscn")
 @export var initial_powerup_count: int = 3
+@export var bomb_scene: PackedScene = preload("res://bomb.tscn")
+@export var initial_bomb_count: int = 2
 
 @export_group("Enemy Scenes")
 @export var enemy_diamond: PackedScene = preload("res://enemy_diamond.tscn")
@@ -20,7 +22,7 @@ extends Node2D
 @onready var level_intro_label: Label = $WinUI/LevelIntroLabel
 
 @export_group("Intro Settings")
-@export var intro_display_time: float = 3.0
+@export var intro_display_time: float = 1.0
 
 @export_group("Batch Controls")
 @export var total_batches: int = 20      # Total number of batches to release
@@ -55,6 +57,9 @@ func _ready():
 
 	# Spawn initial launcher power-ups across the world map
 	spawn_initial_powerups()
+	
+	# Spawn initial bombs across the world map
+	spawn_initial_bombs()
 
 	# Set up repeating timer for batches
 	batch_timer = Timer.new()
@@ -103,6 +108,25 @@ func spawn_initial_powerups():
 		var powerup = powerup_launcher_scene.instantiate()
 		powerup.global_position = spawn_pos
 		add_child(powerup)
+
+func spawn_initial_bombs():
+	if not bomb_scene or initial_bomb_count <= 0:
+		return
+
+	var target_player = player if player else get_tree().get_first_node_in_group("player")
+	var player_pos = target_player.global_position if target_player else Vector2.ZERO
+
+	for i in range(initial_bomb_count):
+		var angle = randf() * TAU
+		var distance = randf_range(safe_radius, powerup_max_distance)
+		
+		var spawn_pos = player_pos + Vector2(cos(angle), sin(angle)) * distance
+		spawn_pos.x = clamp(spawn_pos.x, spawn_area_min.x, spawn_area_max.x)
+		spawn_pos.y = clamp(spawn_pos.y, spawn_area_min.y, spawn_area_max.y)
+
+		var bomb = bomb_scene.instantiate()
+		bomb.global_position = spawn_pos
+		add_child(bomb)
 
 func _process(_delta):
 	check_win_condition()
