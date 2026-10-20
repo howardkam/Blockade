@@ -1,7 +1,7 @@
 extends Node2D
 
 @export_group("Level Transition")
-@export_file("*.tscn") var next_level_scene: String = "res://title.tscn"
+@export_file("*.tscn") var next_level_scene: String = "res://world_3.tscn"
 
 @export_group("Player Reference")
 @export var player: CharacterBody2D
@@ -17,6 +17,10 @@ extends Node2D
 
 @onready var explosionsound = $AudioStreamPlayer2D
 @onready var level_cleared_label: Label = $WinUI/LevelClearedLabel
+@onready var level_intro_label: Label = $WinUI/LevelIntroLabel
+
+@export_group("Intro Settings")
+@export var intro_display_time: float = 3.0
 
 @export_group("Batch Controls")
 @export var total_batches: int = 15      # Total number of batches to release
@@ -43,8 +47,11 @@ var powerup_max_distance = 2000
 func _ready():
 	# Register active level path in Global
 	if get_node_or_null("/root/Global"):
-		var current_path = scene_file_path if scene_file_path != "" else "res://world_1.tscn"
+		var current_path = scene_file_path if scene_file_path != "" else "res://world_2.tscn"
 		Global.current_level_path = current_path
+
+	# Display intro label and fade out before starting gameplay
+	await show_level_intro()
 
 	# Spawn initial launcher power-ups across the world map
 	spawn_initial_powerups()
@@ -56,8 +63,20 @@ func _ready():
 	batch_timer.timeout.connect(_on_batch_timer_timeout)
 	add_child(batch_timer)
 	
-	# Spawn Batch #1 immediately upon level start
+	# Spawn Batch #1 immediately upon intro completion
 	spawn_batch()
+
+func show_level_intro() -> void:
+	if level_intro_label:
+		level_intro_label.show()
+		await get_tree().create_timer(intro_display_time).timeout
+		
+		# Smoothly fade out the label opacity
+		var tween = create_tween()
+		tween.tween_property(level_intro_label, "modulate:a", 0.0, 0.5)
+		await tween.finished
+		level_intro_label.hide()
+
 func spawn_initial_powerups():
 	if not powerup_launcher_scene or initial_powerup_count <= 0:
 		return

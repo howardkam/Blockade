@@ -58,5 +58,17 @@ text = "LEVEL CLEARED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="LevelIntroLabel" type="Label" parent="WinUI" unique_id=384729104]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_kdx2d")
+theme_override_font_sizes/font_size = 200
+text = "MANDALA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="bomb" parent="." unique_id=2124733722 instance=ExtResource("6_laaib")]
 position = Vector2(-436, -226)

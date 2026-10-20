@@ -17,12 +17,16 @@ extends Node2D
 
 @onready var explosionsound = $AudioStreamPlayer2D
 @onready var level_cleared_label: Label = $WinUI/LevelClearedLabel
+@onready var level_intro_label: Label = $WinUI/LevelIntroLabel
+
+@export_group("Intro Settings")
+@export var intro_display_time: float = 3.0
 
 @export_group("Batch Controls")
 @export var total_batches: int = 20      # Total number of batches to release
 @export var batch_interval: float = 15.0      # Delay in seconds between each batch release
 @export var diamonds_per_batch: int = 50    
-@export var pluses_per_batch: int = 5    
+@export var pluses_per_batch: int = 8    
 @export var gigantor_spawn_chance = 0.2 # 0.20 equals 20 percent chance   
 
 @export_group("Win Condition")
@@ -46,6 +50,9 @@ func _ready():
 		var current_path = scene_file_path if scene_file_path != "" else "res://world_1.tscn"
 		Global.current_level_path = current_path
 
+	# Display intro sequence before spawning gameplay elements
+	await show_level_intro()
+
 	# Spawn initial launcher power-ups across the world map
 	spawn_initial_powerups()
 
@@ -56,8 +63,19 @@ func _ready():
 	batch_timer.timeout.connect(_on_batch_timer_timeout)
 	add_child(batch_timer)
 	
-	# Spawn Batch #1 immediately upon level start
+	# Spawn Batch #1 immediately after intro finishes
 	spawn_batch()
+
+func show_level_intro() -> void:
+	if level_intro_label:
+		level_intro_label.show()
+		await get_tree().create_timer(intro_display_time).timeout
+		
+		# Fade out label smoothly
+		var tween = create_tween()
+		tween.tween_property(level_intro_label, "modulate:a", 0.0, 0.5)
+		await tween.finished
+		level_intro_label.hide()
 
 func spawn_initial_powerups():
 	if not powerup_launcher_scene or initial_powerup_count <= 0:
