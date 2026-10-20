@@ -2,10 +2,9 @@
 
 [ext_resource type="Script" uid="uid://xdhko5kcieis" path="res://world_2.gd" id="1_fu0tf"]
 [ext_resource type="PackedScene" uid="uid://csyb3jak12esm" path="res://player.tscn" id="2_mv2s0"]
-[ext_resource type="Texture2D" uid="uid://co60ceob0ntjd" path="res://Assets/background-orange1.jpg" id="3_wys1n"]
+[ext_resource type="Texture2D" uid="uid://cyo0aqvyifyj4" path="res://Assets/background-sumi1.jpg" id="3_fu0tf"]
 [ext_resource type="AudioStream" uid="uid://cpcukr5prcfdd" path="res://Assets/musictrack2.wav" id="4_mv2s0"]
 [ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_mv2s0"]
-[ext_resource type="PackedScene" uid="uid://ccw83dtmj6tep" path="res://obstacle_triangle.tscn" id="6_mv2s0"]
 
 [node name="World 2" type="Node2D" unique_id=2015762637]
 script = ExtResource("1_fu0tf")
@@ -16,7 +15,7 @@ offset_left = -4968.0
 offset_top = -5333.0
 offset_right = 4945.0
 offset_bottom = 4936.0
-color = Color(0.85551435, 0.4425819, 0.17623276, 0.23529412)
+color = Color(0.20075864, 0.5702818, 1, 0.23529412)
 
 [node name="player" parent="." unique_id=16646871 instance=ExtResource("2_mv2s0")]
 position = Vector2(0, 8)
@@ -29,7 +28,7 @@ offset_left = -4970.0
 offset_top = -5783.0
 offset_right = 4938.0
 offset_bottom = 4939.0
-texture = ExtResource("3_wys1n")
+texture = ExtResource("3_fu0tf")
 stretch_mode = 1
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1494547107]
@@ -64,21 +63,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_mv2s0")
 theme_override_font_sizes/font_size = 160
-text = "CELL DIVISION"
+text = "SUMI - E"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="ObstacleTriangle" parent="." unique_id=712489215 instance=ExtResource("6_mv2s0")]
-position = Vector2(0, -448)
-rotation = 3.1415927
-
-[node name="ObstacleTriangle2" parent="." unique_id=889027381 instance=ExtResource("6_mv2s0")]
-position = Vector2(0, 448)
-
-[node name="ObstacleTriangle3" parent="." unique_id=1368420648 instance=ExtResource("6_mv2s0")]
-position = Vector2(-448, 0)
-rotation = 1.5707964
-
-[node name="ObstacleTriangle4" parent="." unique_id=1223181297 instance=ExtResource("6_mv2s0")]
-position = Vector2(448, 0)
-rotation = -1.5707964

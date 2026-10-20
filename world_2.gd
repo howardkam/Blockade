@@ -23,14 +23,14 @@ extends Node2D
 @export var intro_display_time: float = 3.0
 
 @export_group("Batch Controls")
-@export var total_batches: int = 15      # Total number of batches to release
+@export var total_batches: int = 30      # Total number of batches to release
 @export var batch_interval: float = 15.0      # Delay in seconds between each batch release
-@export var diamonds_per_batch: int = 80    
-@export var pluses_per_batch: int = 5    
+@export var diamonds_per_batch: int = 100   
+@export var pluses_per_batch: int = 10    
 @export var gigantor_spawn_chance = 0.1 # 0.20 equals 20 percent chance   
 
 @export_group("Win Condition")
-@export var target_score: int = 7500
+@export var target_score: int = 6000
 
 @export_group("Spawn Settings")
 @export var safe_radius: float = 1000.0
