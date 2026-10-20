@@ -4,6 +4,7 @@ signal died
 
 @export var bullet_scene: PackedScene = preload("res://bullet.tscn")
 @export var missile_scene: PackedScene = preload("res://missile.tscn")
+@export var laser_scene: PackedScene = preload("res://laser_beam.tscn")
 @export var move_speed: float = 550.0
 @export var fire_rate: float = 0.07
 
@@ -20,9 +21,12 @@ var current_health: float = 100.0
 var is_dead: bool = false
 var has_restarted: bool = false
 
-# Missile Power-up Variables
+# Power-up Variables
 var is_missile_active: bool = false
 var missile_time_left: float = 0.0
+
+var is_laser_active: bool = false
+var laser_time_left: float = 0.0
 
 # Camera Shake Variables
 var shake_intensity: float = 0.0
@@ -41,6 +45,7 @@ var injury_fade_tween: Tween = null
 const INJURY_ORIGINAL_VOLUME: float = 10.0
 
 func _ready():
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	add_to_group("player")
 	current_health = max_health
 	update_score_ui()
@@ -54,11 +59,16 @@ func activate_missile_powerup(duration: float = 30.0):
 	if timer_label:
 		timer_label.show()
 
+func activate_laser_powerup(duration: float = 20.0):
+	is_laser_active = true
+	laser_time_left = duration
+	if timer_label:
+		timer_label.show()
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_dead or has_restarted:
 		return
 
-	# Match physical Enter key checks alongside input actions
 	var is_enter = event is InputEventKey and event.pressed and not event.echo and (event.keycode == KEY_ENTER or event.keycode == KEY_KP_ENTER)
 	var is_action = event.is_action_pressed("start") or event.is_action_pressed("ui_accept")
 
@@ -145,6 +155,18 @@ func heal(amount: float):
 	update_health_ui()
 
 func _physics_process(delta):
+	# Handle Laser Power-up Timer
+	if is_laser_active:
+		laser_time_left -= delta
+		if timer_label:
+			timer_label.text = str(ceil(laser_time_left)) + "s"
+			
+		if laser_time_left <= 0.0:
+			is_laser_active = false
+			laser_time_left = 0.0
+			if timer_label:
+				timer_label.hide()
+
 	# Handle Missile Power-up Timer
 	if is_missile_active:
 		missile_time_left -= delta
@@ -318,12 +340,14 @@ func show_game_over():
 	ui_layer.add_child(game_over_label)
 
 func fire_bullet(dir: Vector2):
-	var proj_scene = missile_scene if is_missile_active else bullet_scene
+	var proj_scene: PackedScene = bullet_scene
+	if is_laser_active:
+		proj_scene = laser_scene
+	elif is_missile_active:
+		proj_scene = missile_scene
+
 	var projectile = proj_scene.instantiate()
-	
-	# Spawn directly at the player's center position
 	projectile.global_position = global_position
-	
 	projectile.direction = dir
 	projectile.rotation = dir.angle()
 	get_tree().current_scene.add_child(projectile)
