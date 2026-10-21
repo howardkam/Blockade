@@ -58,19 +58,30 @@ func _ready():
 	if timer_label:
 		timer_label.hide()
 
+func clear_powerups() -> void:
+	is_missile_active = false
+	missile_time_left = 0.0
+	is_laser_active = false
+	laser_time_left = 0.0
+	is_trident_active = false
+	trident_time_left = 0.0
+
 func activate_missile_powerup(duration: float = 30.0):
+	clear_powerups()
 	is_missile_active = true
 	missile_time_left = duration
 	if timer_label:
 		timer_label.show()
 
 func activate_laser_powerup(duration: float = 20.0):
+	clear_powerups()
 	is_laser_active = true
 	laser_time_left = duration
 	if timer_label:
 		timer_label.show()
 
 func activate_trident_powerup(duration: float = 20.0):
+	clear_powerups()
 	is_trident_active = true
 	trident_time_left = duration
 	if timer_label:
@@ -349,7 +360,7 @@ func clear_all_enemies():
 
 func show_game_over():
 	var game_over_label = Label.new()
-	game_over_label.text = "GAME OVER\n\nPress START to try again"
+	game_over_label.text = "GAME OVER\n\nPress START to try again\n\nPress ESC to quit"
 	game_over_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	game_over_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	
