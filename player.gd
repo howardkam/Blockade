@@ -7,6 +7,7 @@ signal died
 @export var laser_scene: PackedScene = preload("res://laser_beam.tscn")
 @export var move_speed: float = 550.0
 @export var fire_rate: float = 0.07
+@export var aim_smooth_speed: float = 20.0 # Adjust higher for quick response, lower for smoother floating aim
 
 @export var max_health: float = 100.0
 @export var damage_per_second: float = 40.0
@@ -20,6 +21,7 @@ var score: int = 0
 var current_health: float = 100.0
 var is_dead: bool = false
 var has_restarted: bool = false
+var smooth_shoot_dir: Vector2 = Vector2.ZERO
 
 # Power-up Variables
 var is_missile_active: bool = false
@@ -27,6 +29,9 @@ var missile_time_left: float = 0.0
 
 var is_laser_active: bool = false
 var laser_time_left: float = 0.0
+
+var is_trident_active: bool = false
+var trident_time_left: float = 0.0
 
 # Camera Shake Variables
 var shake_intensity: float = 0.0
@@ -62,6 +67,12 @@ func activate_missile_powerup(duration: float = 30.0):
 func activate_laser_powerup(duration: float = 20.0):
 	is_laser_active = true
 	laser_time_left = duration
+	if timer_label:
+		timer_label.show()
+
+func activate_trident_powerup(duration: float = 20.0):
+	is_trident_active = true
+	trident_time_left = duration
 	if timer_label:
 		timer_label.show()
 
@@ -179,6 +190,18 @@ func _physics_process(delta):
 			if timer_label:
 				timer_label.hide()
 
+	# Handle Trident Power-up Timer
+	if is_trident_active:
+		trident_time_left -= delta
+		if timer_label:
+			timer_label.text = str(ceil(trident_time_left)) + "s"
+			
+		if trident_time_left <= 0.0:
+			is_trident_active = false
+			trident_time_left = 0.0
+			if timer_label:
+				timer_label.hide()
+
 	if camera and shake_intensity > 0.1:
 		shake_intensity = lerp(shake_intensity, 0.0, 5.0 * delta)
 		camera.offset = Vector2(
@@ -201,15 +224,20 @@ func _physics_process(delta):
 
 	check_enemy_damage(delta)
 
-	var shoot_dir = Input.get_vector("shootleft", "shootright", "shootup", "shootdown")
+	var raw_shoot_dir = Input.get_vector("shootleft", "shootright", "shootup", "shootdown")
+
+	if raw_shoot_dir.length() > 0.1:
+		smooth_shoot_dir = smooth_shoot_dir.lerp(raw_shoot_dir.normalized(), aim_smooth_speed * delta)
+	else:
+		smooth_shoot_dir = Vector2.ZERO
 
 	if not can_shoot:
 		shoot_timer -= delta
 		if shoot_timer <= 0.0:
 			can_shoot = true
 
-	if shoot_dir.length() > 0.1 and can_shoot:
-		fire_bullet(shoot_dir.normalized())
+	if smooth_shoot_dir.length() > 0.1 and can_shoot:
+		fire_bullet(smooth_shoot_dir.normalized())
 		can_shoot = false
 		shoot_timer = fire_rate
 
@@ -346,8 +374,25 @@ func fire_bullet(dir: Vector2):
 	elif is_missile_active:
 		proj_scene = missile_scene
 
-	var projectile = proj_scene.instantiate()
-	projectile.global_position = global_position
-	projectile.direction = dir
-	projectile.rotation = dir.angle()
-	get_tree().current_scene.add_child(projectile)
+	if is_trident_active:
+		var perpendicular = Vector2(-dir.y, dir.x).normalized()
+		var side_spacing: float = 24.0
+
+		var offsets = [
+			Vector2.ZERO,
+			perpendicular * side_spacing,
+			-perpendicular * side_spacing
+		]
+
+		for offset in offsets:
+			var projectile = proj_scene.instantiate()
+			projectile.global_position = global_position + offset
+			projectile.direction = dir
+			projectile.rotation = dir.angle()
+			get_tree().current_scene.add_child(projectile)
+	else:
+		var projectile = proj_scene.instantiate()
+		projectile.global_position = global_position
+		projectile.direction = dir
+		projectile.rotation = dir.angle()
+		get_tree().current_scene.add_child(projectile)

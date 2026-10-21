@@ -11,6 +11,8 @@ extends Node2D
 @export var initial_powerup_count: int = 3
 @export var bomb_scene: PackedScene = preload("res://bomb.tscn")
 @export var initial_bomb_count: int = 2
+@export var trident_scene: PackedScene = preload("res://powerup_trident.tscn")
+@export var initial_trident_count: int = 3
 
 @export_group("Enemy Scenes")
 @export var enemy_diamond: PackedScene = preload("res://enemy_diamond.tscn")
@@ -55,11 +57,9 @@ func _ready():
 	# Display intro sequence before spawning gameplay elements
 	await show_level_intro()
 
-	# Spawn initial launcher power-ups across the world map
 	spawn_initial_powerups()
-	
-	# Spawn initial bombs across the world map
 	spawn_initial_bombs()
+	spawn_initial_tridents()
 
 	# Set up repeating timer for batches
 	batch_timer = Timer.new()
@@ -128,6 +128,24 @@ func spawn_initial_bombs():
 		bomb.global_position = spawn_pos
 		add_child(bomb)
 
+func spawn_initial_tridents():
+	if not trident_scene or initial_trident_count <= 0:
+		return
+
+	var target_player = player if player else get_tree().get_first_node_in_group("player")
+	var player_pos = target_player.global_position if target_player else Vector2.ZERO
+
+	for i in range(initial_trident_count):
+		var angle = randf() * TAU
+		var distance = randf_range(safe_radius, powerup_max_distance)
+		
+		var spawn_pos = player_pos + Vector2(cos(angle), sin(angle)) * distance
+		spawn_pos.x = clamp(spawn_pos.x, spawn_area_min.x, spawn_area_max.x)
+		spawn_pos.y = clamp(spawn_pos.y, spawn_area_min.y, spawn_area_max.y)
+
+		var trident = trident_scene.instantiate()
+		trident.global_position = spawn_pos
+		add_child(trident)
 func _process(_delta):
 	check_win_condition()
 

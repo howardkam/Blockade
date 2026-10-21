@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://b77f2rf8trident"]
+
+[ext_resource type="Script" path="res://powerup_trident.gd" id="1_tridentup"]
+[ext_resource type="Texture2D" uid="uid://b5k4ha7d74uic" path="res://Assets/missilemaverick.png" id="2_icon"]
+[ext_resource type="Texture2D" uid="uid://bbovv2rl2evjn" path="res://icon.svg" id="3_0ojt4"]
+
+[sub_resource type="Gradient" id="Gradient_rainbow"]
+offsets = PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8)
+colors = PackedColorArray(1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0.5, 1, 1, 0.5, 0, 1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pickup"]
+size = Vector2(32, 32)
+
+[node name="powerup-trident" type="Area2D" unique_id=244519962]
+scale = Vector2(1.5, 1.5)
+collision_layer = 0
+script = ExtResource("1_tridentup")
+
+[node name="RainbowParticles" type="CPUParticles2D" parent="." unique_id=939060648]
+amount = 40
+emission_shape = 1
+emission_sphere_radius = 4.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 40.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color_initial_ramp = SubResource("Gradient_rainbow")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1844013451]
+shape = SubResource("RectangleShape2D_pickup")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1958874053]
+modulate = Color(0.2, 0.8, 1.0, 1)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_icon")
+
+[node name="Icon" type="Sprite2D" parent="." unique_id=423426775]
+position = Vector2(0, 0)
+scale = Vector2(0.11458331, 0.10416666)
+texture = ExtResource("3_0ojt4")

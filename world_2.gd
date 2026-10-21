@@ -8,9 +8,11 @@ extends Node2D
 
 @export_group("Powerup Settings")
 @export var powerup_launcher_scene: PackedScene = preload("res://powerup_launcher.tscn")
-@export var initial_powerup_count: int = 5
+@export var initial_powerup_count: int = 4
 @export var bomb_scene: PackedScene = preload("res://bomb.tscn")
-@export var initial_bomb_count: int = 2
+@export var initial_bomb_count: int = 3
+@export var trident_scene: PackedScene = preload("res://powerup_trident.tscn")
+@export var initial_trident_count: int = 4
 
 @export_group("Enemy Scenes")
 @export var enemy_diamond: PackedScene = preload("res://enemy_diamond.tscn")
@@ -27,12 +29,12 @@ extends Node2D
 @export_group("Batch Controls")
 @export var total_batches: int = 30      # Total number of batches to release
 @export var batch_interval: float = 15.0      # Delay in seconds between each batch release
-@export var diamonds_per_batch: int = 100   
-@export var pluses_per_batch: int = 5    
+@export var diamonds_per_batch: int = 75    
+@export var pluses_per_batch: int = 10    
 @export var gigantor_spawn_chance = 0.1 # 0.20 equals 20 percent chance   
 
 @export_group("Win Condition")
-@export var target_score: int = 6000
+@export var target_score: int = 5000
 
 @export_group("Spawn Settings")
 @export var safe_radius: float = 1000.0
@@ -49,15 +51,16 @@ var powerup_max_distance = 2000
 func _ready():
 	# Register active level path in Global
 	if get_node_or_null("/root/Global"):
-		var current_path = scene_file_path if scene_file_path != "" else "res://world_4.tscn"
+		var current_path = scene_file_path if scene_file_path != "" else "res://world_1.tscn"
 		Global.current_level_path = current_path
 
-	# Display intro label and fade out before starting gameplay
+	# Display intro sequence before spawning gameplay elements
 	await show_level_intro()
 
-	# Spawn initial launcher power-ups across the world map
 	spawn_initial_powerups()
-	
+	spawn_initial_bombs()
+	spawn_initial_tridents()
+
 	# Set up repeating timer for batches
 	batch_timer = Timer.new()
 	batch_timer.wait_time = batch_interval
@@ -65,7 +68,7 @@ func _ready():
 	batch_timer.timeout.connect(_on_batch_timer_timeout)
 	add_child(batch_timer)
 	
-	# Spawn Batch #1 immediately upon intro completion
+	# Spawn Batch #1 immediately after intro finishes
 	spawn_batch()
 
 func show_level_intro() -> void:
@@ -73,7 +76,7 @@ func show_level_intro() -> void:
 		level_intro_label.show()
 		await get_tree().create_timer(intro_display_time).timeout
 		
-		# Smoothly fade out the label opacity
+		# Fade out label smoothly
 		var tween = create_tween()
 		tween.tween_property(level_intro_label, "modulate:a", 0.0, 0.5)
 		await tween.finished
@@ -124,7 +127,25 @@ func spawn_initial_bombs():
 		var bomb = bomb_scene.instantiate()
 		bomb.global_position = spawn_pos
 		add_child(bomb)
+
+func spawn_initial_tridents():
+	if not trident_scene or initial_trident_count <= 0:
+		return
+
+	var target_player = player if player else get_tree().get_first_node_in_group("player")
+	var player_pos = target_player.global_position if target_player else Vector2.ZERO
+
+	for i in range(initial_trident_count):
+		var angle = randf() * TAU
+		var distance = randf_range(safe_radius, powerup_max_distance)
 		
+		var spawn_pos = player_pos + Vector2(cos(angle), sin(angle)) * distance
+		spawn_pos.x = clamp(spawn_pos.x, spawn_area_min.x, spawn_area_max.x)
+		spawn_pos.y = clamp(spawn_pos.y, spawn_area_min.y, spawn_area_max.y)
+
+		var trident = trident_scene.instantiate()
+		trident.global_position = spawn_pos
+		add_child(trident)
 func _process(_delta):
 	check_win_condition()
 

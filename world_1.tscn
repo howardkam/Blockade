@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://tqa81swhhd45" path="res://Assets/background-mandala1.jpg" id="3_kdx2d"]
 [ext_resource type="AudioStream" uid="uid://bevvbsm6wtsm1" path="res://Assets/musictrack1.wav" id="4_kdx2d"]
 [ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_kdx2d"]
-[ext_resource type="PackedScene" uid="uid://b77f2rf8mtu3y" path="res://powerup_laser.tscn" id="6_laaib"]
 
 [node name="World 1" type="Node2D" unique_id=1017488468]
 script = ExtResource("1_mqyi5")
@@ -69,6 +68,3 @@ theme_override_font_sizes/font_size = 200
 text = "MANDALA"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="powerup-laser" parent="." unique_id=183972187 instance=ExtResource("6_laaib")]
-position = Vector2(161, 145)
