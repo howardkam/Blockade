@@ -5,8 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://co60ceob0ntjd" path="res://Assets/background-orange1.jpg" id="3_44b12"]
 [ext_resource type="AudioStream" uid="uid://bevvbsm6wtsm1" path="res://Assets/musictrack1.wav" id="4_0fpt2"]
 [ext_resource type="FontFile" uid="uid://7ni0c1a0kdcu" path="res://Assets/ka1.ttf" id="5_igx0j"]
-[ext_resource type="PackedScene" uid="uid://6kuhqqdilgo1" path="res://enemy_gigantor.tscn" id="7_0fpt2"]
+[ext_resource type="PackedScene" uid="uid://dt61k2dnfgq26" path="res://powerup_trident.tscn" id="7_0fpt2"]
 [ext_resource type="PackedScene" uid="uid://df0nuu8jos5s1" path="res://powerup_launcher.tscn" id="7_44b12"]
+[ext_resource type="PackedScene" uid="uid://cu485jghwebnu" path="res://bomb.tscn" id="8_igx0j"]
 
 [node name="sandbox" type="Node2D" unique_id=572615997]
 script = ExtResource("1_rjrbw")
@@ -60,5 +61,8 @@ vertical_alignment = 1
 [node name="powerup-launcher" parent="." unique_id=1228328914 instance=ExtResource("7_44b12")]
 position = Vector2(39, 235)
 
-[node name="enemy gigantor" parent="." unique_id=862059250 instance=ExtResource("7_0fpt2")]
-position = Vector2(340, 324)
+[node name="powerup-trident" parent="." unique_id=244519962 instance=ExtResource("7_0fpt2")]
+position = Vector2(120, 232)
+
+[node name="bomb" parent="." unique_id=2124733722 instance=ExtResource("8_igx0j")]
+position = Vector2(192.00002, 232)
