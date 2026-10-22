@@ -2,7 +2,8 @@ extends Area2D
 
 @export var speed: float = 900.0
 @export var turn_speed: float = 20.0
-@export var damage: float = 1.0 # Changed to 1 hit point of damage to match regular bullets
+@export var damage: float = 1.0
+@export var homing_delay: float = 0.25 # Seconds before homing kicks in
 
 @export_group("Trail Settings")
 @export var max_trail_length: int = 15
@@ -10,6 +11,7 @@ extends Area2D
 var direction: Vector2 = Vector2.UP
 var target: Node2D = null
 var hit_registered: bool = false
+var time_alive: float = 0.0
 
 @onready var trail: Line2D = $Trail
 
@@ -21,12 +23,9 @@ func _ready():
 	if not area_entered.is_connected(_on_area_entered):
 		area_entered.connect(_on_area_entered)
 
-	# Unparent the trail so it stays anchored in world space
 	if trail:
 		trail.top_level = true
 		trail.clear_points()
-
-	find_nearest_enemy()
 
 func find_nearest_enemy():
 	var enemies = get_tree().get_nodes_in_group("enemy") + get_tree().get_nodes_in_group("enemies")
@@ -40,14 +39,17 @@ func find_nearest_enemy():
 				target = enemy
 
 func _process(delta):
-	if is_instance_valid(target):
-		var target_dir = (target.global_position - global_position).normalized()
-		direction = direction.slerp(target_dir, turn_speed * delta).normalized()
-		rotation = direction.angle() + (PI / 2.0)
-	else:
-		find_nearest_enemy()
-		rotation = direction.angle() + (PI / 2.0)
+	time_alive += delta
 
+	# Straight flight phase during homing_delay, homing phase after
+	if time_alive >= homing_delay:
+		if is_instance_valid(target):
+			var target_dir = (target.global_position - global_position).normalized()
+			direction = direction.slerp(target_dir, turn_speed * delta).normalized()
+		else:
+			find_nearest_enemy()
+
+	rotation = direction.angle() + (PI / 2.0)
 	position += direction * speed * delta
 	update_trail()
 
@@ -69,12 +71,10 @@ func check_hit(node):
 	if hit_registered or not node:
 		return
 		
-	# Traverse upwards if colliding with a sub-area/hitbox that doesn't hold take_damage directly
 	var target_node = node
 	if not target_node.has_method("take_damage") and target_node.get_parent() and target_node.get_parent().has_method("take_damage"):
 		target_node = target_node.get_parent()
 
-	# Ignore colliding with the player
 	if target_node.is_in_group("player"):
 		return
 		
@@ -89,7 +89,8 @@ func check_hit(node):
 func cleanup_and_destroy():
 	set_process(false)
 	$CollisionShape2D.set_deferred("disabled", true)
-	$Missilemaverick.hide()
+	if has_node("Missilemaverick"):
+		$Missilemaverick.hide()
 	
 	if trail:
 		var tween = create_tween()

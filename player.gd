@@ -45,7 +45,6 @@ var shake_intensity: float = 0.0
 @onready var timer_label: Label = $TimerLabel
 
 var health_bar: ProgressBar
-var health_label: Label
 var injury_fade_tween: Tween = null
 const INJURY_ORIGINAL_VOLUME: float = 10.0
 
@@ -117,25 +116,6 @@ func setup_health_ui():
 		health_bar.name = "ProgressBar"
 		ui_layer.add_child(health_bar)
 
-	if ui_layer.has_node("HealthLabel"):
-		health_label = ui_layer.get_node("HealthLabel")
-	else:
-		health_label = Label.new()
-		health_label.name = "HealthLabel"
-		ui_layer.add_child(health_label)
-
-	health_label.anchor_left = 0.0
-	health_label.anchor_top = 0.0
-	health_label.offset_left = 20.0
-	health_label.offset_top = 20.0
-	health_label.offset_right = 220.0
-	health_label.offset_bottom = 45.0
-	
-	var font = load("res://Assets/movement/Movement.ttf")
-	if font:
-		health_label.add_theme_font_override("font", font)
-		health_label.add_theme_font_size_override("font_size", 18)
-
 	health_bar.anchor_left = 0.0
 	health_bar.anchor_top = 0.0
 	health_bar.anchor_right = 0.0
@@ -168,9 +148,6 @@ func update_score_ui():
 func update_health_ui():
 	if health_bar:
 		health_bar.value = current_health
-	if health_label:
-		var pct = int(clamp((current_health / max_health) * 100.0, 0.0, 100.0))
-		health_label.text = "HP: " + str(pct) + "%"
 
 func heal(amount: float):
 	current_health = min(current_health + amount, max_health)
