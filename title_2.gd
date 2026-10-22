@@ -1,7 +1,5 @@
 extends Node2D
 
-@onready var label: Label = $CanvasLayer/CenterContainer/Label
-
 @export var auto_transition_time: float = 10.0
 @export_file("*.tscn") var next_scene: String = "res://tutorial.tscn"
 

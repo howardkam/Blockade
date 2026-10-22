@@ -24,7 +24,7 @@ extends Node2D
 @onready var level_intro_label: Label = $WinUI/LevelIntroLabel
 
 @export_group("Intro Settings")
-@export var intro_display_time: float = 1.0
+@export var intro_display_time: float = 2.0
 
 @export_group("Batch Controls")
 @export var total_batches: int = 40      # Total number of batches to release

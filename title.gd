@@ -4,7 +4,7 @@ extends Node2D
 
 @export var animation_duration: float = 4.0
 @export var auto_transition_time: float = 6.0
-@export_file("*.tscn") var next_scene: String = "res://title_2.tscn"
+@export_file("*.tscn") var next_scene: String = "res://tutorial.tscn"
 
 var has_transitioned: bool = false
 
