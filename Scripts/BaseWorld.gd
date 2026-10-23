@@ -9,12 +9,12 @@ extends Node2D
 
 @export_group("Powerup Settings")
 @export var powerup_launcher_scene: PackedScene = preload("res://Scenes/powerup_launcher.tscn")
-@export var initial_powerup_count: int = 3
+@export var initial_powerup_count: int = 0
 @export var bomb_scene: PackedScene = preload("res://Scenes/bomb.tscn")
-@export var initial_bomb_count: int = 2
+@export var initial_bomb_count: int = 0
 @export var trident_scene: PackedScene = preload("res://Scenes/powerup_trident.tscn")
-@export var initial_trident_count: int = 3
-@export var powerup_max_distance: float = 2000.0
+@export var initial_trident_count: int = 0
+@export var powerup_max_distance: float = 2500.0
 
 @export_group("Enemy Scenes")
 @export var enemy_diamond: PackedScene = preload("res://Scenes/enemy_diamond.tscn")
