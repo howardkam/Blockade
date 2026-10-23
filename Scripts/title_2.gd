@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var auto_transition_time: float = 10.0
-@export_file("*.tscn") var next_scene: String = "res://tutorial.tscn"
+@export_file("*.tscn") var next_scene: String = "res://Scenes/tutorial.tscn"
 
 var has_transitioned: bool = false
 

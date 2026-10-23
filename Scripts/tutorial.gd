@@ -10,10 +10,10 @@ func transition_to_scene(scene_path: String) -> void:
 		})
 
 func _on_world_1_button_pressed() -> void:
-	transition_to_scene("res://world_1.tscn")
+	transition_to_scene("res://Scenes/world_1.tscn")
 
 func _on_world_2_button_pressed() -> void:
-	transition_to_scene("res://world_2.tscn")
+	transition_to_scene("res://Scenes/world_2.tscn")
 
 func _on_world_3_button_pressed() -> void:
-	transition_to_scene("res://world_3.tscn")
+	transition_to_scene("res://Scenes/world_3.tscn")

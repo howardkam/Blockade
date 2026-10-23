@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dgcx1jgso21bo"]
 
-[ext_resource type="Script" uid="uid://xdhko5kcieis" path="res://world_2.gd" id="1_fu0tf"]
-[ext_resource type="PackedScene" uid="uid://csyb3jak12esm" path="res://player.tscn" id="2_mv2s0"]
+[ext_resource type="Script" uid="uid://xdhko5kcieis" path="res://Scripts/world_2.gd" id="1_fu0tf"]
+[ext_resource type="PackedScene" uid="uid://csyb3jak12esm" path="res://Scenes/player.tscn" id="2_mv2s0"]
 [ext_resource type="Texture2D" uid="uid://j6olqx3rlp47" path="res://Assets/background-sumie.jpg" id="3_fu0tf"]
 [ext_resource type="AudioStream" uid="uid://cpcukr5prcfdd" path="res://Assets/musictrack2.wav" id="4_mv2s0"]
 [ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_mv2s0"]

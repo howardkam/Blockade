@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://k2cyewybyv7q"]
 
-[ext_resource type="Script" uid="uid://cjt2rwe7wdmss" path="res://title_2.gd" id="1_4jmse"]
+[ext_resource type="Script" uid="uid://cjt2rwe7wdmss" path="res://Scripts/title_2.gd" id="1_4jmse"]
 [ext_resource type="Texture2D" uid="uid://y426vrahnuqm" path="res://Assets/CML-logo.png" id="2_i0obi"]
 [ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="3_5q3wh"]
 

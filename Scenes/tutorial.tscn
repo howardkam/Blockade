@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://csun4fe5q7i0j"]
 
-[ext_resource type="Script" uid="uid://bcigm3akj8mok" path="res://tutorial.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bcigm3akj8mok" path="res://Scripts/tutorial.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://co60ceob0ntjd" path="res://Assets/background-orange1.jpg" id="5_rwowx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_blue"]

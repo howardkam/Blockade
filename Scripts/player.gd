@@ -2,9 +2,9 @@ extends CharacterBody2D
 
 signal died
 
-@export var bullet_scene: PackedScene = preload("res://bullet.tscn")
-@export var missile_scene: PackedScene = preload("res://missile.tscn")
-@export var laser_scene: PackedScene = preload("res://laser_beam.tscn")
+@export var bullet_scene: PackedScene = preload("res://Scenes/bullet.tscn")
+@export var missile_scene: PackedScene = preload("res://Scenes/missile.tscn")
+@export var laser_scene: PackedScene = preload("res://Scenes/laser_beam.tscn")
 @export var move_speed: float = 550.0
 @export var fire_rate: float = 0.07
 @export var aim_smooth_speed: float = 20.0 # Adjust higher for quick response, lower for smoother floating aim

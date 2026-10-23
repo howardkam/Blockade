@@ -1,23 +1,23 @@
 extends Node2D
 
 @export_group("Level Transition")
-@export_file("*.tscn") var next_level_scene: String = "res://world_2.tscn"
+@export_file("*.tscn") var next_level_scene: String = "res://Scenes/world_2.tscn"
 
 @export_group("Player Reference")
 @export var player: CharacterBody2D
 
 @export_group("Powerup Settings")
-@export var powerup_launcher_scene: PackedScene = preload("res://powerup_launcher.tscn")
+@export var powerup_launcher_scene: PackedScene = preload("res://Scenes/powerup_launcher.tscn")
 @export var initial_powerup_count: int = 3
-@export var bomb_scene: PackedScene = preload("res://bomb.tscn")
+@export var bomb_scene: PackedScene = preload("res://Scenes/omb.tscn")
 @export var initial_bomb_count: int = 2
-@export var trident_scene: PackedScene = preload("res://powerup_trident.tscn")
+@export var trident_scene: PackedScene = preload("res://Scenes/powerup_trident.tscn")
 @export var initial_trident_count: int = 3
 
 @export_group("Enemy Scenes")
-@export var enemy_diamond: PackedScene = preload("res://enemy_diamond.tscn")
-@export var enemy_plus: PackedScene = preload("res://enemy_plus.tscn")
-@export var enemy_gigantor: PackedScene = preload("res://enemy_gigantor.tscn")
+@export var enemy_diamond: PackedScene = preload("res://Scenes/enemy_diamond.tscn")
+@export var enemy_plus: PackedScene = preload("res://Scenes/enemy_plus.tscn")
+@export var enemy_gigantor: PackedScene = preload("res://Scenes/enemy_gigantor.tscn")
 
 @onready var explosionsound = $AudioStreamPlayer2D
 @onready var level_cleared_label: Label = $WinUI/LevelClearedLabel
@@ -51,7 +51,7 @@ var powerup_max_distance = 2000
 func _ready():
 	# Register active level path in Global
 	if get_node_or_null("/root/Global"):
-		var current_path = scene_file_path if scene_file_path != "" else "res://world_1.tscn"
+		var current_path = scene_file_path if scene_file_path != "" else "res://Scenes/world_1.tscn"
 		Global.current_level_path = current_path
 
 	# Display intro sequence before spawning gameplay elements
