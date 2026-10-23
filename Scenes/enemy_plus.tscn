@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dumbykfqypog7"]
 
-[ext_resource type="Script" uid="uid://b7av8fxihp3cg" path="res://Scripts/enemy_plus.gd" id="1_rokoa"]
+[ext_resource type="Script" uid="uid://b1uhjbvmsxa7b" path="res://Scripts/enemy_plus.gd" id="1_rokoa"]
 [ext_resource type="Texture2D" uid="uid://20jhb2b86day" path="res://Assets/grey soft/Misc (1).png" id="2_er46q"]
 [ext_resource type="AudioStream" uid="uid://ndlbcmvcn7hm" path="res://Assets/explosion2.wav" id="3_er46q"]
 
@@ -49,7 +49,7 @@ polygon = PackedVector2Array(-16.666666, -60, -16.666666, -16.666666, -60, -16.6
 
 [node name="explosion" type="AudioStreamPlayer2D" parent="." unique_id=1518598266 groups=["enemy_explosion_sounds"]]
 stream = ExtResource("3_er46q")
-volume_db = 15.0
+volume_db = 12.0
 
 [node name="ExplosionParticles" type="CPUParticles2D" parent="." unique_id=114814616]
 emitting = false

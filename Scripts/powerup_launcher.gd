@@ -35,7 +35,7 @@ func _process(delta):
 	global_position += current_velocity + wave_offset
 	
 	# 3. Rotate 360 degrees (TAU) per second
-	rotation += rotation_speed * delta
+	# rotation += rotation_speed * delta
 	
 	# 4. Bounce off world limits to stay on screen/play area
 	bounce_off_bounds()

@@ -1,14 +1,16 @@
 [gd_scene format=3 uid="uid://csun4fe5q7i0j"]
 
-[ext_resource type="Script" uid="uid://bcigm3akj8mok" path="res://Scripts/tutorial.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://cy8ec511cwnma" path="res://Scripts/tutorial.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://jg02pg356o6f" path="res://Assets/buttonbackground.png" id="2_btn_bg"]
+[ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="2_i6t4g"]
 [ext_resource type="Texture2D" uid="uid://co60ceob0ntjd" path="res://Assets/background-orange1.jpg" id="5_rwowx"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_blue"]
-bg_color = Color(0.12, 0.45, 0.85, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_button"]
+texture = ExtResource("2_btn_bg")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
 
 [node name="Tutorial" type="Node2D" unique_id=1591888135]
 script = ExtResource("1_script")
@@ -22,30 +24,45 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -150.0
-offset_top = -140.0
+offset_top = -280.0
 offset_right = 150.0
-offset_bottom = 140.0
+offset_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = -40
 alignment = 1
 
 [node name="World1Button" type="Button" parent="CanvasLayer/MenuContainer" unique_id=37485130]
-custom_minimum_size = Vector2(300, 55)
+texture_filter = 1
+custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_blue")
+theme_override_fonts/font = ExtResource("2_i6t4g")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxTexture_button")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_button")
+theme_override_styles/hover = SubResource("StyleBoxTexture_button")
 text = "World 1"
 
 [node name="World2Button" type="Button" parent="CanvasLayer/MenuContainer" unique_id=1254293251]
-custom_minimum_size = Vector2(300, 55)
+texture_filter = 1
+custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_blue")
+theme_override_fonts/font = ExtResource("2_i6t4g")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxTexture_button")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_button")
+theme_override_styles/hover = SubResource("StyleBoxTexture_button")
 text = "World 2"
 
 [node name="World3Button" type="Button" parent="CanvasLayer/MenuContainer" unique_id=1864018589]
-custom_minimum_size = Vector2(300, 55)
+texture_filter = 1
+custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_blue")
+theme_override_fonts/font = ExtResource("2_i6t4g")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxTexture_button")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_button")
+theme_override_styles/hover = SubResource("StyleBoxTexture_button")
 text = "World 3"
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=445726782]
@@ -59,6 +76,7 @@ color = Color(0, 0, 0, 0.45490196)
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1510904712]
 modulate = Color(1, 1, 1, 0.078431375)
 z_index = -1
+texture_filter = 1
 texture_repeat = 2
 offset_left = -4970.0
 offset_top = -5783.0

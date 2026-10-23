@@ -31,7 +31,7 @@ func _process(delta: float) -> void:
 		move_direction.y *= -1.0
 		global_position.y = clamp(global_position.y, WORLD_LIMIT_MIN, WORLD_LIMIT_MAX)
 
-	rotation += 1.5 * delta
+	# rotation += 1.5 * delta
 
 func pick_new_direction() -> void:
 	var angle = randf() * TAU

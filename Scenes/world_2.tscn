@@ -1,15 +1,15 @@
 [gd_scene format=3 uid="uid://dgcx1jgso21bo"]
 
-[ext_resource type="Script" path="res://Scripts/world_2.gd" id="1_world2"]
-[ext_resource type="PackedScene" uid="uid://csyb3jak12esm" path="res://Scenes/player.tscn" id="2_player"]
-[ext_resource type="Texture2D" uid="uid://j6olqx3rlp47" path="res://Assets/background-sumie.jpg" id="3_bg"]
-[ext_resource type="AudioStream" uid="uid://cpcukr5prcfdd" path="res://Assets/musictrack2.wav" id="4_music"]
-[ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_font"]
+[ext_resource type="Script" uid="uid://c7r4wikqop84q" path="res://Scripts/world_2.gd" id="1_fu0tf"]
+[ext_resource type="PackedScene" uid="uid://csyb3jak12esm" path="res://Scenes/player.tscn" id="2_mv2s0"]
+[ext_resource type="Texture2D" uid="uid://j6olqx3rlp47" path="res://Assets/background-sumie.jpg" id="3_fu0tf"]
+[ext_resource type="AudioStream" uid="uid://dfi02rdjcd0wl" path="res://Assets/musictrack3.wav" id="4_w60u7"]
+[ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_mv2s0"]
 
-[node name="World 2" type="Node2D"]
-script = ExtResource("1_world2")
+[node name="World 2" type="Node2D" unique_id=1098607041]
+script = ExtResource("1_fu0tf")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=798732006]
 z_index = -1
 offset_left = -4968.0
 offset_top = -5333.0
@@ -17,10 +17,10 @@ offset_right = 4945.0
 offset_bottom = 4936.0
 color = Color(0, 0, 0, 0.04)
 
-[node name="player" parent="." instance=ExtResource("2_player")]
+[node name="player" parent="." unique_id=1042575925 instance=ExtResource("2_mv2s0")]
 position = Vector2(0, 8)
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1716812923]
 modulate = Color(1, 1, 1, 0.08)
 z_index = -1
 texture_repeat = 2
@@ -28,20 +28,20 @@ offset_left = -4970.0
 offset_top = -5783.0
 offset_right = 4938.0
 offset_bottom = 4939.0
-texture = ExtResource("3_bg")
+texture = ExtResource("3_fu0tf")
 stretch_mode = 1
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=355088619]
 process_mode = 3
-stream = ExtResource("4_music")
+stream = ExtResource("4_w60u7")
 volume_db = 5.0
 autoplay = true
 max_distance = 5000.0
 
-[node name="WinUI" type="CanvasLayer" parent="."]
+[node name="WinUI" type="CanvasLayer" parent="." unique_id=63578213]
 process_mode = 3
 
-[node name="LevelClearedLabel" type="Label" parent="WinUI"]
+[node name="LevelClearedLabel" type="Label" parent="WinUI" unique_id=1481093309]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -49,20 +49,45 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 1, 0, 1)
-theme_override_fonts/font = ExtResource("5_font")
+theme_override_fonts/font = ExtResource("5_mv2s0")
 theme_override_font_sizes/font_size = 48
 text = "LEVEL CLEARED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LevelIntroLabel" type="Label" parent="WinUI"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="LevelIntroLabel" type="Label" parent="WinUI" unique_id=1147529179]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -140.0
+offset_right = 500.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("5_font")
+theme_override_fonts/font = ExtResource("5_mv2s0")
 theme_override_font_sizes/font_size = 160
 text = "SUMI - E"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelGoalLabel" type="Label" parent="WinUI" unique_id=119991639]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = 40.0
+offset_right = 400.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_fonts/font = ExtResource("5_mv2s0")
+theme_override_font_sizes/font_size = 42
+text = "Goal: 5000 points"
 horizontal_alignment = 1
 vertical_alignment = 1

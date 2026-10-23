@@ -5,10 +5,15 @@ extends Node2D
 @export var animation_duration: float = 4.0
 @export var auto_transition_time: float = 6.0
 @export_file("*.tscn") var next_scene: String = "res://Scenes/tutorial.tscn"
+@export var intro_music_stream: AudioStream = preload("res://Assets/musictrack1.wav")
 
 var has_transitioned: bool = false
 
 func _ready() -> void:
+	# Keep intro music playing continuously across scene transitions
+	if intro_music_stream:
+		MusicManager.play_music(intro_music_stream)
+
 	# Start fully transparent
 	label.modulate = Color(1.0, 0.0, 0.0, 0.0)
 
@@ -32,7 +37,6 @@ func transition_to_next_scene() -> void:
 		return
 	has_transitioned = true
 
-	# Reset game tracking singleton if active
 	if get_node_or_null("/root/Global"):
 		Global.reset_game()
 

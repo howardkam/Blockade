@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bm7sffn8x2nl5" path="res://Scripts/title.gd" id="1_ekrfg"]
 [ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="2_oyqm6"]
+[ext_resource type="AudioStream" uid="uid://bevvbsm6wtsm1" path="res://Assets/musictrack1.wav" id="3_fp2oq"]
 
 [node name="Title" type="Node2D" unique_id=502085938]
 script = ExtResource("1_ekrfg")
@@ -35,3 +36,7 @@ text = "BLOCKADE"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1936582961]
+stream = ExtResource("3_fp2oq")
+autoplay = true

@@ -41,6 +41,7 @@ extends Node2D
 
 @onready var level_cleared_label: Label = $WinUI/LevelClearedLabel
 @onready var level_intro_label: Label = $WinUI/LevelIntroLabel
+@onready var level_goal_label: Label = $WinUI/LevelGoalLabel
 
 var batches_spawned: int = 0
 var batch_timer: Timer = null
@@ -48,6 +49,9 @@ var level_completed: bool = false
 var cached_player: CharacterBody2D = null
 
 func _ready() -> void:
+	if get_node_or_null("/root/MusicManager"):
+		MusicManager.fade_out_music(1.5)
+
 	cached_player = player if player else get_tree().get_first_node_in_group("player") as CharacterBody2D
 
 	if get_node_or_null("/root/Global"):
@@ -72,14 +76,23 @@ func _process(_delta: float) -> void:
 	check_win_condition()
 
 func show_level_intro() -> void:
+	if level_goal_label:
+		level_goal_label.text = "Goal: %d points" % target_score
+		level_goal_label.show()
+
 	if level_intro_label:
 		level_intro_label.show()
 		await get_tree().create_timer(intro_display_time).timeout
 
-		var tween = create_tween()
+		var tween = create_tween().set_parallel(true)
 		tween.tween_property(level_intro_label, "modulate:a", 0.0, 0.5)
+		if level_goal_label:
+			tween.tween_property(level_goal_label, "modulate:a", 0.0, 0.5)
 		await tween.finished
+
 		level_intro_label.hide()
+		if level_goal_label:
+			level_goal_label.hide()
 
 func _get_random_spawn_position(min_dist: float, max_dist: float) -> Vector2:
 	var player_pos = cached_player.global_position if cached_player else Vector2.ZERO

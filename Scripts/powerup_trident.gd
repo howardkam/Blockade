@@ -28,7 +28,7 @@ func _process(delta):
 	var wave_offset = move_direction.orthogonal() * sin(time_passed * float_frequency) * float_amplitude
 	global_position += current_velocity + wave_offset
 	
-	rotation += rotation_speed * delta
+	# rotation += rotation_speed * delta
 	bounce_off_bounds()
 
 func bounce_off_bounds():
