@@ -7,10 +7,10 @@
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_button"]
 texture = ExtResource("2_btn_bg")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
+texture_margin_left = 1.0
+texture_margin_top = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
 
 [node name="Tutorial" type="Node2D" unique_id=1591888135]
 script = ExtResource("1_script")
@@ -29,12 +29,12 @@ offset_right = 150.0
 offset_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = -40
+theme_override_constants/separation = -70
 alignment = 1
 
 [node name="World1Button" type="Button" parent="CanvasLayer/MenuContainer" unique_id=37485130]
 texture_filter = 1
-custom_minimum_size = Vector2(300, 200)
+custom_minimum_size = Vector2(350, 200)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_i6t4g")
 theme_override_font_sizes/font_size = 36
@@ -45,7 +45,7 @@ text = "World 1"
 
 [node name="World2Button" type="Button" parent="CanvasLayer/MenuContainer" unique_id=1254293251]
 texture_filter = 1
-custom_minimum_size = Vector2(300, 200)
+custom_minimum_size = Vector2(350, 200)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_i6t4g")
 theme_override_font_sizes/font_size = 36
@@ -56,7 +56,7 @@ text = "World 2"
 
 [node name="World3Button" type="Button" parent="CanvasLayer/MenuContainer" unique_id=1864018589]
 texture_filter = 1
-custom_minimum_size = Vector2(300, 200)
+custom_minimum_size = Vector2(350, 200)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_i6t4g")
 theme_override_font_sizes/font_size = 36
@@ -64,6 +64,17 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_button")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_button")
 theme_override_styles/hover = SubResource("StyleBoxTexture_button")
 text = "World 3"
+
+[node name="InstructButton" type="Button" parent="CanvasLayer/MenuContainer" unique_id=1847848606]
+texture_filter = 1
+custom_minimum_size = Vector2(350, 200)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_i6t4g")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxTexture_button")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_button")
+theme_override_styles/hover = SubResource("StyleBoxTexture_button")
+text = "INSTRUCTIONS"
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=445726782]
 z_index = -1
@@ -88,3 +99,4 @@ stretch_mode = 1
 [connection signal="pressed" from="CanvasLayer/MenuContainer/World1Button" to="." method="_on_world_1_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MenuContainer/World2Button" to="." method="_on_world_2_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MenuContainer/World3Button" to="." method="_on_world_3_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MenuContainer/InstructButton" to="." method="_on_instruct_button_pressed"]
