@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://doktvfbfbl1sj"]
 
-[ext_resource type="Script" uid="uid://bag43oqjh6m7g" path="res://Scripts/missile.gd" id="1_0uoyr"]
+[ext_resource type="Script" uid="uid://kbv8hrydhb14" path="res://Scripts/missile.gd" id="1_0uoyr"]
 [ext_resource type="Texture2D" uid="uid://b5k4ha7d74uic" path="res://Assets/missilemaverick.png" id="2_0uoyr"]
 [ext_resource type="AudioStream" uid="uid://crescotisp0w7" path="res://Assets/bullet2.wav" id="3_bqn2q"]
 

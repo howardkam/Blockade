@@ -1,4 +1,4 @@
-
+#
 extends CharacterBody2D
 
 @export var move_speed: float = 175.0
@@ -81,7 +81,9 @@ func take_damage(amount_or_from_bomb = 1):
 			explosionsound.reparent(get_tree().current_scene)
 			explosionsound.global_position = global_position
 			explosionsound.play()
-			explosionsound.finished.connect(explosionsound.queue_free)
+	
+	if not explosionsound.finished.is_connected(explosionsound.queue_free):
+		explosionsound.finished.connect(explosionsound.queue_free, CONNECT_ONE_SHOT)
 
 		# Safe, local variable reference that won't shadow or alter class variable state
 		var target_player = get_tree().get_first_node_in_group("player")

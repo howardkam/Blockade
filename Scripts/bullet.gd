@@ -1,5 +1,5 @@
 extends Area2D
-
+#
 @export var speed: float = 1200.0
 @export var bullet_color: Color = Color(0.0, 0.8, 1.0, 1.0) # Editable color parameter
 @export var max_trail_length: int = 15

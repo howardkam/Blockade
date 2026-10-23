@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-
 @export var move_speed: float = 50.0
 @export var turn_speed: float = 10 # Turning rate in radians per second (~200°/sec)
 @export var shrink_percentage: float = 1.5 #This is a percentage

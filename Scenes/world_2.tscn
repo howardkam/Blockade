@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://j6olqx3rlp47" path="res://Assets/background-sumie.jpg" id="3_fu0tf"]
 [ext_resource type="AudioStream" uid="uid://dfi02rdjcd0wl" path="res://Assets/musictrack3.wav" id="4_w60u7"]
 [ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_mv2s0"]
+[ext_resource type="PackedScene" uid="uid://ccw83dtmj6tep" path="res://Scenes/obstacle1.tscn" id="6_4i21e"]
 
 [node name="World 2" type="Node2D" unique_id=1098607041]
 script = ExtResource("1_fu0tf")
@@ -69,7 +70,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("5_mv2s0")
 theme_override_font_sizes/font_size = 160
-text = "SUMI - E"
+text = "SUMI- E"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -91,3 +92,13 @@ theme_override_font_sizes/font_size = 42
 text = "Goal: 5000 points"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Obstacle1" parent="." unique_id=712489215 instance=ExtResource("6_4i21e")]
+position = Vector2(1922.3981, 6.4818115)
+move_speed = 550.0
+rainbow_speed = 3.0
+
+[node name="TargetMarker2D" parent="Obstacle1" index="4" unique_id=309182371]
+position = Vector2(-3330.398, -6.4818115)
+
+[editable path="Obstacle1"]

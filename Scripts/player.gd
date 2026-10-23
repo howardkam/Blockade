@@ -1,5 +1,5 @@
 extends CharacterBody2D
-
+#
 signal died
 
 @export var bullet_scene: PackedScene = preload("res://Scenes/bullet.tscn")

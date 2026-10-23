@@ -1,5 +1,5 @@
 extends Area2D
-
+#
 @export var move_speed: float = 100.0
 @export var float_amplitude: float = 2.0  # Bobbing effect height
 @export var float_frequency: float = 3.0  # Bobbing effect speed

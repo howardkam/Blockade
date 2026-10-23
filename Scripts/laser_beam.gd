@@ -1,5 +1,5 @@
 extends Area2D
-
+#
 @export var speed: float = 2400.0
 @export var damage: float = 100.0
 @export var beam_color: Color = Color(4.0, 0.2, 0.2, 1.0) # HDR Red Glow

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://df0nuu8jos5s1"]
 
-[ext_resource type="Script" uid="uid://b4ntg5fulotw7" path="res://Scripts/powerup_launcher.gd" id="1_5isyv"]
+[ext_resource type="Script" uid="uid://c4jtxs7qqhj6m" path="res://Scripts/powerup_launcher.gd" id="1_5isyv"]
 [ext_resource type="Texture2D" uid="uid://c8nophk6ar361" path="res://Assets/powerup_icon_missile.png" id="2_5isyv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6xcap"]

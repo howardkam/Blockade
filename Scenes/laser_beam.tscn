@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c5laserbeam01"]
 
-[ext_resource type="Script" uid="uid://b3pkn53ps5aqh" path="res://Scripts/laser_beam.gd" id="1_laser"]
+[ext_resource type="Script" uid="uid://blbd81ywd06cu" path="res://Scripts/laser_beam.gd" id="1_laser"]
 [ext_resource type="Texture2D" uid="uid://b5k4ha7d74uic" path="res://Assets/missilemaverick.png" id="2_icon"]
 
 [sub_resource type="Curve" id="Curve_trail"]

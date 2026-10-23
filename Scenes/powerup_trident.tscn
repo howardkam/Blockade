@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dt61k2dnfgq26"]
 
-[ext_resource type="Script" uid="uid://dpk0licjt6pvb" path="res://Scripts/powerup_trident.gd" id="1_tridentup"]
+[ext_resource type="Script" uid="uid://qwgkfbmlrwo2" path="res://Scripts/powerup_trident.gd" id="1_tridentup"]
 [ext_resource type="Texture2D" uid="uid://b0ygnjkhopc7v" path="res://Assets/powerup_icon_trident.png" id="2_v6mwd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pickup"]

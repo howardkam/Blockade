@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://ccw83dtmj6tep"]
+
+[ext_resource type="Script" uid="uid://clnrw3jxif6ma" path="res://Scripts/Obstacle1.gd" id="1_4p58j"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_rnpnb"]
+polygon = PackedVector2Array(256, -320, -256, -320, -256, 64, 256, 64)
+
+[sub_resource type="Curve" id="Curve_radial_accel"]
+_data = [Vector2(0, -0.1), 0.0, -1.0, 0, 0, Vector2(1, -1), -3.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_radial"]
+curve = SubResource("Curve_radial_accel")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_blackhole"]
+particle_flag_disable_z = true
+emission_shape = 2
+emission_sphere_radius = 200.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 200.0
+radial_accel_max = 300.0
+radial_accel_curve = SubResource("CurveTexture_radial")
+
+[node name="Obstacle1" type="StaticBody2D" unique_id=712489215]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_4p58j")
+move_speed = null
+rainbow_speed = null
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=760306597]
+color = Color(0.2, 0.2, 0.3, 1)
+polygon = PackedVector2Array(-264, 192, -264, -192, 248, -192, 248, 192)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=2141414274]
+polygon = PackedVector2Array(-264, 192, -264, -192, 248, -192, 248, 184)
+
+[node name="SpawnBlockerArea" type="Area2D" parent="." unique_id=165781275 groups=["spawn_blockers"]]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SpawnBlockerArea" unique_id=62633010]
+polygon = PackedVector2Array(-264, 192, -264, -192, 248, -192, 248, 192)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=2045931411]
+position = Vector2(-8, 128)
+occluder = SubResource("OccluderPolygon2D_rnpnb")
+
+[node name="TargetMarker2D" type="Marker2D" parent="." unique_id=309182371]
+position = Vector2(0, -500)
+
+[node name="BlackHoleParticles" type="GPUParticles2D" parent="." unique_id=1703462361]
+amount = 60
+lifetime = 1.5
+process_material = SubResource("ParticleProcessMaterial_blackhole")
