@@ -10,6 +10,13 @@ size = Vector2(64, 64)
 texture_filter = 1
 script = ExtResource("1_5isyv")
 
+[node name="GlowSprite" type="Sprite2D" parent="."]
+modulate = Color(0.2, 3, 3, 0.8)
+texture_filter = 1
+position = Vector2(-2.3841858e-07, -1.9073486e-06)
+scale = Vector2(0.21, 0.21)
+texture = ExtResource("2_5isyv")
+
 [node name="PowerupIconMissile" type="Sprite2D" parent="." unique_id=1244219520]
 texture_filter = 1
 position = Vector2(-2.3841858e-07, -1.9073486e-06)

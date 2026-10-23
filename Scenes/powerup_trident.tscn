@@ -11,6 +11,13 @@ scale = Vector2(0.3, 0.3)
 collision_layer = 0
 script = ExtResource("1_tridentup")
 
+[node name="GlowSprite" type="Sprite2D" parent="."]
+modulate = Color(3, 0.2, 2.5, 0.8)
+texture_filter = 1
+position = Vector2(-7.6293945e-06, 0)
+scale = Vector2(0.7, 0.67)
+texture = ExtResource("2_v6mwd")
+
 [node name="PowerupIconTrident" type="Sprite2D" parent="." unique_id=572470199]
 texture_filter = 1
 position = Vector2(-7.6293945e-06, 0)

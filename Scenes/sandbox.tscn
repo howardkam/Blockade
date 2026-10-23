@@ -1,48 +1,50 @@
-[gd_scene format=3 uid="uid://cq8gom1k622nj"]
+[gd_scene format=3 uid="uid://cq4mbvxoix3"]
 
-[ext_resource type="Script" uid="uid://dik8ddd6wbusb" path="res://Scripts/sandbox.gd" id="1_rjrbw"]
-[ext_resource type="PackedScene" uid="uid://csyb3jak12esm" path="res://Scenes/player.tscn" id="2_ypj6x"]
-[ext_resource type="Texture2D" uid="uid://co60ceob0ntjd" path="res://Assets/background-orange1.jpg" id="3_44b12"]
-[ext_resource type="AudioStream" uid="uid://bevvbsm6wtsm1" path="res://Assets/musictrack1.wav" id="4_0fpt2"]
-[ext_resource type="FontFile" uid="uid://7ni0c1a0kdcu" path="res://Assets/ka1.ttf" id="5_igx0j"]
+[ext_resource type="Script" uid="uid://cpjkqcc5wxmnu" path="res://Scripts/sandbox.gd" id="1_baseworld"]
+[ext_resource type="PackedScene" uid="uid://csyb3jak12esm" path="res://Scenes/player.tscn" id="2_player"]
+[ext_resource type="Texture2D" uid="uid://tqa81swhhd45" path="res://Assets/background-mandala1.jpg" id="3_bg"]
+[ext_resource type="AudioStream" uid="uid://bevvbsm6wtsm1" path="res://Assets/musictrack1.wav" id="4_music"]
+[ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_font"]
+[ext_resource type="PackedScene" uid="uid://df0nuu8jos5s1" path="res://Scenes/powerup_launcher.tscn" id="6_j2wlq"]
+[ext_resource type="PackedScene" uid="uid://dt61k2dnfgq26" path="res://Scenes/powerup_trident.tscn" id="7_6yop6"]
+[ext_resource type="PackedScene" uid="uid://cu485jghwebnu" path="res://Scenes/bomb.tscn" id="8_s5h6m"]
 
+[node name="WorldTemplate" type="Node2D" unique_id=669476981]
+script = ExtResource("1_baseworld")
 
-[node name="sandbox" type="Node2D" unique_id=572615997]
-script = ExtResource("1_rjrbw")
-
-[node name="ColorRect" type="ColorRect" parent="." unique_id=2101166181]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1179739461]
 z_index = -1
 offset_left = -4968.0
 offset_top = -5333.0
 offset_right = 4945.0
 offset_bottom = 4936.0
-color = Color(0.09411765, 0.011764706, 0.33333334, 0.5137255)
+color = Color(0.235, 0, 0.02, 0.37)
 
-[node name="player" parent="." unique_id=16646871 instance=ExtResource("2_ypj6x")]
+[node name="player" parent="." unique_id=1981215103 instance=ExtResource("2_player")]
 position = Vector2(0, 8)
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1140437742]
-modulate = Color(1, 1, 1, 0.078431375)
+[node name="TextureRect" type="TextureRect" parent="." unique_id=569178861]
+modulate = Color(1, 1, 1, 0.16)
 z_index = -1
 texture_repeat = 2
 offset_left = -4970.0
 offset_top = -5783.0
 offset_right = 4938.0
 offset_bottom = 4939.0
-texture = ExtResource("3_44b12")
+texture = ExtResource("3_bg")
 stretch_mode = 1
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=2026610633]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1908542621]
 process_mode = 3
-stream = ExtResource("4_0fpt2")
+stream = ExtResource("4_music")
 volume_db = 5.0
 autoplay = true
 max_distance = 5000.0
 
-[node name="WinUI" type="CanvasLayer" parent="." unique_id=184106677]
+[node name="WinUI" type="CanvasLayer" parent="." unique_id=616109040]
 process_mode = 3
 
-[node name="LevelClearedLabel" type="Label" parent="WinUI" unique_id=1448414784]
+[node name="LevelClearedLabel" type="Label" parent="WinUI" unique_id=413969780]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,17 +52,29 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 1, 0, 1)
-theme_override_fonts/font = ExtResource("5_igx0j")
+theme_override_fonts/font = ExtResource("5_font")
 theme_override_font_sizes/font_size = 48
 text = "LEVEL CLEARED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="powerup-launcher" parent="." unique_id=1228328914 instance=ExtResource("7_44b12")]
-position = Vector2(39, 235)
+[node name="LevelIntroLabel" type="Label" parent="WinUI" unique_id=460804768]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 200
+text = "WORLD TITLE"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="powerup-trident" parent="." unique_id=244519962 instance=ExtResource("7_0fpt2")]
-position = Vector2(120, 232)
+[node name="powerup-launcher" parent="." unique_id=1228328914 instance=ExtResource("6_j2wlq")]
+position = Vector2(224, 88)
 
-[node name="bomb" parent="." unique_id=2124733722 instance=ExtResource("8_igx0j")]
-position = Vector2(192.00002, 232)
+[node name="powerup-trident" parent="." unique_id=244519962 instance=ExtResource("7_6yop6")]
+position = Vector2(384, 72)
+
+[node name="bomb" parent="." unique_id=2124733722 instance=ExtResource("8_s5h6m")]
+position = Vector2(504, 152)
