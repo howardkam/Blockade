@@ -3,8 +3,7 @@ extends Node2D
 @onready var buttons: Array[Button] = [
 	$CanvasLayer/MenuContainer/World1Button,
 	$CanvasLayer/MenuContainer/World2Button,
-	$CanvasLayer/MenuContainer/World3Button,
-	$CanvasLayer/MenuContainer/InstructButton
+	$CanvasLayer/MenuContainer/World3Button
 ]
 
 func _ready() -> void:
@@ -49,6 +48,3 @@ func _on_world_2_button_pressed() -> void:
 
 func _on_world_3_button_pressed() -> void:
 	transition_to_scene("res://Scenes/world_3.tscn")
-
-func _on_instruct_button_pressed()-> void:
-	transition_to_scene("res://Scenes/instructions.tscn")
