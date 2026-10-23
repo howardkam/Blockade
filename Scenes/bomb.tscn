@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://cu485jghwebnu"]
+
+[ext_resource type="Script" uid="uid://b7bwudw0fx0n6" path="res://Scripts/bomb.gd" id="1_kdyat"]
+[ext_resource type="Texture2D" uid="uid://cw8q0h7u22qkt" path="res://Assets/powerup_icon_nuke.png" id="2_4fn8o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v6mwd"]
+size = Vector2(213.33333, 213.33333)
+
+[sub_resource type="Gradient" id="Gradient_fade"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Gradient" id="Gradient_rainbow"]
+offsets = PackedFloat32Array(0, 0.16, 0.33, 0.5, 0.66, 0.83, 1)
+colors = PackedColorArray(1, 0, 0, 1, 1, 0.5, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0.5, 1, 1, 1, 0, 1, 1)
+
+[node name="bomb" type="Area2D" unique_id=2124733722]
+scale = Vector2(0.3, 0.3)
+collision_mask = 3
+script = ExtResource("1_kdyat")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2064217907]
+position = Vector2(-3.1789143e-06, -3.1789143e-06)
+shape = SubResource("RectangleShape2D_v6mwd")
+
+[node name="RainbowExplosionParticles" type="CPUParticles2D" parent="." unique_id=382053910]
+emitting = false
+amount = 800
+lifetime = 1.2
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 1800.0
+initial_velocity_max = 2400.0
+damping_min = 400.0
+damping_max = 600.0
+scale_amount_min = 8.0
+scale_amount_max = 18.0
+color_ramp = SubResource("Gradient_fade")
+color_initial_ramp = SubResource("Gradient_rainbow")
+
+[node name="PowerupIconNuke" type="Sprite2D" parent="." unique_id=2062730889]
+texture_filter = 1
+position = Vector2(1.1444092e-05, 0)
+scale = Vector2(0.6112703, 0.61127025)
+texture = ExtResource("2_4fn8o")

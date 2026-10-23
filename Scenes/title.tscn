@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://bqxgmv5ksdhxw"]
+
+[ext_resource type="Script" uid="uid://bm7sffn8x2nl5" path="res://Scripts/title.gd" id="1_ekrfg"]
+[ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="2_oyqm6"]
+
+[node name="Title" type="Node2D" unique_id=502085938]
+script = ExtResource("1_ekrfg")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1782069398]
+
+[node name="Background" type="ColorRect" parent="CanvasLayer" unique_id=277609351]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=1109994015]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -92.0
+offset_right = 512.0
+offset_bottom = 108.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_oyqm6")
+theme_override_font_sizes/font_size = 200
+text = "BLOCKADE"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
