@@ -98,7 +98,7 @@ position = Vector2(1922.3981, 6.4818115)
 move_speed = 550.0
 rainbow_speed = 3.0
 
-[node name="TargetMarker2D" parent="Obstacle1" index="4" unique_id=309182371]
+[node name="TargetMarker2D" parent="Obstacle1" index="0" unique_id=309182371]
 position = Vector2(-3330.398, -6.4818115)
 
 [editable path="Obstacle1"]
