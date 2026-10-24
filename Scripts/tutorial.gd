@@ -8,18 +8,40 @@ extends Node2D
 ]
 
 func _ready() -> void:
+	# Set focus neighbor overrides so Up/Down navigation wraps correctly
+	buttons[0].focus_neighbor_top = buttons[3].get_path()
+	buttons[3].focus_neighbor_bottom = buttons[0].get_path()
+
 	for button in buttons:
-		# Set pivot offset to center so scaling expands outward from the middle
 		button.pivot_offset = button.size / 2.0
 		
-		# Connect mouse hover and press signals dynamically
+		# Connect mouse hover and keyboard focus signals dynamically
 		button.mouse_entered.connect(_on_button_hover.bind(button, true))
 		button.mouse_exited.connect(_on_button_hover.bind(button, false))
+		button.focus_entered.connect(_on_button_hover.bind(button, true))
+		button.focus_exited.connect(_on_button_hover.bind(button, false))
+		
+		# Connect press animation signals
 		button.button_down.connect(_on_button_down.bind(button))
 		button.button_up.connect(_on_button_up.bind(button))
 
-func _on_button_hover(button: Button, is_hovered: bool) -> void:
-	var target_scale = Vector2(1.08, 1.08) if is_hovered else Vector2(1.0, 1.0)
+	# Automatically focus the first button when the scene starts
+	buttons[0].grab_focus()
+
+func _unhandled_input(event: InputEvent) -> void:
+	# Ignore up/down navigation inputs so they don't accidentally confirm selection
+	if event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down"):
+		return
+
+	# Check if any key or controller button was pressed down
+	if (event is InputEventKey or event is InputEventJoypadButton) and event.is_pressed():
+		var focused = get_viewport().gui_get_focus_owner()
+		if focused is Button:
+			focused.emit_signal("pressed")
+			get_viewport().set_input_as_handled()
+
+func _on_button_hover(button: Button, is_active: bool) -> void:
+	var target_scale = Vector2(1.08, 1.08) if is_active else Vector2(1.0, 1.0)
 	var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(button, "scale", target_scale, 0.15)
 
@@ -28,7 +50,8 @@ func _on_button_down(button: Button) -> void:
 	tween.tween_property(button, "scale", Vector2(0.95, 0.95), 0.08)
 
 func _on_button_up(button: Button) -> void:
-	var target_scale = Vector2(1.08, 1.08) if button.is_hovered() else Vector2(1.0, 1.0)
+	var is_active = button.is_hovered() or button.has_focus()
+	var target_scale = Vector2(1.08, 1.08) if is_active else Vector2(1.0, 1.0)
 	var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(button, "scale", target_scale, 0.1)
 
