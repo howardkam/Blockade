@@ -42,18 +42,25 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_button_hover(button: Button, is_active: bool) -> void:
 	var target_scale = Vector2(1.08, 1.08) if is_active else Vector2(1.0, 1.0)
-	var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	var target_color = Color(1.0, 0.2, 0.2) if is_active else Color(1.0, 1.0, 1.0)
+	
+	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(button, "scale", target_scale, 0.15)
+	tween.tween_property(button, "modulate", target_color, 0.15)
 
 func _on_button_down(button: Button) -> void:
-	var tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_property(button, "scale", Vector2(0.95, 0.95), 0.08)
+	tween.tween_property(button, "modulate", Color(0.8, 0.1, 0.1), 0.08)
 
 func _on_button_up(button: Button) -> void:
 	var is_active = button.is_hovered() or button.has_focus()
 	var target_scale = Vector2(1.08, 1.08) if is_active else Vector2(1.0, 1.0)
-	var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	var target_color = Color(1.0, 0.2, 0.2) if is_active else Color(1.0, 1.0, 1.0)
+	
+	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(button, "scale", target_scale, 0.1)
+	tween.tween_property(button, "modulate", target_color, 0.1)
 
 func transition_to_scene(scene_path: String) -> void:
 	if get_node_or_null("/root/Global"):
