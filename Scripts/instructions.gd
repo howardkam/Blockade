@@ -11,13 +11,7 @@ var has_transitioned: bool = false
 
 func _ready() -> void:
 
-	# Start fully transparent
-	label.modulate = Color(1.0, 0.0, 0.0, 0.0)
 
-	# Fade in opacity to red while remaining in place
-	var tween: Tween = create_tween()
-	tween.tween_property(label, "modulate", Color(1.0, 0.0, 0.0, 1.0), animation_duration)\
-		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 	# Auto-advance timer
 	get_tree().create_timer(auto_transition_time).timeout.connect(_on_auto_timer_timeout)

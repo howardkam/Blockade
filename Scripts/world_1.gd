@@ -11,3 +11,7 @@ func _init() -> void:
 	pluses_per_batch = 8
 	gigantor_spawn_chance = 0.2
 	target_score = 4000
+
+# Optional: Only needed if you add custom ready logic to World 1
+func _ready() -> void:
+	super._ready() # Calls BaseWorld._ready() to trigger intro fade and item spawns

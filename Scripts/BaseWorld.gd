@@ -39,9 +39,9 @@ extends Node2D
 @export var spawn_area_min: Vector2 = Vector2(-3000, -3000)
 @export var spawn_area_max: Vector2 = Vector2(3000, 3000)
 
-@onready var level_cleared_label: Label = $WinUI/LevelClearedLabel
-@onready var level_intro_label: Label = $WinUI/LevelIntroLabel
-@onready var level_goal_label: Label = $WinUI/LevelGoalLabel
+@onready var level_cleared_label: Label = $WinUI/LevelClearedLabel if has_node("WinUI/LevelClearedLabel") else null
+@onready var level_intro_label: Label = $WinUI/LevelIntroLabel if has_node("WinUI/LevelIntroLabel") else null
+@onready var level_goal_label: Label = $WinUI/LevelGoalLabel if has_node("WinUI/LevelGoalLabel") else null
 
 var batches_spawned: int = 0
 var batch_timer: Timer = null
@@ -78,16 +78,22 @@ func _process(_delta: float) -> void:
 func show_level_intro() -> void:
 	if level_goal_label:
 		level_goal_label.text = "Goal: %d points" % target_score
+		level_goal_label.modulate.a = 1.0
 		level_goal_label.show()
 
 	if level_intro_label:
+		level_intro_label.modulate.a = 1.0
 		level_intro_label.show()
+
 		await get_tree().create_timer(intro_display_time).timeout
 
 		var tween = create_tween().set_parallel(true)
+		tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+
 		tween.tween_property(level_intro_label, "modulate:a", 0.0, 0.5)
 		if level_goal_label:
 			tween.tween_property(level_goal_label, "modulate:a", 0.0, 0.5)
+
 		await tween.finished
 
 		level_intro_label.hide()

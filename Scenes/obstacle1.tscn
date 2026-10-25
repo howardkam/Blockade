@@ -1,6 +1,18 @@
 [gd_scene format=3 uid="uid://ccw83dtmj6tep"]
 
 [ext_resource type="Script" uid="uid://clnrw3jxif6ma" path="res://Scripts/Obstacle1.gd" id="1_4p58j"]
+[ext_resource type="Texture2D" uid="uid://c4ic3lfl2m3by" path="res://Assets/grey soft/ShapeA (2).png" id="2_okhdc"]
+
+[sub_resource type="Gradient" id="Gradient_visual"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_visual"]
+gradient = SubResource("Gradient_visual")
+width = 432
+height = 432
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
 
 [sub_resource type="Curve" id="Curve_radial_accel"]
 _data = [Vector2(0, -0.1), 0.0, -1.0, 0, 0, Vector2(1, -1), -3.0, 0.0, 0, 0]
@@ -21,17 +33,6 @@ radial_accel_curve = SubResource("CurveTexture_radial")
 [sub_resource type="CircleShape2D" id="CircleShape2D_6xcap"]
 radius = 216.1481
 
-[sub_resource type="Gradient" id="Gradient_visual"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_visual"]
-gradient = SubResource("Gradient_visual")
-width = 432
-height = 432
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.5, 0.0)
-
 [node name="Obstacle1" type="StaticBody2D" unique_id=712489215]
 collision_layer = 2
 collision_mask = 0
@@ -39,10 +40,16 @@ script = ExtResource("1_4p58j")
 move_speed = null
 rainbow_speed = null
 
+[node name="ShapeA(2)" type="Sprite2D" parent="." unique_id=877346110]
+modulate = Color(1, 1, 1, 0.2)
+texture_filter = 1
+scale = Vector2(3.7, 3.7)
+texture = ExtResource("2_okhdc")
+
 [node name="TargetMarker2D" type="Marker2D" parent="." unique_id=309182371]
 position = Vector2(4.8253174, 7.1921387)
 
-[node name="VisualShape" type="Sprite2D" parent="."]
+[node name="VisualShape" type="Sprite2D" parent="." unique_id=386936788]
 modulate = Color(1, 1, 1, 0.5)
 texture = SubResource("GradientTexture2D_visual")
 
