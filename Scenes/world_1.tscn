@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ml4ytyfg7yj1" path="res://Scenes/world_5.gd" id="1_12jk7"]
 [ext_resource type="PackedScene" uid="uid://csyb3jak12esm" path="res://Scenes/player.tscn" id="2_wyo6c"]
 [ext_resource type="Texture2D" uid="uid://dqm36i6n1tchv" path="res://Assets/background-streetart.jpg" id="3_dksw6"]
-[ext_resource type="AudioStream" uid="uid://dfi02rdjcd0wl" path="res://Assets/musictrack3.wav" id="4_mm7mx"]
+[ext_resource type="AudioStream" uid="uid://0k52jqetq36t" path="res://Assets/musictrack6.wav" id="4_wyo6c"]
 [ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_h3pls"]
 [ext_resource type="PackedScene" uid="uid://ccw83dtmj6tep" path="res://Scenes/obstacle1.tscn" id="6_wyo6c"]
 
@@ -34,7 +34,7 @@ stretch_mode = 1
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1725792413]
 process_mode = 3
-stream = ExtResource("4_mm7mx")
+stream = ExtResource("4_wyo6c")
 volume_db = 5.0
 autoplay = true
 max_distance = 5000.0
