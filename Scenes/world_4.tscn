@@ -88,6 +88,6 @@ grow_vertical = 2
 theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
 theme_override_fonts/font = ExtResource("5_font")
 theme_override_font_sizes/font_size = 42
-text = "Goal: 4000 points"
+text = "Goal: 7000 points"
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -2,73 +2,109 @@
 
 [ext_resource type="Script" uid="uid://cy8ec511cwnma" path="res://Scripts/tutorial.gd" id="1_script"]
 [ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="2_i6t4g"]
+[ext_resource type="Texture2D" uid="uid://dqm36i6n1tchv" path="res://Assets/background-streetart.jpg" id="3_i6t4g"]
+[ext_resource type="Texture2D" uid="uid://j6olqx3rlp47" path="res://Assets/background-sumie.jpg" id="4_p1f1o"]
 [ext_resource type="Texture2D" uid="uid://co60ceob0ntjd" path="res://Assets/background-orange1.jpg" id="5_rwowx"]
+[ext_resource type="Texture2D" uid="uid://cuuobl5nxa647" path="res://Assets/background-runes.jpg" id="5_ys4pu"]
+[ext_resource type="Texture2D" uid="uid://tqa81swhhd45" path="res://Assets/background-mandala1.jpg" id="6_ys4pu"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w1"]
+texture = ExtResource("3_i6t4g")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_custom"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w2"]
+texture = ExtResource("4_p1f1o")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w3"]
+texture = ExtResource("5_ys4pu")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h2ono"]
+texture = ExtResource("6_ys4pu")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_instruct"]
 
 [node name="Tutorial" type="Node2D" unique_id=1591888135]
 script = ExtResource("1_script")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1204134797]
 
-[node name="MenuContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=1393614135]
+[node name="MenuContainer" type="GridContainer" parent="CanvasLayer" unique_id=1393614135]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -176.0
-offset_top = -300.0
-offset_right = 174.0
-offset_bottom = 290.0
+offset_left = -310.0
+offset_top = -210.0
+offset_right = 310.0
+offset_bottom = 210.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = -70
-alignment = 1
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 2
 
 [node name="World1Button" type="Button" parent="CanvasLayer/MenuContainer" unique_id=37485130]
 texture_filter = 1
-custom_minimum_size = Vector2(350, 200)
+custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_i6t4g")
 theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxEmpty_custom")
+theme_override_styles/normal = SubResource("StyleBoxTexture_w1")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_custom")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_custom")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_custom")
-text = "World 1"
+text = "GRACE TRIAD"
 
 [node name="World2Button" type="Button" parent="CanvasLayer/MenuContainer" unique_id=1254293251]
 texture_filter = 1
-custom_minimum_size = Vector2(350, 200)
+custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_i6t4g")
 theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxEmpty_custom")
+theme_override_styles/normal = SubResource("StyleBoxTexture_w2")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_custom")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_custom")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_custom")
-text = "World 2"
+text = "SUMI-E"
 
 [node name="World3Button" type="Button" parent="CanvasLayer/MenuContainer" unique_id=1864018589]
 texture_filter = 1
-custom_minimum_size = Vector2(350, 200)
+custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_i6t4g")
 theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxEmpty_custom")
+theme_override_styles/normal = SubResource("StyleBoxTexture_w3")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_custom")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_custom")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_custom")
-text = "World 3"
+text = "OGHAM"
+
+[node name="World4Button" type="Button" parent="CanvasLayer/MenuContainer" unique_id=368785222]
+texture_filter = 1
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_i6t4g")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxTexture_h2ono")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_custom")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_custom")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_custom")
+text = "MANDALA"
 
 [node name="InstructButton" type="Button" parent="CanvasLayer/MenuContainer" unique_id=1847848606]
 texture_filter = 1
-custom_minimum_size = Vector2(350, 200)
+custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_i6t4g")
 theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxEmpty_custom")
+theme_override_styles/normal = SubResource("StyleBoxTexture_instruct")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_custom")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_custom")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_custom")
@@ -97,4 +133,5 @@ stretch_mode = 1
 [connection signal="pressed" from="CanvasLayer/MenuContainer/World1Button" to="." method="_on_world_1_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MenuContainer/World2Button" to="." method="_on_world_2_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MenuContainer/World3Button" to="." method="_on_world_3_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MenuContainer/World4Button" to="." method="_on_world_4_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MenuContainer/InstructButton" to="." method="_on_instruct_button_pressed"]

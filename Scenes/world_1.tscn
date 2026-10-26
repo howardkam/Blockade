@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://cmvolpj7v8gm8"]
 
-[ext_resource type="Script" uid="uid://ml4ytyfg7yj1" path="res://Scenes/world_5.gd" id="1_12jk7"]
+[ext_resource type="Script" uid="uid://kt0ydb3211rx" path="res://Scripts/world_1.gd" id="1_wyo6c"]
 [ext_resource type="PackedScene" uid="uid://csyb3jak12esm" path="res://Scenes/player.tscn" id="2_wyo6c"]
 [ext_resource type="Texture2D" uid="uid://dqm36i6n1tchv" path="res://Assets/background-streetart.jpg" id="3_dksw6"]
 [ext_resource type="AudioStream" uid="uid://0k52jqetq36t" path="res://Assets/musictrack6.wav" id="4_wyo6c"]
 [ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_h3pls"]
 [ext_resource type="PackedScene" uid="uid://ccw83dtmj6tep" path="res://Scenes/obstacle1.tscn" id="6_wyo6c"]
 
-[node name="World 5" type="Node2D" unique_id=1682362440]
-script = ExtResource("1_12jk7")
+[node name="World 1" type="Node2D" unique_id=1682362440]
+script = ExtResource("1_wyo6c")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=244455650]
 z_index = -1
