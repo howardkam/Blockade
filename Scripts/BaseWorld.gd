@@ -42,6 +42,7 @@ extends Node2D
 @onready var level_cleared_label: Label = $WinUI/LevelClearedLabel if has_node("WinUI/LevelClearedLabel") else null
 @onready var level_intro_label: Label = $WinUI/LevelIntroLabel if has_node("WinUI/LevelIntroLabel") else null
 @onready var level_goal_label: Label = $WinUI/LevelGoalLabel if has_node("WinUI/LevelGoalLabel") else null
+@onready var audio_player: AudioStreamPlayer2D = $AudioStreamPlayer2D if has_node("AudioStreamPlayer2D") else null
 
 var batches_spawned: int = 0
 var batch_timer: Timer = null
@@ -49,8 +50,15 @@ var level_completed: bool = false
 var cached_player: CharacterBody2D = null
 
 func _ready() -> void:
+	# Fade out menu/title music if a global MusicManager exists
 	if get_node_or_null("/root/MusicManager"):
 		MusicManager.fade_out_music(1.5)
+
+	# Ensure local world music plays at full volume if audio_player exists
+	if audio_player:
+		audio_player.volume_db = 5.0
+		if not audio_player.playing:
+			audio_player.play()
 
 	cached_player = player if player else get_tree().get_first_node_in_group("player") as CharacterBody2D
 
@@ -85,11 +93,9 @@ func show_level_intro() -> void:
 		level_intro_label.modulate.a = 1.0
 		level_intro_label.show()
 
-		await get_tree().create_timer(intro_display_time).timeout
+		await get_tree().create_timer(intro_display_time, false).timeout
 
 		var tween = create_tween().set_parallel(true)
-		tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-
 		tween.tween_property(level_intro_label, "modulate:a", 0.0, 0.5)
 		if level_goal_label:
 			tween.tween_property(level_goal_label, "modulate:a", 0.0, 0.5)
