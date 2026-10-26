@@ -10,4 +10,4 @@ func _init() -> void:
 	diamonds_per_batch = 50
 	pluses_per_batch = 6
 	gigantor_spawn_chance = 0.1
-	target_score = 4000
+	target_score = 7000
