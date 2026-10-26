@@ -1,5 +1,5 @@
 extends CharacterBody2D
-#
+
 signal died
 
 @export var bullet_scene: PackedScene = preload("res://Scenes/bullet.tscn")
@@ -7,7 +7,7 @@ signal died
 @export var laser_scene: PackedScene = preload("res://Scenes/laser_beam.tscn")
 @export var move_speed: float = 550.0
 @export var fire_rate: float = 0.07
-@export var aim_smooth_speed: float = 20.0 # Adjust higher for quick response, lower for smoother floating aim
+@export var aim_smooth_speed: float = 20.0
 
 @export var max_health: float = 100.0
 @export var damage_per_second: float = 40.0
@@ -36,19 +36,19 @@ var trident_time_left: float = 0.0
 # Camera Shake Variables
 var shake_intensity: float = 0.0
 
-@onready var score_label: Label = $UI/ScoreLabel
-@onready var hitbox: Area2D = $hitbox
-@onready var ui_layer: CanvasLayer = $UI
-@onready var sprite: Sprite2D = $Mainplayer
-@onready var injurysound: AudioStreamPlayer2D = $injurysound
-@onready var camera: Camera2D = $Camera2D
-@onready var timer_label: Label = $TimerLabel
+@onready var score_label: Label = $UI/ScoreLabel if has_node("UI/ScoreLabel") else null
+@onready var hitbox: Area2D = $hitbox if has_node("hitbox") else null
+@onready var ui_layer: CanvasLayer = $UI if has_node("UI") else null
+@onready var sprite: Sprite2D = $Mainplayer if has_node("Mainplayer") else null
+@onready var injurysound: AudioStreamPlayer2D = $injurysound if has_node("injurysound") else null
+@onready var camera: Camera2D = $Camera2D if has_node("Camera2D") else null
+@onready var timer_label: Label = $TimerLabel if has_node("TimerLabel") else null
 
 var health_bar: ProgressBar
 var injury_fade_tween: Tween = null
 const INJURY_ORIGINAL_VOLUME: float = 10.0
 
-func _ready():
+func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	add_to_group("player")
 	current_health = max_health
@@ -65,21 +65,21 @@ func clear_powerups() -> void:
 	is_trident_active = false
 	trident_time_left = 0.0
 
-func activate_missile_powerup(duration: float = 30.0):
+func activate_missile_powerup(duration: float = 30.0) -> void:
 	clear_powerups()
 	is_missile_active = true
 	missile_time_left = duration
 	if timer_label:
 		timer_label.show()
 
-func activate_laser_powerup(duration: float = 20.0):
+func activate_laser_powerup(duration: float = 20.0) -> void:
 	clear_powerups()
 	is_laser_active = true
 	laser_time_left = duration
 	if timer_label:
 		timer_label.show()
 
-func activate_trident_powerup(duration: float = 20.0):
+func activate_trident_powerup(duration: float = 20.0) -> void:
 	clear_powerups()
 	is_trident_active = true
 	trident_time_left = duration
@@ -105,12 +105,15 @@ func restart_game() -> void:
 	else:
 		get_tree().reload_current_scene()
 
-func setup_health_ui():
+func setup_health_ui() -> void:
+	if not ui_layer:
+		return
+
 	if has_node("ProgressBar"):
 		health_bar = $ProgressBar
 		health_bar.reparent(ui_layer)
 	elif ui_layer.has_node("ProgressBar"):
-		health_bar = ui_layer.get_node("ProgressBar")
+		health_bar = ui_layer.get_node("ProgressBar") as ProgressBar
 	else:
 		health_bar = ProgressBar.new()
 		health_bar.name = "ProgressBar"
@@ -137,24 +140,23 @@ func setup_health_ui():
 
 	update_health_ui()
 
-func add_score(amount: int = 10):
+func add_score(amount: int = 10) -> void:
 	score += amount
 	update_score_ui()
 
-func update_score_ui():
+func update_score_ui() -> void:
 	if score_label:
 		score_label.text = str(score)
 
-func update_health_ui():
+func update_health_ui() -> void:
 	if health_bar:
 		health_bar.value = current_health
 
-func heal(amount: float):
+func heal(amount: float) -> void:
 	current_health = min(current_health + amount, max_health)
 	update_health_ui()
 
-func _physics_process(delta):
-	# Handle Laser Power-up Timer
+func _physics_process(delta: float) -> void:
 	if is_laser_active:
 		laser_time_left -= delta
 		if timer_label:
@@ -166,7 +168,6 @@ func _physics_process(delta):
 			if timer_label:
 				timer_label.hide()
 
-	# Handle Missile Power-up Timer
 	if is_missile_active:
 		missile_time_left -= delta
 		if timer_label:
@@ -178,7 +179,6 @@ func _physics_process(delta):
 			if timer_label:
 				timer_label.hide()
 
-	# Handle Trident Power-up Timer
 	if is_trident_active:
 		trident_time_left -= delta
 		if timer_label:
@@ -229,7 +229,7 @@ func _physics_process(delta):
 		can_shoot = false
 		shoot_timer = fire_rate
 
-func check_enemy_damage(delta: float):
+func check_enemy_damage(delta: float) -> void:
 	if not hitbox:
 		return
 		
@@ -259,7 +259,7 @@ func check_enemy_damage(delta: float):
 		if sprite:
 			sprite.modulate = Color.WHITE
 
-func start_injury_sound():
+func start_injury_sound() -> void:
 	if not injurysound:
 		return
 	if injury_fade_tween and injury_fade_tween.is_running():
@@ -268,7 +268,7 @@ func start_injury_sound():
 	if not injurysound.playing:
 		injurysound.play()
 
-func stop_injury_sound_smooth(fade_time: float = 0.25):
+func stop_injury_sound_smooth(fade_time: float = 0.25) -> void:
 	if not injurysound or not injurysound.playing:
 		return
 	if injury_fade_tween and injury_fade_tween.is_running():
@@ -276,13 +276,14 @@ func stop_injury_sound_smooth(fade_time: float = 0.25):
 		
 	injury_fade_tween = create_tween()
 	injury_fade_tween.tween_property(injurysound, "volume_db", -80.0, fade_time)
-	injury_fade_tween.finished.connect(func():
-		if is_instance_valid(injurysound):
-			injurysound.stop()
-			injurysound.volume_db = INJURY_ORIGINAL_VOLUME
-	)
+	injury_fade_tween.finished.connect(_on_injury_fade_finished)
 
-func take_damage(amount: float):
+func _on_injury_fade_finished() -> void:
+	if is_instance_valid(injurysound):
+		injurysound.stop()
+		injurysound.volume_db = INJURY_ORIGINAL_VOLUME
+
+func take_damage(amount: float) -> void:
 	current_health -= amount
 	current_health = max(current_health, 0.0)
 	update_health_ui()
@@ -290,7 +291,7 @@ func take_damage(amount: float):
 	if current_health <= 0.0 and not is_dead:
 		die()
 
-func die():
+func die() -> void:
 	is_dead = true
 	velocity = Vector2.ZERO
 	stop_injury_sound_smooth(0.15)
@@ -313,29 +314,34 @@ func die():
 	clear_all_enemies()
 	show_game_over()
 
-func spawn_death_explosion():
+func spawn_death_explosion() -> void:
 	if has_node("DeathParticles"):
 		var particles = $DeathParticles as CPUParticles2D
-		particles.reparent(get_tree().current_scene)
-		particles.global_position = global_position
-		particles.restart()
-		particles.emitting = true
-		get_tree().create_timer(particles.lifetime + 0.5).timeout.connect(particles.queue_free)
+		if particles:
+			particles.reparent(get_tree().current_scene)
+			particles.global_position = global_position
+			particles.restart()
+			particles.emitting = true
+			get_tree().create_timer(particles.lifetime + 0.5).timeout.connect(particles.queue_free)
 
-func stop_all_spawners():
+func stop_all_spawners() -> void:
 	var scene_tree = get_tree().current_scene
 	if scene_tree:
-		for child in scene_tree.get_children(true):
-			if child is Timer:
-				child.stop()
+		var timers = scene_tree.find_children("*", "Timer", true, false)
+		for timer in timers:
+			if timer is Timer:
+				timer.stop()
 
-func clear_all_enemies():
+func clear_all_enemies() -> void:
 	var enemies = get_tree().get_nodes_in_group("enemy") + get_tree().get_nodes_in_group("enemies")
 	for enemy in enemies:
 		if is_instance_valid(enemy):
 			enemy.queue_free()
 
-func show_game_over():
+func show_game_over() -> void:
+	if not ui_layer:
+		return
+
 	var game_over_label = Label.new()
 	game_over_label.text = "GAME OVER\n\nPress START to try again\n\nPress ESC to quit"
 	game_over_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -347,7 +353,7 @@ func show_game_over():
 	game_over_label.anchor_right = 1.0
 	game_over_label.anchor_bottom = 1.0
 	
-	var font = load("res://Assets/movement/Movement.ttf")
+	var font = load("res://Assets/movement/Movement.ttf") as Font
 	if font:
 		game_over_label.add_theme_font_override("font", font)
 		game_over_label.add_theme_font_size_override("font_size", 36)
@@ -355,7 +361,7 @@ func show_game_over():
 	
 	ui_layer.add_child(game_over_label)
 
-func fire_bullet(dir: Vector2):
+func fire_bullet(dir: Vector2) -> void:
 	var proj_scene: PackedScene = bullet_scene
 	if is_laser_active:
 		proj_scene = laser_scene

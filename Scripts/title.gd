@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var label: Label = $CanvasLayer/Label
+@onready var label: Label = $CanvasLayer/Label if has_node("CanvasLayer/Label") else null
 
 @export var animation_duration: float = 4.0
 @export var auto_transition_time: float = 6.0
@@ -11,16 +11,16 @@ var has_transitioned: bool = false
 
 func _ready() -> void:
 	# Keep intro music playing continuously across scene transitions
-	if intro_music_stream:
+	if intro_music_stream and get_node_or_null("/root/MusicManager"):
 		MusicManager.play_music(intro_music_stream)
 
-	# Start fully transparent
-	label.modulate = Color(1.0, 0.0, 0.0, 0.0)
+	if label:
+		# Start fully transparent
+		label.modulate = Color(1.0, 0.0, 0.0, 0.0)
 
-	# Fade in opacity to red while remaining in place
-	var tween: Tween = create_tween()
-	tween.tween_property(label, "modulate", Color(1.0, 0.0, 0.0, 1.0), animation_duration)\
-		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		# Fade in opacity to red while remaining in place
+		var tween: Tween = create_tween()
+		tween.tween_property(label, "modulate", Color(1.0, 0.0, 0.0, 1.0), animation_duration).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 	# Auto-advance timer
 	get_tree().create_timer(auto_transition_time).timeout.connect(_on_auto_timer_timeout)
@@ -40,7 +40,10 @@ func transition_to_next_scene() -> void:
 	if get_node_or_null("/root/Global"):
 		Global.reset_game()
 
-	SceneManager.change_scene(next_scene, {
-		"pattern": "fade",
-		"time": 3
-	})
+	if get_node_or_null("/root/SceneManager"):
+		SceneManager.change_scene(next_scene, {
+			"pattern": "fade",
+			"time": 3
+		})
+	else:
+		get_tree().change_scene_to_file(next_scene)

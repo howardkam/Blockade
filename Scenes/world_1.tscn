@@ -1,27 +1,27 @@
-[gd_scene format=3 uid="uid://dcqrkio2sg4w"]
+[gd_scene format=3 uid="uid://dt3s4ld065qmd"]
 
-[ext_resource type="Script" uid="uid://cmsqvaepnjbxt" path="res://Scripts/world_1.gd" id="1_mqyi5"]
+[ext_resource type="Script" uid="uid://kt0ydb3211rx" path="res://Scripts/world_1.gd" id="1_mqyi5"]
 [ext_resource type="PackedScene" uid="uid://csyb3jak12esm" path="res://Scenes/player.tscn" id="2_player"]
 [ext_resource type="Texture2D" uid="uid://tqa81swhhd45" path="res://Assets/background-mandala1.jpg" id="3_kdx2d"]
-[ext_resource type="AudioStream" uid="uid://jdcrr8mclpf8" path="res://Assets/musictrack5.wav" id="4_12jk7"]
+[ext_resource type="AudioStream" uid="uid://cpcukr5prcfdd" path="res://Assets/musictrack2.wav" id="4_12jk7"]
 [ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_kdx2d"]
 
-[node name="World 1" type="Node2D" unique_id=2038485019]
+[node name="World 1" type="Node2D" unique_id=1507587922]
 script = ExtResource("1_mqyi5")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=723924473]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1339538860]
 z_index = -1
 offset_left = -4968.0
 offset_top = -5333.0
 offset_right = 4945.0
 offset_bottom = 4936.0
-color = Color(0.235, 0, 0.02, 0.37)
+color = Color(0, 0, 0, 0.04)
 
-[node name="player" parent="." unique_id=1048804282 instance=ExtResource("2_player")]
+[node name="player" parent="." unique_id=16646871 instance=ExtResource("2_player")]
 position = Vector2(0, 8)
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=93713085]
-modulate = Color(1, 1, 1, 0.16)
+[node name="TextureRect" type="TextureRect" parent="." unique_id=857776756]
+modulate = Color(1, 1, 1, 0.08)
 z_index = -1
 texture_repeat = 2
 offset_left = -4970.0
@@ -31,17 +31,17 @@ offset_bottom = 4939.0
 texture = ExtResource("3_kdx2d")
 stretch_mode = 1
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=50834005]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1621808399]
 process_mode = 3
 stream = ExtResource("4_12jk7")
 volume_db = 5.0
 autoplay = true
 max_distance = 5000.0
 
-[node name="WinUI" type="CanvasLayer" parent="." unique_id=1715585060]
+[node name="WinUI" type="CanvasLayer" parent="." unique_id=1251349291]
 process_mode = 3
 
-[node name="LevelClearedLabel" type="Label" parent="WinUI" unique_id=122439686]
+[node name="LevelClearedLabel" type="Label" parent="WinUI" unique_id=299098260]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,7 +55,7 @@ text = "LEVEL CLEARED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LevelIntroLabel" type="Label" parent="WinUI" unique_id=1872953265]
+[node name="LevelIntroLabel" type="Label" parent="WinUI" unique_id=802602807]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -73,7 +73,7 @@ text = "MANDALA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LevelGoalLabel" type="Label" parent="WinUI" unique_id=1666271984]
+[node name="LevelGoalLabel" type="Label" parent="WinUI" unique_id=1470785029]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
