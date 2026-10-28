@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://doktvfbfbl1sj"]
 
 [ext_resource type="Script" uid="uid://kbv8hrydhb14" path="res://Scripts/missile.gd" id="1_0uoyr"]
-[ext_resource type="Texture2D" uid="uid://b5k4ha7d74uic" path="res://Assets/missilemaverick.png" id="2_0uoyr"]
 [ext_resource type="AudioStream" uid="uid://crescotisp0w7" path="res://Assets/bullet2.wav" id="3_bqn2q"]
 
 [sub_resource type="Curve" id="Curve_trail"]
@@ -48,12 +47,6 @@ position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_0uoyr")
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=1193952957]
-
-[node name="Missilemaverick" type="Sprite2D" parent="." unique_id=1875734749]
-visible = false
-texture_filter = 1
-position = Vector2(0, 1)
-texture = ExtResource("2_0uoyr")
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1808438364]
 visible = false

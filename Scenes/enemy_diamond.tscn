@@ -22,7 +22,7 @@ point_count = 2
 colors = PackedColorArray(1, 1, 1, 1, 0.05, 0.05, 0.05, 0)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_x2ie0"]
-polygon = PackedVector2Array(0, -83.33333, -53.333332, -46.666668, -86.666664, 0, -50, 53.333332, 0, 86.666664, 53.333332, 49.999996, 83.33333, 3.3333333, 50, -43.333332)
+polygon = PackedVector2Array(0, -83.33333, -86.666664, 0, 0, 86.666664, 83.33333, 3.3333333)
 
 [node name="EnemyDiamond" type="CharacterBody2D" unique_id=221196735 groups=["enemy"]]
 scale = Vector2(0.3, 0.3)
@@ -49,7 +49,7 @@ texture_scale = 4.0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1236449664]
 position = Vector2(0, 3.3333333)
-polygon = PackedVector2Array(0, -90, -53.333332, -53.333332, -86.666664, -3.3333333, -53.333332, 46.666668, 0, 83.33333, 53.333332, 43.333332, 83.33333, -3.3333333, 50, -53.333332)
+polygon = PackedVector2Array(0, -90, -86.666664, -3.3333333, 0, 83.33333, 83.33333, -3.3333333)
 
 [node name="ExplosionParticles" type="CPUParticles2D" parent="." unique_id=1670205153]
 emitting = false
@@ -76,7 +76,7 @@ collision_mask = 0
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="hitbox" unique_id=1415225855]
 position = Vector2(3.3333435, 0)
-polygon = PackedVector2Array(-3.3333435, -83.33333, -53.333344, -50, -90.00001, -3.3333333, -56.666676, 46.666664, -3.3333435, 83.33333, 46.666656, 46.666664, 79.999985, 0, 43.33332, -50)
+polygon = PackedVector2Array(-3.3333435, -83.33333, -90.00001, -3.3333333, -3.3333435, 83.33333, 79.999985, 0)
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=680155244]
 position = Vector2(0, -3.3333333)
