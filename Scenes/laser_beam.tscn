@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://c5laserbeam01"]
 
 [ext_resource type="Script" uid="uid://blbd81ywd06cu" path="res://Scripts/laser_beam.gd" id="1_laser"]
-[ext_resource type="Texture2D" uid="uid://b5k4ha7d74uic" path="res://Assets/missilemaverick.png" id="2_icon"]
 
 [sub_resource type="Curve" id="Curve_trail"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -33,15 +32,9 @@ joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1355029993]
-modulate = Color(4, 0.2, 0.2, 0.9)
-scale = Vector2(1.8, 0.75)
-texture = ExtResource("2_icon")
-
 [node name="CoreSprite" type="Sprite2D" parent="." unique_id=1443140098]
 modulate = Color(8, 6, 6, 1)
 scale = Vector2(1.6, 0.2)
-texture = ExtResource("2_icon")
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=858195656]
 color = Color(1, 0.1, 0.1, 1)

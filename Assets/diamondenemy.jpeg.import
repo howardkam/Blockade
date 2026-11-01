@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5k4ha7d74uic"
-path="res://.godot/imported/missilemaverick.png-3f3242b4d54f64c0e29d53f34fb73f86.ctex"
+uid="uid://nshieed1e1l0"
+path="res://.godot/imported/diamondenemy.jpeg-61223717fafc1d9a9b2ff3bb78fb3e7d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/missilemaverick.png"
-dest_files=["res://.godot/imported/missilemaverick.png-3f3242b4d54f64c0e29d53f34fb73f86.ctex"]
+source_file="res://Assets/diamondenemy.jpeg"
+dest_files=["res://.godot/imported/diamondenemy.jpeg-61223717fafc1d9a9b2ff3bb78fb3e7d.ctex"]
 
 [params]
 
