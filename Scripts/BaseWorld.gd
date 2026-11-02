@@ -49,7 +49,13 @@ var batch_timer: Timer = null
 var level_completed: bool = false
 var cached_player: CharacterBody2D = null
 
+# Cache collision polygons for fast geometry checking
+var cached_polygons: Array[CollisionPolygon2D] = []
+
 func _ready() -> void:
+	# Cache static collision polygons once to avoid tree searches during gameplay
+	_cache_static_polygons(self)
+
 	# Fade out menu/title music if a global MusicManager exists
 	if get_node_or_null("/root/MusicManager"):
 		MusicManager.fade_out_music(1.5)
@@ -83,6 +89,38 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	check_win_condition()
 
+func _cache_static_polygons(node: Node) -> void:
+	for child in node.get_children():
+		if child is StaticBody2D:
+			for sub_child in child.get_children():
+				if sub_child is CollisionPolygon2D:
+					cached_polygons.append(sub_child)
+		_cache_static_polygons(child)
+
+func _is_point_in_static_body(pos: Vector2) -> bool:
+	for poly in cached_polygons:
+		if poly.is_visible_in_tree():
+			var local_pos = poly.to_local(pos)
+			if Geometry2D.is_point_in_polygon(local_pos, poly.polygon):
+				return true
+	return false
+
+func _get_random_spawn_position(min_dist: float, max_dist: float, max_attempts: int = 25) -> Vector2:
+	var player_pos = cached_player.global_position if cached_player else Vector2.ZERO
+
+	for attempt in range(max_attempts):
+		var angle = randf() * TAU
+		var distance = randf_range(min_dist, max_dist)
+		var pos = player_pos + Vector2(cos(angle), sin(angle)) * distance
+		pos.x = clamp(pos.x, spawn_area_min.x, spawn_area_max.x)
+		pos.y = clamp(pos.y, spawn_area_min.y, spawn_area_max.y)
+
+		if not _is_point_in_static_body(pos):
+			return pos
+
+	# Fallback position if all attempts land inside geometry
+	return player_pos + Vector2(min_dist, 0)
+
 func show_level_intro() -> void:
 	if level_goal_label:
 		level_goal_label.text = "Goal: %d points" % target_score
@@ -105,15 +143,6 @@ func show_level_intro() -> void:
 		level_intro_label.hide()
 		if level_goal_label:
 			level_goal_label.hide()
-
-func _get_random_spawn_position(min_dist: float, max_dist: float) -> Vector2:
-	var player_pos = cached_player.global_position if cached_player else Vector2.ZERO
-	var angle = randf() * TAU
-	var distance = randf_range(min_dist, max_dist)
-	var pos = player_pos + Vector2(cos(angle), sin(angle)) * distance
-	pos.x = clamp(pos.x, spawn_area_min.x, spawn_area_max.x)
-	pos.y = clamp(pos.y, spawn_area_min.y, spawn_area_max.y)
-	return pos
 
 func spawn_initial_items(scene: PackedScene, count: int) -> void:
 	if not scene or count <= 0:

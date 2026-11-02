@@ -9,6 +9,8 @@
 
 [node name="World 1" type="Node2D" unique_id=1682362440]
 script = ExtResource("1_wyo6c")
+metadata/_edit_vertical_guides_ = [-3000.0, 2984.0]
+metadata/_edit_horizontal_guides_ = [-3016.0, 3040.0]
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=244455650]
 z_index = -1
@@ -94,19 +96,19 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Obstacle1" parent="." unique_id=712489215 instance=ExtResource("6_wyo6c")]
-position = Vector2(-4069, 4122)
+position = Vector2(-2735.6216, 2692.2021)
 
 [node name="TargetMarker2D" parent="Obstacle1" index="1" unique_id=309182371]
-position = Vector2(3130.8237, -4971.991)
+position = Vector2(5356.97, -5356.9697)
 
 [node name="Obstacle2" parent="." unique_id=1857537643 instance=ExtResource("6_wyo6c")]
-position = Vector2(4192, 3840)
+position = Vector2(2586.4492, 2552.6064)
 
 [node name="TargetMarker2D" parent="Obstacle2" index="1" unique_id=309182371]
-position = Vector2(-3477.7, -4673.7104)
+position = Vector2(-5374.419, -5287.172)
 
 [node name="Obstacle3" parent="." unique_id=1754070234 instance=ExtResource("6_wyo6c")]
-position = Vector2(-32, -4704)
+position = Vector2(-13.513184, -2717.1162)
 
 [node name="TargetMarker2D" parent="Obstacle3" index="1" unique_id=309182371]
 position = Vector2(18.486816, 5424.4185)
