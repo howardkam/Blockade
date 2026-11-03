@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://df0nuu8jos5s1" path="res://Scenes/powerup_launcher.tscn" id="6_j2wlq"]
 [ext_resource type="PackedScene" uid="uid://dt61k2dnfgq26" path="res://Scenes/powerup_trident.tscn" id="7_6yop6"]
 [ext_resource type="PackedScene" uid="uid://cu485jghwebnu" path="res://Scenes/bomb.tscn" id="8_s5h6m"]
+[ext_resource type="PackedScene" uid="uid://dg2cg0a38tnc6" path="res://Scenes/enemy_spider.tscn" id="9_6yop6"]
 
 [node name="WorldTemplate" type="Node2D" unique_id=669476981]
 script = ExtResource("1_baseworld")
@@ -78,3 +79,6 @@ position = Vector2(384, 72)
 
 [node name="bomb" parent="." unique_id=2124733722 instance=ExtResource("8_s5h6m")]
 position = Vector2(504, 152)
+
+[node name="spider" parent="." unique_id=1231544270 instance=ExtResource("9_6yop6")]
+position = Vector2(1032, -216)
