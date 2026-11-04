@@ -2,6 +2,27 @@
 
 [ext_resource type="Script" path="res://Scripts/fireball.gd" id="1_fireball_script"]
 
+[sub_resource type="Gradient" id="Gradient_fireball_core"]
+offsets = PackedFloat32Array(0, 0.7, 1)
+colors = PackedColorArray(1, 0.9, 0.3, 1, 1, 0.3, 0, 1, 1, 0.1, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fireball_visual"]
+gradient = SubResource("Gradient_fireball_core")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Gradient" id="Gradient_fireball_glow"]
+colors = PackedColorArray(1, 0.5, 0.1, 1, 1, 0.1, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fireball_glow"]
+gradient = SubResource("Gradient_fireball_glow")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_fireball"]
 radius = 8.0
 
@@ -13,16 +34,11 @@ script = ExtResource("1_fireball_script")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_fireball")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -6.0
-offset_top = -6.0
-offset_right = 6.0
-offset_bottom = 6.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 0.3, 0.1, 1)
+[node name="VisualSprite" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_fireball_visual")
+
+[node name="FireballGlow" type="PointLight2D" parent="."]
+color = Color(1, 0.5, 0.2, 1)
+energy = 2.5
+texture = SubResource("GradientTexture2D_fireball_glow")
+texture_scale = 3.0

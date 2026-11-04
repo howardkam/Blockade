@@ -38,6 +38,7 @@ enemy=""
 player=""
 enemy_explosion_sounds=""
 obstacles=""
+boss=""
 
 [input]
 

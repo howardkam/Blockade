@@ -130,7 +130,14 @@ radius = 104.307236
 [sub_resource type="CircleShape2D" id="CircleShape2D_leip5"]
 radius = 104.0
 
-[node name="spider" type="CharacterBody2D" unique_id=1231544270 groups=["enemy"]]
+[sub_resource type="Curve" id="Curve_large_to_small"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_bright_to_dim"]
+colors = PackedColorArray(1, 1, 1, 1, 0.05, 0.05, 0.05, 0)
+
+[node name="spider" type="CharacterBody2D" unique_id=1231544270 groups=["boss", "enemy"]]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_i0arb")
@@ -156,3 +163,21 @@ debug_color = Color(0.8342653, 0.0013284087, 0.9372449, 0.41960785)
 [node name="explosion" type="AudioStreamPlayer2D" parent="." unique_id=1824895799 groups=["enemy_explosion_sounds"]]
 stream = ExtResource("3_yx2pn")
 volume_db = 8.0
+
+[node name="ExplosionParticles" type="CPUParticles2D" parent="." unique_id=1670205154]
+emitting = false
+amount = 500
+one_shot = true
+speed_scale = 1.5
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 1200.0
+initial_velocity_max = 2000.0
+damping_min = 200.0
+damping_max = 350.0
+scale_amount_min = 10.0
+scale_amount_max = 30.0
+scale_amount_curve = SubResource("Curve_large_to_small")
+color = Color(1, 0.35, 0.1, 1)
+color_ramp = SubResource("Gradient_bright_to_dim")

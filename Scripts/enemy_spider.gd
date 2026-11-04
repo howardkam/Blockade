@@ -1,10 +1,10 @@
 extends CharacterBody2D
 
 @export var move_speed: float = 120.0
-@export var turn_speed: float = 2.0 # Turning rate in radians per second (~200°/sec)
-@export var max_health: int = 2
-@export var pointvalue: int = 10
-@export var shoot_interval: float = 2.0
+@export var turn_speed: float = 2.0
+@export var max_health: int = 200
+@export var pointvalue: int = 200
+@export var shoot_interval: float = 1.0
 @export var fireball_scene: PackedScene = preload("res://Scenes/fireball.tscn")
 
 @onready var sprite: AnimatedSprite2D = $spider
@@ -21,18 +21,17 @@ var cached_separation: Vector2 = Vector2.ZERO
 var frame_offset: int = 0
 var shoot_timer: Timer
 
+var is_hit_flashing: bool = false
+
 func _ready() -> void:
 	current_health = max_health
 	add_to_group("enemies")
+	add_to_group("boss")
 	frame_offset = get_instance_id() % 4
 	
 	if sprite:
 		sprite.play("default")
-		
-	if has_node("VisibleOnScreenNotifier2D"):
-		$VisibleOnScreenNotifier2D.screen_exited.connect(queue_free)
 
-	# Set up shooting timer
 	shoot_timer = Timer.new()
 	shoot_timer.name = "ShootTimer"
 	shoot_timer.wait_time = shoot_interval
@@ -53,27 +52,12 @@ func _physics_process(delta: float) -> void:
 	var final_direction = (direction + cached_separation * 1.2).normalized()
 	var target_angle = final_direction.angle() + PI / 2
 
-	# Smoothly rotate facing angle toward target direction
 	rotation = rotate_toward(rotation, target_angle, turn_speed * delta)
-
-	# Drive velocity forward relative to facing rotation
 	velocity = Vector2.UP.rotated(rotation) * move_speed
 	move_and_slide()
 
 	global_position.x = clamp(global_position.x, WORLD_LIMIT_MIN, WORLD_LIMIT_MAX)
 	global_position.y = clamp(global_position.y, WORLD_LIMIT_MIN, WORLD_LIMIT_MAX)
-
-func _on_shoot_timer_timeout() -> void:
-	if not player or not is_instance_valid(player):
-		return
-		
-	if fireball_scene:
-		var fireball = fireball_scene.instantiate()
-		fireball.global_position = global_position
-		var dir = global_position.direction_to(player.global_position)
-		fireball.direction = dir
-		fireball.rotation = dir.angle()
-		get_tree().current_scene.add_child(fireball)
 
 func get_separation_vector() -> Vector2:
 	var separation = Vector2.ZERO
@@ -89,6 +73,32 @@ func get_separation_vector() -> Vector2:
 				
 	return separation.normalized() if neighbor_count > 0 else Vector2.ZERO
 
+func trigger_white_flash() -> void:
+	if not sprite:
+		return
+		
+	is_hit_flashing = true
+	sprite.modulate = Color(10.0, 10.0, 10.0, 1.0)
+	
+	var tween = create_tween()
+	tween.tween_property(sprite, "modulate", Color.WHITE, 0.12)
+	tween.finished.connect(func(): is_hit_flashing = false)
+
+func _on_shoot_timer_timeout() -> void:
+	if not player or not is_instance_valid(player):
+		player = get_tree().get_first_node_in_group("player")
+		
+	if not player or not is_instance_valid(player):
+		return
+		
+	if fireball_scene:
+		var fireball = fireball_scene.instantiate()
+		fireball.global_position = global_position
+		var dir = global_position.direction_to(player.global_position)
+		fireball.direction = dir
+		fireball.rotation = dir.angle()
+		get_tree().current_scene.add_child(fireball)
+
 func take_damage(amount_or_from_bomb = 1) -> void:
 	var damage_amount: int = 1
 	var from_bomb: bool = false
@@ -99,7 +109,7 @@ func take_damage(amount_or_from_bomb = 1) -> void:
 		damage_amount = int(amount_or_from_bomb)
 
 	current_health -= damage_amount
-	modulate = Color.GOLD
+	trigger_white_flash()
 	
 	if current_health <= 0:
 		if not from_bomb and not suppress_explosion_sounds and is_instance_valid(explosionsound):
