@@ -1,5 +1,5 @@
 extends Area2D
-#
+
 @export var speed: float = 900.0
 @export var turn_speed: float = 20.0
 @export var damage: float = 1.0
@@ -14,6 +14,7 @@ var hit_registered: bool = false
 var time_alive: float = 0.0
 
 @onready var trail: Line2D = $Trail
+@onready var hit_particles: CPUParticles2D = $HitParticles if has_node("HitParticles") else null
 
 func _ready():
 	$VisibleOnScreenEnabler2D.screen_exited.connect(queue_free)
@@ -91,7 +92,14 @@ func cleanup_and_destroy():
 	$CollisionShape2D.set_deferred("disabled", true)
 	if has_node("Missilemaverick"):
 		$Missilemaverick.hide()
-	
+
+	if is_instance_valid(hit_particles):
+		hit_particles.reparent(get_tree().current_scene)
+		hit_particles.global_position = global_position
+		hit_particles.emitting = true
+		var timer = get_tree().create_timer(hit_particles.lifetime + 0.1)
+		timer.timeout.connect(hit_particles.queue_free)
+
 	if trail:
 		var tween = create_tween()
 		tween.tween_property(trail, "modulate:a", 0.0, 0.2)

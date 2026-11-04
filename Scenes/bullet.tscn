@@ -16,6 +16,10 @@ random_pitch = 1.15
 streams_count = 1
 stream_0/stream = ExtResource("3_t4vbm")
 
+[sub_resource type="Curve" id="Curve_particles_shrink"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [node name="bullet" type="Area2D" unique_id=1025054437]
 scale = Vector2(0.5, 0.5)
 collision_layer = 4
@@ -45,3 +49,19 @@ texture = ExtResource("2_v8qja")
 stream = SubResource("AudioStreamRandomizer_38a22")
 volume_db = -2.0
 autoplay = true
+
+[node name="HitParticles" type="CPUParticles2D" parent="." unique_id=1847102938]
+emitting = false
+amount = 30
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 300.0
+damping_min = 100.0
+damping_max = 200.0
+scale_amount_min = 3.0
+scale_amount_max = 6.0
+scale_amount_curve = SubResource("Curve_particles_shrink")

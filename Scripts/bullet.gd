@@ -1,5 +1,5 @@
 extends Area2D
-#
+
 @export var speed: float = 1200.0
 @export var bullet_color: Color = Color(0.0, 0.8, 1.0, 1.0) # Editable color parameter
 @export var max_trail_length: int = 15
@@ -9,6 +9,7 @@ var hit_registered: bool = false
 
 @onready var trail: Line2D = $Trail
 @onready var shootsound: AudioStreamPlayer2D = $shootsound
+@onready var hit_particles: CPUParticles2D = $HitParticles if has_node("HitParticles") else null
 
 func _ready():
 	$VisibleOnScreenEnabler2D.screen_exited.connect(queue_free)
@@ -38,6 +39,9 @@ func apply_trail_color():
 	
 	trail.gradient = grad
 	$ShapeA2.modulate = bullet_color
+	
+	if hit_particles:
+		hit_particles.color = bullet_color
 
 func _process(delta):
 	position += direction * speed * delta
@@ -82,6 +86,13 @@ func cleanup_and_destroy():
 	$CollisionShape2D.set_deferred("disabled", true)
 	$"ShapeA2".hide()
 	
+	if is_instance_valid(hit_particles):
+		hit_particles.reparent(get_tree().current_scene)
+		hit_particles.global_position = global_position
+		hit_particles.emitting = true
+		var timer = get_tree().create_timer(hit_particles.lifetime + 0.1)
+		timer.timeout.connect(hit_particles.queue_free)
+
 	if trail:
 		var tween = create_tween()
 		tween.tween_property(trail, "modulate:a", 0.0, 0.15)
