@@ -6,18 +6,14 @@ extends Node2D
 @export var auto_transition_time: float = 60.0
 @export_file("*.tscn") var next_scene: String = "res://Scenes/tutorial.tscn"
 
-
 var has_transitioned: bool = false
 
 func _ready() -> void:
-
-
-
 	# Auto-advance timer
 	get_tree().create_timer(auto_transition_time).timeout.connect(_on_auto_timer_timeout)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("start") or event.is_action_pressed("ui_accept"):
+	if event.is_pressed() and not event.is_echo():
 		transition_to_next_scene()
 
 func _on_auto_timer_timeout() -> void:

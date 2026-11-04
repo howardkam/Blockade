@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cuuobl5nxa647" path="res://Assets/background-runes.jpg" id="3_usgg7"]
 [ext_resource type="AudioStream" uid="uid://cpcukr5prcfdd" path="res://Assets/musictrack2.wav" id="4_mv2s0"]
 [ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_mv2s0"]
+[ext_resource type="PackedScene" uid="uid://dg2cg0a38tnc6" path="res://Scenes/enemy_spider.tscn" id="6_74n6h"]
 
 [node name="World 3" type="Node2D" unique_id=1462266402]
 script = ExtResource("1_world3")
@@ -93,3 +94,15 @@ theme_override_font_sizes/font_size = 42
 text = "Goal: 6000 points"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="spider" parent="." unique_id=1231544270 instance=ExtResource("6_74n6h")]
+position = Vector2(-15, 2629)
+
+[node name="spider2" parent="." unique_id=387195204 instance=ExtResource("6_74n6h")]
+position = Vector2(27, -2596)
+
+[node name="spider3" parent="." unique_id=432129023 instance=ExtResource("6_74n6h")]
+position = Vector2(-2786, 14)
+
+[node name="spider4" parent="." unique_id=1207913484 instance=ExtResource("6_74n6h")]
+position = Vector2(2661, -21)

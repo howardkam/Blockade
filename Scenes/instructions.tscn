@@ -7,17 +7,27 @@
 script = ExtResource("1_dxknu")
 
 [node name="Label" type="Label" parent="." unique_id=1664527965]
-offset_left = 408.0
-offset_top = 192.0
-offset_right = 784.0
-offset_bottom = 427.0
+offset_left = 64.0
+offset_top = 176.0
+offset_right = 1088.0
+offset_bottom = 482.0
 theme_override_fonts/font = ExtResource("2_5doqj")
 theme_override_font_sizes/font_size = 30
-text = "Move with the left stick
+text = "MOVE = Left Stick
+SHOOT = Right Stick
+DASH = Left or Right trigger
 
-Shoot with the right stick
+Lose health when enemies touch you
+Powerup pickups available
 
-Avoid enemies
-
-Survive."
+Press any button to continue
+"
 horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1049547464]
+z_index = -1
+offset_left = -336.0
+offset_top = -208.0
+offset_right = 1584.0
+offset_bottom = 1032.0
+color = Color(0, 0, 0, 1)

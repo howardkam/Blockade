@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://0k52jqetq36t" path="res://Assets/musictrack6.wav" id="4_wyo6c"]
 [ext_resource type="FontFile" uid="uid://cpglhhyirxx6b" path="res://Assets/movement/Movement.ttf" id="5_h3pls"]
 [ext_resource type="PackedScene" uid="uid://ccw83dtmj6tep" path="res://Scenes/obstacle1.tscn" id="6_wyo6c"]
+[ext_resource type="PackedScene" uid="uid://dg2cg0a38tnc6" path="res://Scenes/enemy_spider.tscn" id="7_dksw6"]
 
 [node name="World 1" type="Node2D" unique_id=1682362440]
 script = ExtResource("1_wyo6c")
@@ -112,6 +113,9 @@ position = Vector2(-13.513184, -2717.1162)
 
 [node name="TargetMarker2D" parent="Obstacle3" index="1" unique_id=309182371]
 position = Vector2(18.486816, 5424.4185)
+
+[node name="spider" parent="." unique_id=1231544270 instance=ExtResource("7_dksw6")]
+position = Vector2(-32, 2046)
 
 [editable path="Obstacle1"]
 [editable path="Obstacle2"]

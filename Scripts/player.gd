@@ -6,11 +6,22 @@ signal died
 @export var missile_scene: PackedScene = preload("res://Scenes/missile.tscn")
 @export var laser_scene: PackedScene = preload("res://Scenes/laser_beam.tscn")
 @export var move_speed: float = 550.0
+@export var dash_speed_multiplier: float = 1.75
+@export var max_dash: float = 100.0
+@export var dash_drain_rate: float = 40.0
+@export var dash_regen_rate: float = 10.0
+
+# Dash Trail/Blur Variables
+@export var ghost_interval: float = 0.03
+@export var ghost_fade_duration: float = 0.2
+@export var ghost_color: Color = Color(0.2, 0.6, 1.0, 0.5)
+
 @export var fire_rate: float = 0.07
 @export var aim_smooth_speed: float = 20.0
 
 @export var max_health: float = 100.0
 @export var damage_per_second: float = 40.0
+@export_file("*.tscn") var tutorial_scene: String = "res://Scenes/tutorial.tscn"
 
 const WORLD_LIMIT_MIN = -3000.0
 const WORLD_LIMIT_MAX = 3000.0
@@ -19,9 +30,11 @@ var can_shoot: bool = true
 var shoot_timer: float = 0.0
 var score: int = 0
 var current_health: float = 100.0
+var current_dash: float = 100.0
 var is_dead: bool = false
 var has_restarted: bool = false
 var smooth_shoot_dir: Vector2 = Vector2.ZERO
+var ghost_timer: float = 0.0
 
 # Power-up Variables
 var is_missile_active: bool = false
@@ -45,6 +58,7 @@ var shake_intensity: float = 0.0
 @onready var timer_label: Label = $TimerLabel if has_node("TimerLabel") else null
 
 var health_bar: ProgressBar
+var dash_bar: ProgressBar
 var injury_fade_tween: Tween = null
 const INJURY_ORIGINAL_VOLUME: float = 10.0
 
@@ -52,8 +66,10 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	add_to_group("player")
 	current_health = max_health
+	current_dash = max_dash
 	update_score_ui()
 	setup_health_ui()
+	setup_dash_ui()
 	if timer_label:
 		timer_label.hide()
 
@@ -100,10 +116,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().quit()
 
 func restart_game() -> void:
-	if get_node_or_null("/root/Global"):
-		Global.restart_current_level()
+	if get_node_or_null("/root/SceneManager"):
+		SceneManager.change_scene(tutorial_scene, {
+			"pattern": "fade",
+			"time": 1
+		})
 	else:
-		get_tree().reload_current_scene()
+		get_tree().change_scene_to_file(tutorial_scene)
 
 func setup_health_ui() -> void:
 	if not ui_layer:
@@ -140,6 +159,41 @@ func setup_health_ui() -> void:
 
 	update_health_ui()
 
+func setup_dash_ui() -> void:
+	if not ui_layer:
+		return
+
+	if has_node("DashBar"):
+		dash_bar = $DashBar
+		dash_bar.reparent(ui_layer)
+	elif ui_layer.has_node("DashBar"):
+		dash_bar = ui_layer.get_node("DashBar") as ProgressBar
+	else:
+		dash_bar = ProgressBar.new()
+		dash_bar.name = "DashBar"
+		ui_layer.add_child(dash_bar)
+
+	dash_bar.anchor_left = 0.0
+	dash_bar.anchor_top = 0.0
+	dash_bar.anchor_right = 0.0
+	dash_bar.anchor_bottom = 0.0
+	dash_bar.offset_left = 20.0
+	dash_bar.offset_top = 75.0
+	dash_bar.offset_right = 220.0
+	dash_bar.offset_bottom = 90.0
+	dash_bar.max_value = max_dash
+	dash_bar.show_percentage = false
+
+	var fill_style = StyleBoxFlat.new()
+	fill_style.bg_color = Color(0.0, 0.6, 1.0, 1.0)
+	dash_bar.add_theme_stylebox_override("fill", fill_style)
+
+	var bg_style = StyleBoxFlat.new()
+	bg_style.bg_color = Color(0.1, 0.1, 0.1, 0.8)
+	dash_bar.add_theme_stylebox_override("background", bg_style)
+
+	update_dash_ui()
+
 func add_score(amount: int = 10) -> void:
 	score += amount
 	update_score_ui()
@@ -151,6 +205,10 @@ func update_score_ui() -> void:
 func update_health_ui() -> void:
 	if health_bar:
 		health_bar.value = current_health
+
+func update_dash_ui() -> void:
+	if dash_bar:
+		dash_bar.value = current_dash
 
 func heal(amount: float) -> void:
 	current_health = min(current_health + amount, max_health)
@@ -203,8 +261,26 @@ func _physics_process(delta: float) -> void:
 	if is_dead:
 		return
 
+	# Dashing Mechanics
 	var move_dir = Input.get_vector("left", "right", "up", "down")
-	velocity = move_dir * move_speed
+	var active_speed = move_speed
+
+	if Input.is_action_pressed("dash") and current_dash > 0.0 and move_dir != Vector2.ZERO:
+		active_speed *= dash_speed_multiplier
+		current_dash = max(current_dash - dash_drain_rate * delta, 0.0)
+
+		# Spawn motion blur afterimages
+		ghost_timer -= delta
+		if ghost_timer <= 0.0:
+			spawn_dash_ghost()
+			ghost_timer = ghost_interval
+	else:
+		current_dash = min(current_dash + dash_regen_rate * delta, max_dash)
+		ghost_timer = 0.0
+
+	update_dash_ui()
+
+	velocity = move_dir * active_speed
 	move_and_slide()
 
 	global_position.x = clamp(global_position.x, WORLD_LIMIT_MIN, WORLD_LIMIT_MAX)
@@ -228,6 +304,21 @@ func _physics_process(delta: float) -> void:
 		fire_bullet(smooth_shoot_dir.normalized())
 		can_shoot = false
 		shoot_timer = fire_rate
+
+func spawn_dash_ghost() -> void:
+	if not sprite or not sprite.texture:
+		return
+
+	var ghost := Sprite2D.new()
+	ghost.texture = sprite.texture
+	ghost.global_transform = sprite.global_transform
+	ghost.modulate = ghost_color
+
+	get_tree().current_scene.add_child(ghost)
+
+	var tween := create_tween()
+	tween.tween_property(ghost, "modulate:a", 0.0, ghost_fade_duration)
+	tween.tween_callback(ghost.queue_free)
 
 func check_enemy_damage(delta: float) -> void:
 	if not hitbox:
