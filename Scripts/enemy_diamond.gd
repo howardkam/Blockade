@@ -1,12 +1,14 @@
-#
 extends CharacterBody2D
 
 @export var move_speed: float = 175.0
 @export var turn_speed: float = 2 # Turning rate in radians per second (~200°/sec)
 @export var max_health: int = 1
 @export var pointvalue: int = 5
+@export var max_trail_points: int = 40
 
 @onready var explosionsound = $explosion
+@onready var slug_trail: Line2D = $SlugTrail
+
 const WORLD_LIMIT_MIN = -3000.0
 const WORLD_LIMIT_MAX = 3000.0
 
@@ -21,6 +23,9 @@ func _ready():
 	current_health = max_health
 	add_to_group("enemies")
 	frame_offset = get_instance_id() % 4
+	
+	if is_instance_valid(slug_trail):
+		slug_trail.top_level = true
 	
 	if has_node("VisibleOnScreenNotifier2D"):
 		$VisibleOnScreenNotifier2D.screen_exited.connect(queue_free)
@@ -38,15 +43,18 @@ func _physics_process(delta):
 	var final_direction = (direction + cached_separation * 1.2).normalized()
 	var target_angle = final_direction.angle() + PI / 2
 
-	# 1. Smoothly rotate facing angle toward target direction
 	rotation = rotate_toward(rotation, target_angle, turn_speed * delta)
-
-	# 2. Drive velocity forward relative to facing rotation (UP vector offset by +PI/2 rotation)
 	velocity = Vector2.UP.rotated(rotation) * move_speed
 	move_and_slide()
 
 	global_position.x = clamp(global_position.x, WORLD_LIMIT_MIN, WORLD_LIMIT_MAX)
 	global_position.y = clamp(global_position.y, WORLD_LIMIT_MIN, WORLD_LIMIT_MAX)
+
+	# Update slug trail line points
+	if is_instance_valid(slug_trail):
+		slug_trail.add_point(global_position)
+		if slug_trail.get_point_count() > max_trail_points:
+			slug_trail.remove_point(0)
 
 func get_separation_vector() -> Vector2:
 	var separation = Vector2.ZERO
@@ -75,7 +83,6 @@ func take_damage(amount_or_from_bomb = 1):
 	modulate = Color.GOLD
 	
 	if current_health <= 0:
-		# Play explosion sound only if destroyed normally and sounds are not suppressed
 		if not from_bomb and not suppress_explosion_sounds and is_instance_valid(explosionsound):
 			explosionsound.add_to_group("enemy_explosion_sounds")
 			explosionsound.reparent(get_tree().current_scene)
@@ -85,13 +92,21 @@ func take_damage(amount_or_from_bomb = 1):
 	if not explosionsound.finished.is_connected(explosionsound.queue_free):
 		explosionsound.finished.connect(explosionsound.queue_free, CONNECT_ONE_SHOT)
 
-		# Safe, local variable reference that won't shadow or alter class variable state
 		var target_player = get_tree().get_first_node_in_group("player")
 		if target_player and target_player.has_method("add_score"):
 			target_player.add_score(pointvalue)
 
 		spawn_score_label(pointvalue)
 		
+		# Detach trail so it remains on screen and slowly fades away
+		if is_instance_valid(slug_trail):
+			var trail_node = slug_trail
+			slug_trail = null
+			trail_node.reparent(get_tree().current_scene)
+			var fade_tween = trail_node.create_tween()
+			fade_tween.tween_property(trail_node, "modulate:a", 0.0, 1.0)
+			fade_tween.finished.connect(trail_node.queue_free)
+
 		if has_node("ExplosionParticles"):
 			var particles = $ExplosionParticles
 			particles.reparent(get_tree().current_scene)
@@ -107,7 +122,7 @@ func spawn_score_label(points: int):
 	var label = Label.new()
 	label.text = "+" + str(points)
 	label.global_position = global_position + Vector2(-15, -30)
-	label.modulate = Color.GOLDENROD  # Set initial color to yellow
+	label.modulate = Color.GOLDENROD
 
 	var font = load("res://Assets/movement/Movement.ttf")
 	if font:
@@ -117,12 +132,7 @@ func spawn_score_label(points: int):
 	get_tree().current_scene.add_child(label)
 
 	var tween = label.create_tween()
-
-	# 1. Stay solid yellow for 0.5 seconds
 	tween.tween_interval(0.5)
-
-	# 2. Tween position upward and fade out alpha simultaneously over 0.5 seconds
 	tween.parallel().tween_property(label, "global_position:y", label.global_position.y - 40.0, 0.5)
 	tween.parallel().tween_property(label, "modulate:a", 0.0, 0.5)
-
 	tween.finished.connect(label.queue_free)

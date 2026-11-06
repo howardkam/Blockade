@@ -5,14 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://dq738xmymwvil" path="res://Assets/image-diamondenemy.png" id="2_rjt81"]
 [ext_resource type="AudioStream" uid="uid://dl6rpjvqyrfy4" path="res://Assets/explosion1.wav" id="3_yx2pn"]
 
-[sub_resource type="Gradient" id="Gradient_glow"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_glow"]
-gradient = SubResource("Gradient_glow")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.5, 0)
+[sub_resource type="Gradient" id="Gradient_slug"]
+colors = PackedColorArray(0.1, 0.8, 0.2, 0, 0.1, 0.8, 0.2, 0.6)
 
 [sub_resource type="Curve" id="Curve_large_to_small"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -30,6 +24,13 @@ collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_nu3gq")
 
+[node name="SlugTrail" type="Line2D" parent="." unique_id=314159267]
+top_level = true
+gradient = SubResource("Gradient_slug")
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
 [node name="ImageDiamondenemy" type="Sprite2D" parent="." unique_id=1039840415]
 scale = Vector2(0.34435797, 0.34375)
 texture = ExtResource("2_rjt81")
@@ -39,13 +40,6 @@ modulate = Color(0, 0, 0, 0.4)
 texture_filter = 1
 position = Vector2(0, 20)
 texture = ExtResource("1_jut7n")
-
-[node name="HazyGreenGlow" type="PointLight2D" parent="." unique_id=314159265]
-color = Color(0.2, 1, 0.2, 1)
-energy = 2.0
-shadow_enabled = true
-texture = SubResource("GradientTexture2D_glow")
-texture_scale = 4.0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1236449664]
 position = Vector2(0, 3.3333333)
