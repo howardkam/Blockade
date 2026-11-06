@@ -35,6 +35,7 @@ var is_dead: bool = false
 var has_restarted: bool = false
 var smooth_shoot_dir: Vector2 = Vector2.ZERO
 var ghost_timer: float = 0.0
+var is_dash_depleted: bool = false
 
 # Power-up Variables
 var is_missile_active: bool = false
@@ -265,7 +266,12 @@ func _physics_process(delta: float) -> void:
 	var move_dir = Input.get_vector("left", "right", "up", "down")
 	var active_speed = move_speed
 
-	if Input.is_action_pressed("dash") and current_dash > 0.0 and move_dir != Vector2.ZERO:
+	if current_dash <= 0.0:
+		is_dash_depleted = true
+	elif current_dash >= max_dash * 0.2:
+		is_dash_depleted = false
+
+	if Input.is_action_pressed("dash") and not is_dash_depleted and current_dash > 0.0 and move_dir != Vector2.ZERO:
 		active_speed *= dash_speed_multiplier
 		current_dash = max(current_dash - dash_drain_rate * delta, 0.0)
 
